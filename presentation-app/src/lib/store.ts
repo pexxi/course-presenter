@@ -141,4 +141,45 @@ export const useConnectionStatus = () =>
     isConnected: state.isConnected,
     isLoading: state.isLoading,
     error: state.error,
-  })); 
+  }));
+
+// Main slide management hook
+export const useSlideStore = () => {
+  const store = usePresentationStore();
+  
+  const loadLecture = async (lectureId: string) => {
+    store.setLoading(true);
+    store.setError(null);
+    
+    try {
+      const { loadLecture: loadLectureData } = await import('@/lib/slide-loader');
+      const lecture = await loadLectureData(lectureId);
+      
+      if (lecture) {
+        store.setCurrentLecture(lecture);
+      } else {
+        store.setError(`Failed to load lecture: ${lectureId}`);
+      }
+    } catch (error) {
+      store.setError(error instanceof Error ? error.message : 'Failed to load lecture');
+    } finally {
+      store.setLoading(false);
+    }
+  };
+
+  return {
+    slides: store.currentLecture?.slides || [],
+    currentSlideIndex: store.currentSlideIndex,
+    isLoading: store.isLoading,
+    error: store.error,
+    loadLecture,
+    nextSlide: store.nextSlide,
+    previousSlide: store.previousSlide,
+    goToSlide: store.goToSlide,
+    getCurrentSlide: store.getCurrentSlide,
+    hasNextSlide: store.hasNextSlide,
+    hasPreviousSlide: store.hasPreviousSlide,
+    getTotalSlides: store.getTotalSlides,
+    getProgress: store.getProgress,
+  };
+}; 

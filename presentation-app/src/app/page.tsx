@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { getAllLectures, type LectureInfo } from '@/lib/lecture-loader'
+import { StartPresentationButton } from '@/components/StartPresentationButton'
 
 async function getLectures(): Promise<LectureInfo[]> {
   try {
@@ -94,17 +95,15 @@ export default async function Home() {
                 )}
 
                 <div className="flex gap-3">
-                  <Link
-                    href={`/presentation/${lecture.id}`}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md text-center transition-colors duration-200"
-                  >
-                    Start Presentation
-                  </Link>
+                  <StartPresentationButton
+                    lectureId={lecture.id}
+                    className="flex-1"
+                  />
                   <Link
                     href={`/speaker/${lecture.id}`}
                     className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-md text-center transition-colors duration-200"
                   >
-                    Speaker View
+                    Speaker View Only
                   </Link>
                 </div>
               </div>
