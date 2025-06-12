@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSlideStore } from '@/lib/store'
-import { useSocket } from '@/lib/socket-client'
+import { useBroadcast } from '@/lib/broadcast-client'
 import { usePresentationManager } from '@/lib/presentation-manager'
 import SlideRenderer from '@/components/SlideRenderer'
 import NavigationControls from '@/components/NavigationControls'
@@ -33,17 +33,26 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
         getProgress
     } = useSlideStore();
 
-    const { connect, disconnect, emitSlideChange } = useSocket();
+    const { connect, disconnect, emitSlideChange } = useBroadcast();
     const { endPresentation, isPresentationActive, focusPresentationWindow } = usePresentationManager();
 
     // Load lecture and connect socket
     useEffect(() => {
+        console.log('SpeakerView useEffect triggered for lectureId:', lectureId);
+
+        // Only proceed if we have a valid lectureId
+        if (!lectureId) {
+            console.warn('No lectureId provided');
+            return;
+        }
+
         loadLecture(lectureId);
+
         connect({
             lectureId,
             clientType: 'speaker',
             onConnectionChange: setIsConnected,
-            onSlideChange: (slideIndex) => {
+            onSlideChange: (slideIndex: number) => {
                 // Update local state when other clients change slides
                 goToSlide(slideIndex);
             }
@@ -53,9 +62,10 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
         setPresentationStartTime(new Date());
 
         return () => {
+            console.log('SpeakerView cleanup');
             disconnect();
         };
-    }, [lectureId, loadLecture, connect, disconnect, goToSlide]);
+    }, [lectureId]); // Remove loadLecture, connect, disconnect, goToSlide from dependencies
 
     // Update elapsed time every second
     useEffect(() => {

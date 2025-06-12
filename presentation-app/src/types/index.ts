@@ -24,6 +24,7 @@ export interface Lecture {
   currentSlide: number;
 }
 
+// Legacy SocketEvents for backward compatibility during migration
 export interface SocketEvents {
   'slide-change': { slideIndex: number; lectureId: string };
   'sync-request': { clientId: string };
@@ -33,6 +34,16 @@ export interface SocketEvents {
   'client-connected': { clientId: string; clientType: 'presentation' | 'speaker'; timestamp: number };
   'client-disconnected': { clientId: string; clientType: 'presentation' | 'speaker'; timestamp: number };
   'error': { message: string };
+}
+
+// New BroadcastEvents for Broadcast Channel API
+export interface BroadcastEvents {
+  'slide-change': { slideIndex: number; lectureId: string };
+  'sync-request': { clientId: string; timestamp: number };
+  'sync-response': { currentSlide: number; lectureId: string; timestamp: number };
+  'client-connected': { clientId: string; clientType: 'presentation' | 'speaker'; timestamp: number };
+  'client-disconnected': { clientId: string; clientType: 'presentation' | 'speaker'; timestamp: number };
+  'client-heartbeat': { clientId: string; clientType: 'presentation' | 'speaker'; timestamp: number };
 }
 
 export interface PresentationState {

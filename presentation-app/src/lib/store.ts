@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { Lecture, PresentationState } from '@/types';
+import { useCallback } from 'react';
 
 interface PresentationStore extends PresentationState {
   // Actions
@@ -13,7 +14,7 @@ interface PresentationStore extends PresentationState {
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   reset: () => void;
-  
+
   // Computed getters
   getCurrentSlide: () => import('@/types').Slide | null;
   hasNextSlide: () => boolean;
@@ -36,13 +37,13 @@ export const usePresentationStore = create<PresentationStore>()(
       ...initialState,
 
       // Basic setters
-      setCurrentLecture: (lecture: Lecture) => 
+      setCurrentLecture: (lecture: Lecture) =>
         set({ currentLecture: lecture, currentSlideIndex: 0, error: null }, false, 'setCurrentLecture'),
 
       setCurrentSlideIndex: (index: number) => {
         const { currentLecture } = get();
         if (!currentLecture) return;
-        
+
         const clampedIndex = Math.max(0, Math.min(index, currentLecture.slides.length - 1));
         set({ currentSlideIndex: clampedIndex }, false, 'setCurrentSlideIndex');
       },
@@ -51,7 +52,7 @@ export const usePresentationStore = create<PresentationStore>()(
       nextSlide: () => {
         const { currentSlideIndex, currentLecture } = get();
         if (!currentLecture) return;
-        
+
         if (currentSlideIndex < currentLecture.slides.length - 1) {
           set({ currentSlideIndex: currentSlideIndex + 1 }, false, 'nextSlide');
         }
@@ -67,22 +68,22 @@ export const usePresentationStore = create<PresentationStore>()(
       goToSlide: (index: number) => {
         const { currentLecture } = get();
         if (!currentLecture) return;
-        
+
         const clampedIndex = Math.max(0, Math.min(index, currentLecture.slides.length - 1));
         set({ currentSlideIndex: clampedIndex }, false, 'goToSlide');
       },
 
       // Connection and status
-      setConnectionStatus: (status: boolean) => 
+      setConnectionStatus: (status: boolean) =>
         set({ isConnected: status }, false, 'setConnectionStatus'),
 
-      setLoading: (loading: boolean) => 
+      setLoading: (loading: boolean) =>
         set({ isLoading: loading }, false, 'setLoading'),
 
-      setError: (error: string | null) => 
+      setError: (error: string | null) =>
         set({ error }, false, 'setError'),
 
-      reset: () => 
+      reset: () =>
         set(initialState, false, 'reset'),
 
       // Computed getters
@@ -121,10 +122,10 @@ export const usePresentationStore = create<PresentationStore>()(
 );
 
 // Selector hooks for better performance
-export const useCurrentSlide = () => 
+export const useCurrentSlide = () =>
   usePresentationStore((state) => state.getCurrentSlide());
 
-export const useSlideNavigation = () => 
+export const useSlideNavigation = () =>
   usePresentationStore((state) => ({
     currentSlideIndex: state.currentSlideIndex,
     hasNext: state.hasNextSlide(),
@@ -136,7 +137,7 @@ export const useSlideNavigation = () =>
     goToSlide: state.goToSlide,
   }));
 
-export const useConnectionStatus = () => 
+export const useConnectionStatus = () =>
   usePresentationStore((state) => ({
     isConnected: state.isConnected,
     isLoading: state.isLoading,
@@ -146,26 +147,75 @@ export const useConnectionStatus = () =>
 // Main slide management hook
 export const useSlideStore = () => {
   const store = usePresentationStore();
-  
-  const loadLecture = async (lectureId: string) => {
+
+  const loadLecture = useCallback(async (lectureId: string) => {
+    // Prevent multiple concurrent requests
+    if (store.isLoading) {
+      console.log('Already loading, skipping request');
+      return;
+    }
+
+    // Check if lecture is already loaded
+    if (store.currentLecture?.id === lectureId) {
+      console.log('Lecture already loaded, skipping request');
+      return;
+    }
+
     store.setLoading(true);
     store.setError(null);
-    
+
     try {
-      const { loadLecture: loadLectureData } = await import('@/lib/slide-loader');
-      const lecture = await loadLectureData(lectureId);
-      
-      if (lecture) {
-        store.setCurrentLecture(lecture);
-      } else {
-        store.setError(`Failed to load lecture: ${lectureId}`);
+      console.log(`Loading lecture: ${lectureId}`);
+
+      // Create AbortController for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+      // Use API route instead of direct import
+      const response = await fetch(`/api/slides/${lectureId}`, {
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      clearTimeout(timeoutId);
+
+      console.log(`Response status: ${response.status}`);
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || `HTTP ${response.status}: Failed to load lecture`);
       }
+
+      const data = await response.json();
+      console.log(`Loaded ${data.slides?.length || 0} slides for lecture ${lectureId}`);
+
+      const lecture = {
+        id: data.lectureId,
+        title: data.slides[0]?.title || `Lecture ${data.lectureId}`,
+        slides: data.slides,
+        currentSlide: 0,
+      };
+
+      store.setCurrentLecture(lecture);
     } catch (error) {
-      store.setError(error instanceof Error ? error.message : 'Failed to load lecture');
+      console.error('Error loading lecture:', error);
+
+      let errorMessage = 'Failed to load lecture';
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = 'Request timed out (10s)';
+        } else {
+          errorMessage = error.message;
+        }
+      }
+
+      store.setError(errorMessage);
     } finally {
       store.setLoading(false);
     }
-  };
+  }, [store]);
 
   return {
     slides: store.currentLecture?.slides || [],

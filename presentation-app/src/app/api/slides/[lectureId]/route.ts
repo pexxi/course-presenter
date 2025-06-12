@@ -11,7 +11,7 @@ export async function GET(
 ) {
   try {
     const { lectureId } = await context.params;
-    
+
     if (!lectureId) {
       return NextResponse.json(
         { error: 'Lecture ID is required' },
@@ -20,7 +20,7 @@ export async function GET(
     }
 
     const slides = await loadLectureSlides(lectureId);
-    
+
     if (slides.length === 0) {
       return NextResponse.json(
         { error: `No slides found for lecture: ${lectureId}` },

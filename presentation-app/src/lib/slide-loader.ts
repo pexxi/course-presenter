@@ -4,9 +4,9 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import remarkHtml from 'remark-html';
 import { Slide, SlideHeader, Lecture } from '@/types';
-import { 
-  generateSlideId, 
-  extractSpeakerNotes, 
+import {
+  generateSlideId,
+  extractSpeakerNotes,
   extractCodeContent
 } from '@/utils/helpers';
 
@@ -15,7 +15,7 @@ import {
  */
 export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
   const lecturePath = path.join(process.cwd(), 'presentation', lectureId);
-  
+
   try {
     if (!fs.existsSync(lecturePath)) {
       throw new Error(`Lecture directory not found: ${lectureId}`);
@@ -36,7 +36,7 @@ export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
       const file = files[i];
       const filePath = path.join(lecturePath, file);
       const slideNumber = i + 1;
-      
+
       try {
         const slide = await processSlideFile(filePath, lectureId, slideNumber);
         if (slide) {
@@ -59,14 +59,14 @@ export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
  * Process a single slide file
  */
 async function processSlideFile(
-  filePath: string, 
-  lectureId: string, 
+  filePath: string,
+  lectureId: string,
   slideNumber: number
 ): Promise<Slide | null> {
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const { data: frontmatter, content: rawContent } = matter(fileContent);
-    
+
     // Validate frontmatter
     if (!validateSlideHeader(frontmatter)) {
       console.warn(`Invalid frontmatter in ${filePath}`);
@@ -110,13 +110,13 @@ async function processSlideContent(slide: Slide): Promise<Slide> {
   switch (slide.template) {
     case 'cover':
       return processCoverSlide(slide);
-    
+
     case 'content':
       return await processContentSlide(slide);
-    
+
     case 'code':
       return processCodeSlide(slide);
-    
+
     default:
       console.warn(`Unknown template type: ${slide.template}`);
       return await processContentSlide(slide); // Fallback to content slide
@@ -140,7 +140,7 @@ async function processContentSlide(slide: Slide): Promise<Slide> {
   try {
     const processor = remark().use(remarkHtml, { sanitize: false });
     const result = await processor.process(slide.rawContent);
-    
+
     return {
       ...slide,
       content: result.toString(),
@@ -159,7 +159,7 @@ async function processContentSlide(slide: Slide): Promise<Slide> {
  */
 function processCodeSlide(slide: Slide): Slide {
   const { code, language } = extractCodeContent(slide.rawContent);
-  
+
   return {
     ...slide,
     content: code,
@@ -173,7 +173,7 @@ function processCodeSlide(slide: Slide): Slide {
 export async function loadLecture(lectureId: string): Promise<Lecture | null> {
   try {
     const slides = await loadLectureSlides(lectureId);
-    
+
     if (slides.length === 0) {
       console.warn(`No slides found for lecture: ${lectureId}`);
       return null;
@@ -195,7 +195,7 @@ export async function loadLecture(lectureId: string): Promise<Lecture | null> {
  * Get a specific slide from a lecture
  */
 export async function getSlide(
-  lectureId: string, 
+  lectureId: string,
   slideNumber: number
 ): Promise<Slide | null> {
   try {
@@ -234,18 +234,18 @@ export interface SlideNavigation {
 }
 
 export async function getSlideNavigation(
-  lectureId: string, 
+  lectureId: string,
   currentSlideNumber: number
 ): Promise<SlideNavigation | null> {
   try {
     const slides = await loadLectureSlides(lectureId);
     const totalSlides = slides.length;
-    
+
     if (totalSlides === 0) return null;
-    
+
     const hasNext = currentSlideNumber < totalSlides;
     const hasPrevious = currentSlideNumber > 1;
-    
+
     return {
       currentSlide: currentSlideNumber,
       totalSlides,
@@ -264,7 +264,7 @@ export async function getSlideNavigation(
  * Preload adjacent slides for performance
  */
 export async function preloadAdjacentSlides(
-  lectureId: string, 
+  lectureId: string,
   currentSlideNumber: number
 ): Promise<{ next?: Slide; previous?: Slide }> {
   try {

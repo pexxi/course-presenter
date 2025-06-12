@@ -5,10 +5,10 @@ import { useParams } from 'next/navigation';
 import {
     usePresentationStore,
     useSlideNavigation,
-    useConnectionStatus
+    useConnectionStatus,
+    useSlideStore
 } from '@/lib/store';
-import { useSocket } from '@/lib/socket-client';
-import { loadLecture } from '@/lib/slide-loader';
+import { useBroadcast } from '@/lib/broadcast-client';
 
 export default function TestPage() {
     const params = useParams();
@@ -16,10 +16,7 @@ export default function TestPage() {
 
     const {
         currentLecture,
-        setCurrentLecture,
         getCurrentSlide,
-        setLoading,
-        setError
     } = usePresentationStore();
 
     const {
@@ -34,39 +31,24 @@ export default function TestPage() {
     } = useSlideNavigation();
 
     const { isConnected, isLoading, error } = useConnectionStatus();
+    const { loadLecture } = useSlideStore();
 
     const {
         connect,
         disconnect,
         emitSlideChange,
         requestSync,
-        socketId
-    } = useSocket();
+        clientId
+    } = useBroadcast();
 
     const [clientType, setClientType] = useState<'presentation' | 'speaker'>('speaker');
 
     // Load lecture data
     useEffect(() => {
-        const loadData = async () => {
-            if (!lectureId) return;
-
-            setLoading(true);
-            try {
-                const lecture = await loadLecture(lectureId);
-                if (lecture) {
-                    setCurrentLecture(lecture);
-                } else {
-                    setError('Lecture not found');
-                }
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Failed to load lecture');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadData();
-    }, [lectureId, setLoading, setCurrentLecture, setError]);
+        if (lectureId) {
+            loadLecture(lectureId);
+        }
+    }, [lectureId, loadLecture]);
 
     // Connect to WebSocket
     useEffect(() => {
@@ -75,14 +57,14 @@ export default function TestPage() {
         connect({
             lectureId,
             clientType,
-            onSlideChange: (slideIndex) => {
-                console.log('Received slide change from socket:', slideIndex);
+            onSlideChange: (slideIndex: number) => {
+                console.log('Received slide change from broadcast:', slideIndex);
             },
-            onConnectionChange: (connected) => {
+            onConnectionChange: (connected: boolean) => {
                 console.log('Connection status changed:', connected);
             },
-            onError: (error) => {
-                console.error('Socket error:', error);
+            onError: (error: string) => {
+                console.error('Broadcast error:', error);
             }
         });
 
@@ -155,8 +137,8 @@ export default function TestPage() {
                             </span>
                         </div>
                         <div>
-                            <span className="font-medium">Socket ID:</span>
-                            <span className="ml-2 text-sm text-gray-600">{socketId || 'None'}</span>
+                            <span className="font-medium">Client ID:</span>
+                            <span className="ml-2 text-sm text-gray-600">{clientId || 'None'}</span>
                         </div>
                         <div>
                             <span className="font-medium">Client Type:</span>

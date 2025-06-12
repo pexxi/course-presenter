@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useSlideStore } from '@/lib/store'
-import { useSocket } from '@/lib/socket-client'
+import { useBroadcast } from '@/lib/broadcast-client'
 import SlideRenderer from '@/components/SlideRenderer'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import ErrorBoundary from '@/components/ErrorBoundary'
@@ -12,8 +12,6 @@ interface PresentationViewProps {
 }
 
 export function PresentationView({ lectureId }: PresentationViewProps) {
-    const [showCursor, setShowCursor] = useState(true);
-    const [cursorTimer, setCursorTimer] = useState<NodeJS.Timeout | null>(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
 
@@ -28,7 +26,7 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
         goToSlide
     } = useSlideStore();
 
-    const { connect, disconnect } = useSocket();
+    const { connect, disconnect } = useBroadcast();
 
     // Load lecture on mount
     useEffect(() => {
@@ -42,49 +40,7 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
         return () => {
             disconnect();
         };
-    }, [lectureId, loadLecture, connect, disconnect]);
-
-    // Handle cursor auto-hide
-    const resetCursorTimer = useCallback(() => {
-        if (cursorTimer) {
-            clearTimeout(cursorTimer);
-        }
-
-        setShowCursor(true);
-        const timer = setTimeout(() => {
-            setShowCursor(false);
-        }, 3000); // Hide cursor after 3 seconds of inactivity
-
-        setCursorTimer(timer);
-    }, [cursorTimer]);
-
-    // Mouse movement handler
-    useEffect(() => {
-        const handleMouseMove = () => {
-            resetCursorTimer();
-        };
-
-        const handleMouseLeave = () => {
-            setShowCursor(false);
-            if (cursorTimer) {
-                clearTimeout(cursorTimer);
-            }
-        };
-
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseleave', handleMouseLeave);
-
-        // Initial timer
-        resetCursorTimer();
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseleave', handleMouseLeave);
-            if (cursorTimer) {
-                clearTimeout(cursorTimer);
-            }
-        };
-    }, [resetCursorTimer, cursorTimer]);
+    }, [lectureId]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -235,41 +191,27 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
 
     return (
         <ErrorBoundary>
-            <div
-                className={`
-          min-h-screen bg-black text-white overflow-hidden relative
-          ${showCursor ? 'cursor-default' : 'cursor-none'}
-        `}
-            >
-                {/* Connection status indicator (top-right, auto-hide) */}
+            <div className="min-h-screen bg-black text-white overflow-hidden relative">
+                {/* Connection status indicator (top-right) */}
                 <div className="absolute top-4 right-4 z-50">
                     <div className={`
-            px-3 py-1 rounded-full text-xs font-medium transition-opacity duration-300
+            px-3 py-1 rounded-full text-xs font-medium
             ${isConnected ? 'bg-green-600' : 'bg-red-600'}
-            ${showCursor ? 'opacity-75' : 'opacity-0'}
           `}>
                         {isConnected ? 'Connected' : 'Disconnected'}
                     </div>
                 </div>
 
-                {/* Slide progress indicator (bottom, auto-hide) */}
-                <div className={`
-          absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50
-          transition-opacity duration-300
-          ${showCursor ? 'opacity-75' : 'opacity-0'}
-        `}>
+                {/* Slide progress indicator (bottom) */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-50">
                     <div className="bg-black bg-opacity-50 rounded-full px-4 py-2 text-sm">
                         {currentSlideIndex + 1} / {slides.length}
                     </div>
                 </div>
 
-                {/* Fullscreen hint (bottom-right, auto-hide) */}
+                {/* Fullscreen hint (bottom-right) */}
                 {!isFullscreen && (
-                    <div className={`
-            absolute bottom-4 right-4 z-50
-            transition-opacity duration-300
-            ${showCursor ? 'opacity-50' : 'opacity-0'}
-          `}>
+                    <div className="absolute bottom-4 right-4 z-50">
                         <div className="bg-black bg-opacity-50 rounded px-2 py-1 text-xs">
                             Press F11 or F for fullscreen
                         </div>
@@ -289,12 +231,8 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
                     </div>
                 </div>
 
-                {/* Navigation hints (only visible when cursor is shown) */}
-                <div className={`
-          absolute bottom-8 left-8 z-50 text-xs text-gray-400
-          transition-opacity duration-300
-          ${showCursor ? 'opacity-50' : 'opacity-0'}
-        `}>
+                {/* Navigation hints */}
+                <div className="absolute bottom-8 left-8 z-50 text-xs text-gray-400">
                     <div className="space-y-1">
                         <div>← → Arrow keys to navigate</div>
                         <div>Space for next slide</div>
