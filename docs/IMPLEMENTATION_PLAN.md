@@ -8,7 +8,7 @@ Build a dual-window presentation system using Next.js and TypeScript that synchr
 
 ### Core Components
 
-1. **Slide Loader**: Load individual markdown slide files from lecture directories
+1. **Slide Loader**: Load individual markdown slide files from course/lecture directories
 2. **State Management**: Centralized slide state with real-time synchronization
 3. **Presentation View**: Fullscreen slide display window
 4. **Speaker View**: Control interface with slide preview and speaker notes
@@ -32,50 +32,65 @@ presentation-app/
 ├── src/
 │   ├── app/
 │   │   ├── api/
+│   │   │   └── slides/
+│   │   │       └── [...params]/
+│   │   │           └── route.ts
 │   │   │   └── socket/
-│   │   ├── presentation/
-│   │   │   └── [lectureId]/
-│   │   │       └── page.tsx
-│   │   ├── speaker/
-│   │   │   └── [lectureId]/
-│   │   │       └── page.tsx
-│   │   ├── globals.css
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── components/
-│   │   ├── slides/
-│   │   │   ├── CoverSlide.tsx
-│   │   │   ├── ContentSlide.tsx
-│   │   │   └── CodeSlide.tsx
-│   │   ├── SlideRenderer.tsx
-│   │   ├── SpeakerView.tsx
-│   │   ├── PresentationView.tsx
-│   │   └── NavigationControls.tsx
-│   ├── lib/
-│   │   ├── markdown-parser.ts
-│   │   ├── slide-loader.ts
-│   │   ├── socket-client.ts
-│   │   └── store.ts
-│   ├── types/
-│   │   └── index.ts
-│   └── utils/
-│       └── helpers.ts
-├── presentation/
-│   ├── lecture1/
-│   │   ├── slide1.md
-│   │   ├── slide2.md
+│   │   │   ├── presentation/
+│   │   │   │   └── [...params]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── speaker/
+│   │   │   │   └── [...params]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── test/
+│   │   │   │   └── [...params]/
+│   │   │   │       └── page.tsx
+│   │   │   ├── globals.css
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── components/
+│   │   │   ├── slides/
+│   │   │   │   ├── CoverSlide.tsx
+│   │   │   │   ├── ContentSlide.tsx
+│   │   │   │   └── CodeSlide.tsx
+│   │   │   ├── SlideRenderer.tsx
+│   │   │   ├── SpeakerView.tsx
+│   │   │   ├── PresentationView.tsx
+│   │   │   └── NavigationControls.tsx
+│   │   ├── lib/
+│   │   │   ├── markdown-parser.ts
+│   │   │   ├── slide-loader.ts
+│   │   │   ├── lecture-loader.ts
+│   │   │   ├── socket-client.ts
+│   │   │   └── store.ts
+│   │   ├── types/
+│   │   │   └── index.ts
+│   │   └── utils/
+│   │   │       └── helpers.ts
+│   ├── courses/
+│   │   │   ├── course1/
+│   │   │   │   ├── info.json
+│   │   │   │   ├── lecture1/
+│   │   │   │   │   ├── info.json
+│   │   │   │   │   ├── slide1.md
+│   │   │   │   │   ├── slide2.md
+│   │   │   │   │   └── ...
+│   │   │   │   ├── lecture2/
+│   │   │   │   │   ├── info.json
+│   │   │   │   │   ├── slide1.md
+│   │   │   │   │   ├── slide2.md
+│   │   │   │   │   └── ...
+│   │   │   │   └── ...
+│   │   ├── course2/
+│   │   │   │   ├── info.json
+│   │   │   │   └── ...
 │   │   └── ...
-│   ├── lecture2/
-│   │   ├── slide1.md
-│   │   ├── slide2.md
-│   │   └── ...
-│   └── ...
-├── public/
-│   └── images/
-├── package.json
-├── next.config.js
-├── tailwind.config.js
-└── tsconfig.json
+│   ├── public/
+│   │   └── images/
+│   ├── package.json
+│   ├── next.config.js
+│   ├── tailwind.config.js
+│   └── tsconfig.json
 ```
 
 ## Implementation Phases
@@ -91,17 +106,21 @@ presentation-app/
    - Zustand for state management
 3. **Setup basic project structure**
 4. **Configure TypeScript and build tools**
-5. **Create presentation directory structure**
+5. **Create course/lecture directory structure**
 
 ### Phase 2: Slide Loading and Template System
 
 1. **Create slide loader** (`lib/slide-loader.ts`):
-   - Load individual markdown files from lecture directories
+   - Load individual markdown files from course/lecture directories
    - Parse YAML frontmatter for template and title metadata
    - Convert markdown content to HTML (except for cover slides)
    - Extract language from code blocks for syntax highlighting
    - Generate slide ordering from filenames
-2. **Slide data structure**:
+2. **Create lecture loader** (`lib/lecture-loader.ts`):
+   - Discover all courses and lectures in the courses directory
+   - Load lecture metadata from info.json files
+   - Provide course management functionality
+3. **Slide data structure**:
 
    ```typescript
    interface SlideHeader {
@@ -113,6 +132,7 @@ presentation-app/
    interface Slide {
      id: string;
      lectureId: string;
+     courseId: string; // Required for new structure
      slideNumber: number;
      template: SlideHeader['template'];
      title: string;
@@ -126,12 +146,32 @@ presentation-app/
    interface Lecture {
      id: string;
      title: string;
+     courseId: string; // Required for new structure
      slides: Slide[];
      currentSlide: number;
    }
+
+   interface LectureInfo {
+     id: string;
+     title: string;
+     description: string;
+     courseId: string; // Required for new structure
+     author?: string;
+     duration?: string;
+     level?: string;
+     tags?: string[];
+     slideCount: number;
+   }
+
+   interface CourseInfo {
+     id: string;
+     title: string;
+     description: string;
+     lectures: LectureInfo[];
+   }
    ```
 
-3. **Template system**:
+4. **Template system**:
    - Cover slide: Large title display with optional background image (no content area)
    - Content slide: Title + markdown-rendered HTML content
    - Code slide: Title + syntax-highlighted code from markdown code blocks
@@ -177,10 +217,11 @@ presentation-app/
 
 ### Phase 5: Presentation Views
 
-1. **Lecture Selection/Home Page** (`app/page.tsx` or `app/lectures/page.tsx`):
-   - List available lectures from the presentation directory
+1. **Lecture Selection/Home Page** (`app/page.tsx`):
+   - List available courses and lectures from the courses directory
    - "Start Presentation" button for each lecture
    - Lecture preview with slide count and description
+   - Course-based organization display
 
 2. **Start Presentation Flow**:
    - Single "Start Presentation" button triggers:
@@ -189,16 +230,18 @@ presentation-app/
      - Establishes WebSocket connection between both windows
    - Both views sync automatically via WebSocket
 
-3. **Presentation View** (`app/presentation/[lectureId]/page.tsx`):
+3. **Presentation View** (`app/presentation/[...params]/page.tsx`):
    - **New window** (opened programmatically)
+   - URL format: `/presentation/{courseId}/{lectureId}`
    - Fullscreen slide display with template-based rendering
    - Minimal UI, maximum content visibility
    - Auto-hide cursor after inactivity
    - Keyboard navigation support (arrow keys, space, etc.)
    - Receives slide changes from speaker view via WebSocket
 
-4. **Speaker View** (`app/speaker/[lectureId]/page.tsx`):
+4. **Speaker View** (`app/speaker/[...params]/page.tsx`):
    - **Original window** (navigated automatically)
+   - URL format: `/speaker/{courseId}/{lectureId}`
    - Split layout:
      - Top 50%: Slide preview with current template
      - Middle 25%: Speaker notes
@@ -208,11 +251,17 @@ presentation-app/
    - Master controls: sends slide changes to presentation window
    - "End Presentation" button to close presentation window
 
+5. **Test View** (`app/test/[...params]/page.tsx`):
+   - **Testing interface** for development
+   - URL format: `/test/{courseId}/{lectureId}`
+   - Slide preview and navigation controls
+   - Useful for testing lectures without full presentation mode
+
 ### Phase 6: Advanced Features
 
-1. **Multi-presentation support**:
-   - Dynamic loading of different lecture files
-   - Presentation selection interface
+1. **Multi-course support**:
+   - Dynamic loading of different course/lecture combinations
+   - Course and lecture selection interface
 
 2. **Enhanced navigation**:
    - Slide thumbnails overview
@@ -230,10 +279,12 @@ presentation-app/
 
 ```typescript
 // Start presentation flow implementation
-async function startPresentation(lectureId: string) {
+async function startPresentation(options: PresentationWindowOptions) {
+  const { lectureId, courseId, onWindowReady, onWindowClosed } = options;
+
   // 1. Open presentation view in new window
   const presentationWindow = window.open(
-    `/presentation/${lectureId}`,
+    `/presentation/${courseId}/${lectureId}`,
     'presentation',
     'fullscreen=yes,scrollbars=no,toolbar=no,menubar=no,status=no'
   );
@@ -242,7 +293,7 @@ async function startPresentation(lectureId: string) {
   await waitForWindowLoad(presentationWindow);
 
   // 3. Navigate current window to speaker view
-  window.location.href = `/speaker/${lectureId}`;
+  window.location.replace(`/speaker/${courseId}/${lectureId}`);
 
   // 4. Both windows will establish WebSocket connections
   // and sync automatically via the existing socket infrastructure
@@ -273,14 +324,22 @@ function endPresentation(presentationWindow: Window | null) {
 ### Slide Loading Strategy
 
 ```typescript
-// Load slides from lecture directory
-async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
-  // Read all .md files from presentation/{lectureId}/
+// Load slides from course/lecture directory
+async function loadLectureSlides(lectureId: string, courseId: string): Promise<Slide[]> {
+  // Read all .md files from courses/{courseId}/{lectureId}/
   // Parse YAML frontmatter for template and title
   // Sort by filename (slide1.md, slide2.md, etc.)
   // Convert markdown content to HTML (skip for cover slides)
   // Extract language from code blocks for syntax highlighting
   // Extract speaker notes from HTML comments
+}
+
+// Course and lecture discovery
+async function getAllCourses(): Promise<CourseInfo[]> {
+  // Scan courses directory for course folders
+  // Load course info.json files if available
+  // Discover all lectures within each course
+  // Return structured course and lecture data
 }
 
 // Slide file processing logic
@@ -297,6 +356,33 @@ function processSlideContent(slide: Slide): ProcessedSlide {
       const { code, language } = extractCodeBlock(slide.rawContent);
       return { ...slide, content: code, language };
   }
+}
+```
+
+### API Routes
+
+```typescript
+// API route for loading slides: /api/slides/[courseId]/[lectureId]
+export async function GET(request: NextRequest, context: RouteParams) {
+  const { params } = await context.params;
+  
+  // Expected format: /api/slides/courseId/lectureId
+  if (params.length !== 2) {
+    return NextResponse.json(
+      { error: 'Invalid parameters. Expected format: courseId/lectureId' },
+      { status: 400 }
+    );
+  }
+
+  const [courseId, lectureId] = params;
+  const slides = await loadLectureSlides(lectureId, courseId);
+
+  return NextResponse.json({
+    courseId,
+    lectureId,
+    totalSlides: slides.length,
+    slides
+  });
 }
 ```
 
@@ -331,20 +417,23 @@ interface SocketEvents {
 
 1. `src/types/index.ts` - TypeScript interfaces ✅
 2. `src/lib/slide-loader.ts` - Slide loading and processing logic ✅
-3. `src/lib/store.ts` - Zustand state management ✅
-4. `src/lib/socket-client.ts` - WebSocket client wrapper ✅
-5. `src/components/slides/CoverSlide.tsx` - Cover slide template ✅
-6. `src/components/slides/ContentSlide.tsx` - Content slide template ✅
-7. `src/components/slides/CodeSlide.tsx` - Code slide template with syntax highlighting ✅
-8. `src/components/SlideRenderer.tsx` - Template router component ✅
-9. `src/app/page.tsx` - Home page with lecture selection and "Start Presentation" buttons ✅
-10. `src/app/presentation/[lectureId]/page.tsx` - Fullscreen presentation view (opens in new window) ✅
-11. `src/app/speaker/[lectureId]/page.tsx` - Speaker control interface (navigated to from home) ✅
-12. `src/app/api/socket/route.ts` - WebSocket server ✅
-13. `src/lib/presentation-manager.ts` - Window management and presentation flow logic ✅
-14. `src/components/StartPresentationButton.tsx` - Single-click presentation launcher ✅
-15. `src/components/PresentationView.tsx` - Fullscreen presentation component ✅
-16. `src/components/SpeakerView.tsx` - Speaker control interface component ✅
+3. `src/lib/lecture-loader.ts` - Course and lecture discovery logic ✅
+4. `src/lib/store.ts` - Zustand state management ✅
+5. `src/lib/socket-client.ts` - WebSocket client wrapper ✅
+6. `src/components/slides/CoverSlide.tsx` - Cover slide template ✅
+7. `src/components/slides/ContentSlide.tsx` - Content slide template ✅
+8. `src/components/slides/CodeSlide.tsx` - Code slide template with syntax highlighting ✅
+9. `src/components/SlideRenderer.tsx` - Template router component ✅
+10. `src/app/page.tsx` - Home page with course/lecture selection and "Start Presentation" buttons ✅
+11. `src/app/presentation/[...params]/page.tsx` - Fullscreen presentation view (opens in new window) ✅
+12. `src/app/speaker/[...params]/page.tsx` - Speaker control interface (navigated to from home) ✅
+13. `src/app/test/[...params]/page.tsx` - Test interface for development ✅
+14. `src/app/api/slides/[...params]/route.ts` - API endpoint for loading slides ✅
+15. `src/app/api/socket/route.ts` - WebSocket server ✅
+16. `src/lib/presentation-manager.ts` - Window management and presentation flow logic ✅
+17. `src/components/StartPresentationButton.tsx` - Single-click presentation launcher ✅
+18. `src/components/PresentationView.tsx` - Fullscreen presentation component ✅
+19. `src/components/SpeakerView.tsx` - Speaker control interface component ✅
 
 ### Configuration Files
 
@@ -379,8 +468,9 @@ interface SocketEvents {
 - ✅ **Phase 1-3 Complete**: Setup, parsing, state management, and WebSocket infrastructure
 - ✅ **Phase 4 Complete**: Core components with responsive design and animations
 - ✅ **Phase 5 Complete**: Presentation views and window management
+- ✅ **Course Structure Implementation**: Support for courses/courseId/lectureId structure
 - ✅ Three slide templates (cover, content, code) with syntax highlighting
-- ✅ Individual slide file support with dynamic lecture loading
+- ✅ Individual slide file support with dynamic course/lecture loading
 - ✅ Zustand store with slide navigation and WebSocket synchronization
 - ✅ WebSocket server with room-based multi-client support
 - ✅ Socket client with auto-reconnection and error handling
@@ -396,20 +486,71 @@ interface SocketEvents {
 - ✅ Responsive design for different screen sizes
 - ✅ Error handling and graceful degradation
 - ✅ Production-ready local development environment
+- ✅ **Multi-course support**: Dynamic route handling for courseId/lectureId combinations
+- ✅ **Course discovery**: Automatic detection of all courses and lectures
+- ✅ **Updated API routes**: Support for courseId/lectureId parameter structure
 
-## Slide File Structure
+## Course and Lecture Structure
 
-Each slide is a markdown file with:
+### Directory Organization
 
-1. **YAML Header Section**: Contains template type and slide title
-2. **Markdown Content**: The actual slide content (varies by template)
-3. **Speaker Notes**: HTML comments for presenter guidance
+```
+courses/
+├── course1/
+│   ├── info.json (optional course metadata)
+│   ├── lecture1/
+│   │   ├── info.json (lecture metadata)
+│   │   ├── slide1.md
+│   │   ├── slide2.md
+│   │   └── slide3.md
+│   ├── lecture2/
+│   │   ├── info.json
+│   │   ├── slide1.md
+│   │   └── slide2.md
+│   └── lecture3/
+│       └── ...
+├── course2/
+│   ├── info.json
+│   ├── lecture1/
+│   │   └── ...
+│   └── lecture2/
+│       └── ...
+└── ...
+```
 
-### Template-Specific Content Rules
+### Course Info Format (info.json)
 
-- **Cover slides**: Content is ignored, only title is displayed
-- **Content slides**: Markdown content is converted to HTML and displayed
-- **Code slides**: Markdown code blocks are syntax-highlighted based on specified language
+```json
+{
+  "title": "Introduction to Cursor AI",
+  "description": "Learn the fundamentals of AI-assisted development with Cursor",
+  "author": "Instructor Name",
+  "level": "Beginner"
+}
+```
+
+### Lecture Info Format (info.json)
+
+```json
+{
+  "title": "Getting Started with Cursor",
+  "description": "Basic setup and first steps with Cursor AI",
+  "author": "Instructor Name",
+  "duration": "45 minutes",
+  "level": "Beginner",
+  "tags": ["cursor", "ai", "setup", "basics"]
+}
+```
+
+## URL Structure
+
+The application now uses a hierarchical URL structure that reflects the course organization:
+
+- **Home Page**: `/` - Lists all courses and lectures
+- **Presentation View**: `/presentation/{courseId}/{lectureId}` - Fullscreen slides
+- **Speaker View**: `/speaker/{courseId}/{lectureId}` - Control interface
+- **Test View**: `/test/{courseId}/{lectureId}` - Development testing
+- **API Endpoint**: `/api/slides/{courseId}/{lectureId}` - Slide data
 
 ## Slide File Format Examples
 
