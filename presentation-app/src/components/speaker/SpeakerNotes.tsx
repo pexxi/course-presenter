@@ -62,7 +62,7 @@ export default function SpeakerNotes({
 
             <div className="flex-1 overflow-y-auto">
                 {currentSlide?.speakerNotes ? (
-                    <div className={`prose prose-gray max-w-none ${getFontSizeClasses()}`}>
+                    <div className={`prose prose-slate max-w-none text-gray-800 ${getFontSizeClasses()}`}>
                         <div dangerouslySetInnerHTML={{ __html: currentSlide.speakerNotes }} />
                     </div>
                 ) : (
