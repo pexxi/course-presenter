@@ -1,0 +1,31 @@
+{
+    "title": "Cursor AI Overview & Basic Features",
+    "description": "Introduction to Cursor AI, its core features, and fundamental concepts for AI-assisted development. Learn installation, setup, interface navigation, and basic autocomplete capabilities.",
+    "author": "AI Development Team",
+    "duration": "30 minutes",
+    "slides": 11,
+    "learningObjectives": [
+        "Understand what Cursor AI is and how it differs from traditional IDEs",
+        "Set up and configure Cursor for optimal development workflow",
+        "Use basic autocomplete features effectively",
+        "Navigate the Cursor interface and understand its core components",
+        "Implement first AI-assisted coding workflows"
+    ],
+    "keyTopics": [
+        "Cursor AI philosophy and market position",
+        "Installation and initial configuration",
+        "Core interface components and navigation",
+        "Single-line and multi-line autocomplete",
+        "Practical code examples and best practices"
+    ],
+    "practicalExamples": [
+        "JavaScript function creation with validation",
+        "Python class implementation with methods",
+        "Async API integration with error handling"
+    ],
+    "prerequisites": [
+        "Programming background",
+        "VS Code familiarity",
+        "Basic software development concepts"
+    ]
+}

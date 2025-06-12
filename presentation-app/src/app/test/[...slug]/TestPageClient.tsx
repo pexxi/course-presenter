@@ -114,11 +114,10 @@ export function TestPageClient({ courseId, lectureId }: TestPageClientProps) {
 
 						{/* Connection Status */}
 						<div
-							className={`px-3 py-1 rounded-full text-sm font-medium ${
-								isConnected
-									? "bg-green-100 text-green-800"
-									: "bg-red-100 text-red-800"
-							}`}
+							className={`px-3 py-1 rounded-full text-sm font-medium ${isConnected
+								? "bg-green-100 text-green-800"
+								: "bg-red-100 text-red-800"
+								}`}
 						>
 							{isConnected ? "Connected" : "Disconnected"}
 						</div>
@@ -196,11 +195,10 @@ export function TestPageClient({ courseId, lectureId }: TestPageClientProps) {
 											type="button"
 											key={slide.id}
 											onClick={() => handleSlideChange(index)}
-											className={`w-full text-left p-3 rounded-md border transition-colors ${
-												index === currentSlideIndex
-													? "border-blue-500 bg-blue-50"
-													: "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-											}`}
+											className={`w-full text-left p-3 rounded-md border transition-colors ${index === currentSlideIndex
+												? "border-blue-500 bg-blue-50"
+												: "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+												}`}
 										>
 											<div className="text-sm font-medium text-gray-900">
 												{index + 1}. {slide.title}

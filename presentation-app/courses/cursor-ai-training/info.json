@@ -1,0 +1,100 @@
+{
+    "title": "Cursor AI Development Mastery",
+    "description": "A comprehensive 5-lecture course for senior developers and tech leads to master AI-assisted development with Cursor. Learn from basic features to enterprise integration, including MCP servers, custom rules, and advanced workflows.",
+    "author": "AI Development Team",
+    "level": "Intermediate to Advanced",
+    "category": "Development Tools & AI",
+    "tags": [
+        "cursor",
+        "ai-assisted-development",
+        "productivity",
+        "enterprise",
+        "mcp-servers",
+        "development-workflow",
+        "code-generation",
+        "pair-programming",
+        "automation"
+    ],
+    "prerequisites": [
+        "Senior programming experience (3+ years)",
+        "Familiarity with VS Code or similar IDEs",
+        "Understanding of software development lifecycle",
+        "Experience with team collaboration tools",
+        "Basic knowledge of enterprise development practices"
+    ],
+    "learningObjectives": [
+        "Master Cursor AI's complete feature set from basics to advanced capabilities",
+        "Implement AI-assisted development workflows in team environments",
+        "Configure custom rules and prompts for organizational consistency",
+        "Navigate and understand large codebases efficiently using AI assistance",
+        "Integrate enterprise systems with Cursor through MCP servers",
+        "Build secure, scalable AI development environments",
+        "Apply advanced context management for complex projects",
+        "Lead AI adoption initiatives in development teams"
+    ],
+    "duration": "150 minutes (5 × 30-minute lectures)",
+    "totalSlides": 53,
+    "lectures": 5,
+    "targetAudience": [
+        "Senior Software Developers",
+        "Tech Leads",
+        "Development Team Managers",
+        "Software Architects",
+        "DevOps Engineers"
+    ],
+    "courseStructure": {
+        "lecture1": {
+            "title": "Cursor AI Overview & Basic Features",
+            "duration": "30 minutes",
+            "slides": 11,
+            "focus": "Foundation and basic features"
+        },
+        "lecture2": {
+            "title": "Advanced Chat Interface & Inline Editing",
+            "duration": "30 minutes",
+            "slides": 10,
+            "focus": "Advanced interaction techniques"
+        },
+        "lecture3": {
+            "title": "Codebase Understanding & Context Management",
+            "duration": "30 minutes",
+            "slides": 11,
+            "focus": "Large-scale project navigation"
+        },
+        "lecture4": {
+            "title": "Cursor Rules & Configuration",
+            "duration": "30 minutes",
+            "slides": 11,
+            "focus": "Team standards and customization"
+        },
+        "lecture5": {
+            "title": "MCP Servers & Enterprise AI Integration",
+            "duration": "30 minutes",
+            "slides": 11,
+            "focus": "Enterprise integration and automation"
+        }
+    },
+    "keyFeatures": [
+        "Hands-on practical examples",
+        "Real-world enterprise scenarios",
+        "Progressive skill building",
+        "Comprehensive code samples",
+        "Team collaboration strategies",
+        "Security best practices",
+        "Performance optimization techniques"
+    ],
+    "deliverables": [
+        "Comprehensive slide presentations",
+        "Code examples and templates",
+        "Configuration samples",
+        "Best practice guidelines",
+        "Implementation checklists"
+    ],
+    "createdAt": "2024-01-15",
+    "updatedAt": "2024-01-15",
+    "version": "1.0",
+    "courseType": "Professional Development",
+    "difficulty": "Intermediate",
+    "language": "English",
+    "format": "Slide-based presentation with speaker notes"
+}
