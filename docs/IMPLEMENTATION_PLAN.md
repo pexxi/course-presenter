@@ -158,8 +158,6 @@ presentation-app/
      courseId: string; // Required for new structure
      author?: string;
      duration?: string;
-     level?: string;
-     tags?: string[];
      slideCount: number;
    }
 
@@ -536,9 +534,7 @@ courses/
   "title": "Getting Started with Cursor",
   "description": "Basic setup and first steps with Cursor AI",
   "author": "Instructor Name",
-  "duration": "45 minutes",
-  "level": "Beginner",
-  "tags": ["cursor", "ai", "setup", "basics"]
+  "duration": "45 minutes"
 }
 ```
 

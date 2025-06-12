@@ -148,16 +148,6 @@ export default async function Home() {
                           <h5 className="font-semibold text-gray-900 flex-1">
                             {lecture.title}
                           </h5>
-                          {lecture.level && (
-                            <span className={`
-                              px-2 py-1 text-xs font-medium rounded-full ml-3
-                              ${lecture.level === 'Beginner' ? 'bg-green-100 text-green-800' :
-                                lecture.level === 'Intermediate' ? 'bg-yellow-100 text-yellow-800' :
-                                  'bg-red-100 text-red-800'}
-                            `}>
-                              {lecture.level}
-                            </span>
-                          )}
                         </div>
 
                         <p className="text-gray-600 text-sm mb-3 leading-relaxed">
@@ -183,18 +173,7 @@ export default async function Home() {
                           )}
                         </div>
 
-                        {lecture.tags && lecture.tags.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mb-3">
-                            {lecture.tags.map((tag: string) => (
-                              <span
-                                key={tag}
-                                className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        )}
+
 
                         <div className="flex gap-2">
                           <StartPresentationButton

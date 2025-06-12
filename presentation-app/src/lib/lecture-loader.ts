@@ -190,8 +190,6 @@ export async function getLectureInfo(lectureId: string, courseId: string): Promi
       courseId,
       author: lectureData.author,
       duration: lectureData.duration,
-      level: lectureData.level,
-      tags: lectureData.tags,
       slideCount
     };
   } catch (error) {
