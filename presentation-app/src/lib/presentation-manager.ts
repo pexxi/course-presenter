@@ -17,7 +17,10 @@ export class PresentationManager {
 
   constructor() {
     // Try to restore presentation window reference from sessionStorage on initialization
-    this.restorePresentationWindow();
+    // Only in browser environment
+    if (typeof window !== 'undefined') {
+      this.restorePresentationWindow();
+    }
   }
 
   static getInstance(): PresentationManager {
@@ -142,7 +145,7 @@ export class PresentationManager {
  * Store presentation window information in sessionStorage
  */
   private storePresentationWindow(): void {
-    if (this.presentationWindow) {
+    if (this.presentationWindow && typeof window !== 'undefined' && window.sessionStorage) {
       sessionStorage.setItem('hasActivePresentation', 'true');
       sessionStorage.setItem('presentationWindowName', 'presentation');
 
@@ -156,6 +159,10 @@ export class PresentationManager {
    * Restore presentation window reference from sessionStorage
    */
   private restorePresentationWindow(): void {
+    if (typeof window === 'undefined' || !window.sessionStorage) {
+      return;
+    }
+
     const hasActivePresentation = sessionStorage.getItem('hasActivePresentation');
 
     if (hasActivePresentation === 'true') {
@@ -182,9 +189,11 @@ export class PresentationManager {
    * Clear stored presentation window reference
    */
   private clearStoredPresentationWindow(): void {
-    sessionStorage.removeItem('hasActivePresentation');
-    sessionStorage.removeItem('presentationWindowName');
-    sessionStorage.removeItem('presentationSessionId');
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.removeItem('hasActivePresentation');
+      sessionStorage.removeItem('presentationWindowName');
+      sessionStorage.removeItem('presentationSessionId');
+    }
   }
 
   /**

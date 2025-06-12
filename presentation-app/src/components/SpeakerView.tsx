@@ -8,6 +8,7 @@ import { SlidePreview, SpeakerControls, SpeakerNotes } from '@/components/speake
 import LoadingSpinner from '@/components/LoadingSpinner'
 import ConnectionStatus from '@/components/ConnectionStatus'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import { getLectureDurationInMinutes } from '@/utils/duration-helpers'
 
 interface SpeakerViewProps {
     lectureId: string;
@@ -19,6 +20,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
     const [presentationStartTime, setPresentationStartTime] = useState<Date | null>(null);
     const [elapsedTime, setElapsedTime] = useState(0);
     const [speakerNotesFontSize, setSpeakerNotesFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
+    const [lectureDurationMinutes, setLectureDurationMinutes] = useState<number | undefined>(undefined);
 
     const {
         slides,
@@ -26,12 +28,9 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
         isLoading,
         error,
         loadLecture,
-        nextSlide,
-        previousSlide,
         goToSlide,
         getCurrentSlide,
-        getTotalSlides,
-        getProgress
+        getTotalSlides
     } = useSlideStore();
 
     const { connect, disconnect, emitSlideChange } = useBroadcast();
@@ -48,6 +47,24 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
         }
 
         loadLecture(lectureId, courseId);
+
+        // Load lecture duration
+        const loadLectureDuration = async () => {
+            try {
+                const response = await fetch(`/api/lecture/${courseId}/${lectureId}`);
+                if (response.ok) {
+                    const lectureInfo = await response.json();
+                    if (lectureInfo?.duration) {
+                        setLectureDurationMinutes(getLectureDurationInMinutes(lectureInfo));
+                    }
+                } else {
+                    console.error('Failed to fetch lecture info:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Failed to load lecture duration:', error);
+            }
+        };
+        loadLectureDuration();
 
         connect({
             lectureId,
@@ -225,6 +242,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
                             isConnected={isConnected}
                             isPresentationActive={isPresentationActive()}
                             elapsedTime={elapsedTime}
+                            lectureDurationMinutes={lectureDurationMinutes}
                             onFirstSlide={handleFirstSlide}
                             onPreviousSlide={handlePreviousSlide}
                             onNextSlide={handleNextSlide}
