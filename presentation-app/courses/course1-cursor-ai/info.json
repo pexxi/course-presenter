@@ -1,0 +1,30 @@
+{
+    "title": "Introduction to Cursor AI",
+    "description": "Master the fundamentals of AI-assisted development with Cursor. Learn how to leverage AI for faster, more efficient coding while maintaining code quality and best practices.",
+    "author": "AI Development Team",
+    "level": "Beginner",
+    "duration": "3 hours",
+    "category": "Development Tools",
+    "tags": [
+        "cursor",
+        "ai",
+        "productivity",
+        "vscode",
+        "development"
+    ],
+    "prerequisites": [
+        "Basic programming knowledge",
+        "Familiarity with code editors",
+        "Understanding of software development concepts"
+    ],
+    "learningObjectives": [
+        "Understand Cursor AI's core features and capabilities",
+        "Master Tab-to-accept and AI-assisted code completion",
+        "Learn effective prompt engineering techniques",
+        "Implement AI-driven refactoring and debugging",
+        "Build confidence in AI-assisted development workflows"
+    ],
+    "createdAt": "2024-01-15",
+    "updatedAt": "2024-01-15",
+    "version": "1.0"
+}

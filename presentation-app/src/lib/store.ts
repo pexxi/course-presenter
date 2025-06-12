@@ -148,7 +148,7 @@ export const useConnectionStatus = () =>
 export const useSlideStore = () => {
   const store = usePresentationStore();
 
-  const loadLecture = useCallback(async (lectureId: string) => {
+  const loadLecture = useCallback(async (lectureId: string, courseId: string) => {
     // Prevent multiple concurrent requests
     if (store.isLoading) {
       console.log('Already loading, skipping request');
@@ -156,7 +156,7 @@ export const useSlideStore = () => {
     }
 
     // Check if lecture is already loaded
-    if (store.currentLecture?.id === lectureId) {
+    if (store.currentLecture?.id === lectureId && store.currentLecture?.courseId === courseId) {
       console.log('Lecture already loaded, skipping request');
       return;
     }
@@ -165,14 +165,14 @@ export const useSlideStore = () => {
     store.setError(null);
 
     try {
-      console.log(`Loading lecture: ${lectureId}`);
+      console.log(`Loading lecture: course ${courseId}, lecture ${lectureId}`);
 
       // Create AbortController for timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-      // Use API route instead of direct import
-      const response = await fetch(`/api/slides/${lectureId}`, {
+      // Use API route with new courseId/lectureId structure
+      const response = await fetch(`/api/slides/${courseId}/${lectureId}`, {
         signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
@@ -189,11 +189,12 @@ export const useSlideStore = () => {
       }
 
       const data = await response.json();
-      console.log(`Loaded ${data.slides?.length || 0} slides for lecture ${lectureId}`);
+      console.log(`Loaded ${data.slides?.length || 0} slides for course ${courseId}, lecture ${lectureId}`);
 
       const lecture = {
         id: data.lectureId,
         title: data.slides[0]?.title || `Lecture ${data.lectureId}`,
+        courseId: data.courseId,
         slides: data.slides,
         currentSlide: 0,
       };
@@ -220,6 +221,7 @@ export const useSlideStore = () => {
   return {
     slides: store.currentLecture?.slides || [],
     currentSlideIndex: store.currentSlideIndex,
+    currentLecture: store.currentLecture,
     isLoading: store.isLoading,
     error: store.error,
     loadLecture,

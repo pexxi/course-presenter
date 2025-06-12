@@ -5,12 +5,14 @@ import { usePresentationManager } from '@/lib/presentation-manager'
 
 interface StartPresentationButtonProps {
     lectureId: string;
+    courseId: string;
     className?: string;
     children?: React.ReactNode;
 }
 
 export function StartPresentationButton({
     lectureId,
+    courseId,
     className = '',
     children = 'Start Presentation'
 }: StartPresentationButtonProps) {
@@ -25,6 +27,7 @@ export function StartPresentationButton({
         try {
             await startPresentation({
                 lectureId,
+                courseId,
                 onWindowReady: () => {
                     console.log('Presentation window ready');
                 },

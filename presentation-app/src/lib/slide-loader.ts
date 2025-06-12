@@ -11,14 +11,15 @@ import {
 } from '@/utils/helpers';
 
 /**
- * Load all slides for a specific lecture
+ * Load all slides for a specific lecture in a course
  */
-export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
-  const lecturePath = path.join(process.cwd(), 'presentation', lectureId);
+export async function loadLectureSlides(lectureId: string, courseId: string): Promise<Slide[]> {
+  // New structure: courses/courseId/lectureId
+  const lecturePath = path.join(process.cwd(), 'courses', courseId, lectureId);
 
   try {
     if (!fs.existsSync(lecturePath)) {
-      throw new Error(`Lecture directory not found: ${lectureId}`);
+      throw new Error(`Lecture directory not found: course ${courseId}, lecture ${lectureId}`);
     }
 
     // Get all markdown files and sort them by slide number
@@ -38,7 +39,7 @@ export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
       const slideNumber = i + 1;
 
       try {
-        const slide = await processSlideFile(filePath, lectureId, slideNumber);
+        const slide = await processSlideFile(filePath, lectureId, slideNumber, courseId);
         if (slide) {
           slides.push(slide);
         }
@@ -50,7 +51,7 @@ export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
 
     return slides;
   } catch (error) {
-    console.error(`Error loading slides for lecture ${lectureId}:`, error);
+    console.error(`Error loading slides for course ${courseId}, lecture ${lectureId}:`, error);
     return [];
   }
 }
@@ -61,7 +62,8 @@ export async function loadLectureSlides(lectureId: string): Promise<Slide[]> {
 async function processSlideFile(
   filePath: string,
   lectureId: string,
-  slideNumber: number
+  slideNumber: number,
+  courseId: string
 ): Promise<Slide | null> {
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
@@ -84,8 +86,9 @@ async function processSlideFile(
 
     // Process content based on template type
     const processedSlide = await processSlideContent({
-      id: generateSlideId(lectureId, slideNumber),
+      id: generateSlideId(lectureId, slideNumber, courseId),
       lectureId,
+      courseId,
       slideNumber,
       template: header.template,
       title: header.title,
@@ -170,23 +173,24 @@ function processCodeSlide(slide: Slide): Slide {
 /**
  * Load a complete lecture with all slides
  */
-export async function loadLecture(lectureId: string): Promise<Lecture | null> {
+export async function loadLecture(lectureId: string, courseId: string): Promise<Lecture | null> {
   try {
-    const slides = await loadLectureSlides(lectureId);
+    const slides = await loadLectureSlides(lectureId, courseId);
 
     if (slides.length === 0) {
-      console.warn(`No slides found for lecture: ${lectureId}`);
+      console.warn(`No slides found for course ${courseId}, lecture ${lectureId}`);
       return null;
     }
 
     return {
       id: lectureId,
       title: slides[0]?.title || `Lecture ${lectureId}`,
+      courseId,
       slides,
       currentSlide: 0,
     };
   } catch (error) {
-    console.error(`Error loading lecture ${lectureId}:`, error);
+    console.error(`Error loading course ${courseId}, lecture ${lectureId}:`, error);
     return null;
   }
 }
@@ -196,14 +200,15 @@ export async function loadLecture(lectureId: string): Promise<Lecture | null> {
  */
 export async function getSlide(
   lectureId: string,
-  slideNumber: number
+  slideNumber: number,
+  courseId: string
 ): Promise<Slide | null> {
   try {
-    const slides = await loadLectureSlides(lectureId);
+    const slides = await loadLectureSlides(lectureId, courseId);
     const slide = slides.find(s => s.slideNumber === slideNumber);
     return slide || null;
   } catch (error) {
-    console.error(`Error getting slide ${slideNumber} from lecture ${lectureId}:`, error);
+    console.error(`Error getting slide ${slideNumber} from course ${courseId}, lecture ${lectureId}:`, error);
     return null;
   }
 }
@@ -235,10 +240,11 @@ export interface SlideNavigation {
 
 export async function getSlideNavigation(
   lectureId: string,
-  currentSlideNumber: number
+  currentSlideNumber: number,
+  courseId: string
 ): Promise<SlideNavigation | null> {
   try {
-    const slides = await loadLectureSlides(lectureId);
+    const slides = await loadLectureSlides(lectureId, courseId);
     const totalSlides = slides.length;
 
     if (totalSlides === 0) return null;
@@ -251,11 +257,11 @@ export async function getSlideNavigation(
       totalSlides,
       hasNext,
       hasPrevious,
-      nextSlideId: hasNext ? generateSlideId(lectureId, currentSlideNumber + 1) : undefined,
-      previousSlideId: hasPrevious ? generateSlideId(lectureId, currentSlideNumber - 1) : undefined,
+      nextSlideId: hasNext ? generateSlideId(lectureId, currentSlideNumber + 1, courseId) : undefined,
+      previousSlideId: hasPrevious ? generateSlideId(lectureId, currentSlideNumber - 1, courseId) : undefined,
     };
   } catch (error) {
-    console.error(`Error getting slide navigation for ${lectureId}:`, error);
+    console.error(`Error getting slide navigation for course ${courseId}, lecture ${lectureId}:`, error);
     return null;
   }
 }
@@ -265,12 +271,13 @@ export async function getSlideNavigation(
  */
 export async function preloadAdjacentSlides(
   lectureId: string,
-  currentSlideNumber: number
+  currentSlideNumber: number,
+  courseId: string
 ): Promise<{ next?: Slide; previous?: Slide }> {
   try {
     const [nextSlide, previousSlide] = await Promise.all([
-      getSlide(lectureId, currentSlideNumber + 1),
-      getSlide(lectureId, currentSlideNumber - 1),
+      getSlide(lectureId, currentSlideNumber + 1, courseId),
+      getSlide(lectureId, currentSlideNumber - 1, courseId),
     ]);
 
     return {

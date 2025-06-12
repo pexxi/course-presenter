@@ -7,6 +7,7 @@ export interface SlideHeader {
 export interface Slide {
   id: string;
   lectureId: string;
+  courseId: string; // Required courseId for new structure
   slideNumber: number;
   template: SlideHeader['template'];
   title: string;
@@ -20,8 +21,40 @@ export interface Slide {
 export interface Lecture {
   id: string;
   title: string;
+  courseId: string; // Required courseId for new structure
   slides: Slide[];
   currentSlide: number;
+}
+
+export interface LectureInfo {
+  id: string;
+  title: string;
+  description: string;
+  courseId: string; // Required courseId for new structure
+  author?: string;
+  duration?: string;
+  level?: string;
+  tags?: string[];
+  slideCount: number;
+}
+
+export interface CourseInfo {
+  id: string;
+  title: string;
+  description: string;
+  lectures: LectureInfo[];
+  // Course metadata from info.json
+  author?: string;
+  level?: string;
+  duration?: string;
+  tags?: string[];
+  image?: string;
+  category?: string;
+  prerequisites?: string[];
+  learningObjectives?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  version?: string;
 }
 
 // Legacy SocketEvents for backward compatibility during migration

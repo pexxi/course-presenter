@@ -5,6 +5,7 @@
 
 export interface PresentationWindowOptions {
   lectureId: string;
+  courseId: string;
   onWindowReady?: () => void;
   onWindowClosed?: () => void;
 }
@@ -26,15 +27,15 @@ export class PresentationManager {
    * Opens presentation view in new window and navigates current window to speaker view
    */
   async startPresentation(options: PresentationWindowOptions): Promise<void> {
-    const { lectureId, onWindowReady, onWindowClosed } = options;
+    const { lectureId, courseId, onWindowReady, onWindowClosed } = options;
 
     try {
       // Close any existing presentation window
       this.endPresentation();
 
       // Create presentation window URL with fullscreen parameters
-      const presentationUrl = `/presentation/${lectureId}`;
-      
+      const presentationUrl = `/presentation/${courseId}/${lectureId}`;
+
       // Open presentation window with fullscreen settings
       this.presentationWindow = window.open(
         presentationUrl,
@@ -67,8 +68,8 @@ export class PresentationManager {
 
       // Navigate current window to speaker view
       // Use replace to avoid back button issues
-      window.location.replace(`/speaker/${lectureId}`);
-      
+      window.location.replace(`/speaker/${courseId}/${lectureId}`);
+
     } catch (error) {
       console.error('Failed to start presentation:', error);
       this.endPresentation();
@@ -145,9 +146,9 @@ export class PresentationManager {
    * Check if presentation window is open and ready
    */
   isPresentationActive(): boolean {
-    return this.presentationWindow !== null && 
-           !this.presentationWindow.closed &&
-           this.presentationReadyPromise !== null;
+    return this.presentationWindow !== null &&
+      !this.presentationWindow.closed &&
+      this.presentationReadyPromise !== null;
   }
 
   /**
@@ -201,7 +202,7 @@ export const presentationManager = PresentationManager.getInstance();
  */
 export function usePresentationManager() {
   return {
-    startPresentation: (options: PresentationWindowOptions) => 
+    startPresentation: (options: PresentationWindowOptions) =>
       presentationManager.startPresentation(options),
     endPresentation: () => presentationManager.endPresentation(),
     isPresentationActive: () => presentationManager.isPresentationActive(),

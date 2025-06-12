@@ -5,8 +5,8 @@
 /**
  * Generate a unique ID for slides
  */
-export function generateSlideId(lectureId: string, slideNumber: number): string {
-  return `${lectureId}-slide-${slideNumber}`;
+export function generateSlideId(lectureId: string, slideNumber: number, courseId: string): string {
+  return `${courseId}-${lectureId}-slide-${slideNumber}`;
 }
 
 /**
@@ -15,9 +15,9 @@ export function generateSlideId(lectureId: string, slideNumber: number): string 
 export function extractSpeakerNotes(htmlContent: string): string {
   const notesRegex = /<!--\s*Speaker Notes:\s*([\s\S]*?)\s*-->/gi;
   const matches = htmlContent.match(notesRegex);
-  
+
   if (!matches) return '';
-  
+
   return matches
     .map(match => match.replace(/<!--\s*Speaker Notes:\s*|\s*-->/gi, '').trim())
     .join('\n\n');
@@ -38,16 +38,16 @@ export function detectLanguage(codeBlock: string): string | undefined {
 export function extractCodeContent(markdownContent: string): { code: string; language?: string } {
   const codeBlockRegex = /```(\w+)?\s*\n([\s\S]*?)```/g;
   const matches = [...markdownContent.matchAll(codeBlockRegex)];
-  
+
   if (matches.length === 0) {
     return { code: markdownContent };
   }
-  
+
   // Get the first code block
   const firstMatch = matches[0];
   const language = firstMatch[1] || undefined;
   const code = firstMatch[2]?.trim() || '';
-  
+
   return { code, language };
 }
 
@@ -58,7 +58,7 @@ export function formatSlideContent(content: string, maxLength: number = 100): st
   if (content.length <= maxLength) {
     return content;
   }
-  
+
   return content.substring(0, maxLength) + '...';
 }
 
@@ -125,13 +125,13 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
   wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout;
-  
+
   return function executedFunction(...args: Parameters<T>) {
     const later = () => {
       clearTimeout(timeout);
       func(...args);
     };
-    
+
     clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };

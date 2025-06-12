@@ -1,23 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSlideStore } from '@/lib/store'
 import { useBroadcast } from '@/lib/broadcast-client'
 import { usePresentationManager } from '@/lib/presentation-manager'
-import SlideRenderer from '@/components/SlideRenderer'
-import NavigationControls from '@/components/NavigationControls'
-import ConnectionStatus from '@/components/ConnectionStatus'
+import { SlidePreview, SpeakerControls, SpeakerNotes } from '@/components/speaker'
 import LoadingSpinner from '@/components/LoadingSpinner'
+import ConnectionStatus from '@/components/ConnectionStatus'
 import ErrorBoundary from '@/components/ErrorBoundary'
 
 interface SpeakerViewProps {
     lectureId: string;
+    courseId: string;
 }
 
-export function SpeakerView({ lectureId }: SpeakerViewProps) {
+export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
     const [isConnected, setIsConnected] = useState(false);
     const [presentationStartTime, setPresentationStartTime] = useState<Date | null>(null);
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [speakerNotesFontSize, setSpeakerNotesFontSize] = useState<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
     const {
         slides,
@@ -46,7 +47,7 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
             return;
         }
 
-        loadLecture(lectureId);
+        loadLecture(lectureId, courseId);
 
         connect({
             lectureId,
@@ -65,7 +66,7 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
             console.log('SpeakerView cleanup');
             disconnect();
         };
-    }, [lectureId]); // Remove loadLecture, connect, disconnect, goToSlide from dependencies
+    }, [lectureId, courseId]); // Remove loadLecture, connect, disconnect, goToSlide from dependencies
 
     // Update elapsed time every second
     useEffect(() => {
@@ -104,6 +105,9 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
         }
     };
 
+    const handleFirstSlide = () => handleGoToSlide(0);
+    const handleLastSlide = () => handleGoToSlide(slides.length - 1);
+
     const handleEndPresentation = () => {
         const confirmed = window.confirm('Are you sure you want to end the presentation?');
         if (confirmed) {
@@ -113,10 +117,23 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
         }
     };
 
-    const formatTime = (seconds: number) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    // Font size controls for speaker notes
+    const increaseFontSize = () => {
+        setSpeakerNotesFontSize(current => {
+            if (current === 'small') return 'medium';
+            if (current === 'medium') return 'large';
+            if (current === 'large') return 'xlarge';
+            return 'xlarge';
+        });
+    };
+
+    const decreaseFontSize = () => {
+        setSpeakerNotesFontSize(current => {
+            if (current === 'xlarge') return 'large';
+            if (current === 'large') return 'medium';
+            if (current === 'medium') return 'small';
+            return 'small';
+        });
     };
 
     const currentSlide = getCurrentSlide();
@@ -163,157 +180,49 @@ export function SpeakerView({ lectureId }: SpeakerViewProps) {
                             <ConnectionStatus isConnected={isConnected} />
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <div className="text-sm text-gray-600">
-                                Time: {formatTime(elapsedTime)}
-                            </div>
-
-                            {isPresentationActive() && (
-                                <button
-                                    onClick={focusPresentationWindow}
-                                    className="px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md transition-colors"
-                                >
-                                    Focus Presentation
-                                </button>
-                            )}
-
+                        {isPresentationActive() && (
                             <button
-                                onClick={handleEndPresentation}
-                                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-md transition-colors"
+                                onClick={focusPresentationWindow}
+                                className="px-3 py-1 text-sm bg-blue-100 hover:bg-blue-200 text-blue-700 rounded-md transition-colors"
                             >
-                                End Presentation
+                                Focus Presentation
                             </button>
-                        </div>
+                        )}
                     </div>
                 </header>
 
-                {/* Main Layout: 50% slide preview, 25% notes, 25% controls */}
+                {/* Main Layout */}
                 <div className="flex flex-col h-[calc(100vh-80px)]">
-                    {/* Slide Preview Area (50%) */}
-                    <div className="flex-1 bg-white m-4 rounded-lg shadow-md p-6">
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-lg font-medium text-gray-900">Current Slide</h2>
-                            <div className="text-sm text-gray-500">
-                                {currentSlideIndex + 1} / {getTotalSlides()}
-                            </div>
-                        </div>
+                    {/* Top Row: Slide Preview (Left) + Controls (Right) - 50% of screen */}
+                    <div className="flex flex-1 gap-4 m-4">
+                        <SlidePreview
+                            currentSlide={currentSlide}
+                            currentSlideIndex={currentSlideIndex}
+                            totalSlides={getTotalSlides()}
+                        />
 
-                        <div className="h-full max-h-[calc(100%-3rem)] border border-gray-200 rounded-lg overflow-hidden bg-white">
-                            {currentSlide ? (
-                                <SlideRenderer
-                                    slide={currentSlide}
-                                    className="w-full h-full"
-                                    isPreview={true}
-                                />
-                            ) : (
-                                <div className="h-full flex items-center justify-center text-gray-500">
-                                    <div className="text-center">
-                                        <div className="text-4xl mb-2">📋</div>
-                                        <p>No slide to display</p>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                        <SpeakerControls
+                            currentSlideIndex={currentSlideIndex}
+                            totalSlides={getTotalSlides()}
+                            isConnected={isConnected}
+                            isPresentationActive={isPresentationActive()}
+                            elapsedTime={elapsedTime}
+                            onFirstSlide={handleFirstSlide}
+                            onPreviousSlide={handlePreviousSlide}
+                            onNextSlide={handleNextSlide}
+                            onLastSlide={handleLastSlide}
+                            onEndPresentation={handleEndPresentation}
+                        />
                     </div>
 
-                    {/* Bottom Half: Notes and Controls (25% each) */}
-                    <div className="flex flex-1 gap-4 mx-4 mb-4">
-                        {/* Speaker Notes (25% of total screen) */}
-                        <div className="flex-1 bg-white rounded-lg shadow-md p-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Speaker Notes</h3>
-                            <div className="h-full max-h-[calc(100%-3rem)] overflow-y-auto">
-                                {currentSlide?.speakerNotes ? (
-                                    <div
-                                        className="prose prose-sm max-w-none text-gray-700"
-                                        dangerouslySetInnerHTML={{ __html: currentSlide.speakerNotes }}
-                                    />
-                                ) : (
-                                    <div className="h-full flex items-center justify-center text-gray-500">
-                                        <p>No speaker notes for this slide</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Controls (25% of total screen) */}
-                        <div className="flex-1 bg-white rounded-lg shadow-md p-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Controls</h3>
-
-                            <div className="space-y-6">
-                                {/* Navigation Controls */}
-                                <div>
-                                    <h4 className="text-sm font-medium text-gray-700 mb-3">Navigation</h4>
-                                    <NavigationControls
-                                        currentSlide={currentSlideIndex + 1}
-                                        totalSlides={getTotalSlides()}
-                                        onNext={handleNextSlide}
-                                        onPrevious={handlePreviousSlide}
-                                        onGoToSlide={(slideNumber) => handleGoToSlide(slideNumber - 1)}
-                                    />
-                                </div>
-
-                                {/* Progress Bar */}
-                                <div>
-                                    <h4 className="text-sm font-medium text-gray-700 mb-3">Progress</h4>
-                                    <div className="space-y-2">
-                                        <div className="flex items-center justify-between text-sm text-gray-600">
-                                            <span>Slide {currentSlideIndex + 1} of {getTotalSlides()}</span>
-                                            <span>{Math.round(getProgress())}%</span>
-                                        </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
-                                            <div
-                                                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                                                style={{ width: `${getProgress()}%` }}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Presentation Status */}
-                                <div>
-                                    <h4 className="text-sm font-medium text-gray-700 mb-3">Status</h4>
-                                    <div className="space-y-2 text-sm">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-gray-600">Connection:</span>
-                                            <span className={isConnected ? 'text-green-600' : 'text-red-600'}>
-                                                {isConnected ? 'Connected' : 'Disconnected'}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-gray-600">Presentation Window:</span>
-                                            <span className={isPresentationActive() ? 'text-green-600' : 'text-gray-500'}>
-                                                {isPresentationActive() ? 'Active' : 'Inactive'}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-gray-600">Duration:</span>
-                                            <span className="text-gray-900 font-mono">
-                                                {formatTime(elapsedTime)}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Quick Actions */}
-                                <div>
-                                    <h4 className="text-sm font-medium text-gray-700 mb-3">Quick Actions</h4>
-                                    <div className="space-y-2">
-                                        <button
-                                            onClick={() => handleGoToSlide(0)}
-                                            className="w-full px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors"
-                                        >
-                                            Go to First Slide
-                                        </button>
-                                        <button
-                                            onClick={() => handleGoToSlide(slides.length - 1)}
-                                            className="w-full px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors"
-                                        >
-                                            Go to Last Slide
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    {/* Bottom Half: Speaker Notes - 50% of screen */}
+                    <div className="flex-1 m-4 mt-0">
+                        <SpeakerNotes
+                            currentSlide={currentSlide}
+                            fontSize={speakerNotesFontSize}
+                            onIncreaseFontSize={increaseFontSize}
+                            onDecreaseFontSize={decreaseFontSize}
+                        />
                     </div>
                 </div>
             </div>

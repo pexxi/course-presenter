@@ -9,9 +9,10 @@ import ErrorBoundary from '@/components/ErrorBoundary'
 
 interface PresentationViewProps {
     lectureId: string;
+    courseId: string;
 }
 
-export function PresentationView({ lectureId }: PresentationViewProps) {
+export function PresentationView({ lectureId, courseId }: PresentationViewProps) {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
 
@@ -30,7 +31,7 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
 
     // Load lecture on mount
     useEffect(() => {
-        loadLecture(lectureId);
+        loadLecture(lectureId, courseId);
         connect({
             lectureId,
             clientType: 'presentation',
@@ -40,7 +41,7 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
         return () => {
             disconnect();
         };
-    }, [lectureId]);
+    }, [lectureId, courseId]);
 
     // Keyboard navigation
     useEffect(() => {
@@ -219,16 +220,14 @@ export function PresentationView({ lectureId }: PresentationViewProps) {
                 )}
 
                 {/* Main slide content */}
-                <div className="h-screen flex items-center justify-center p-8">
-                    <div className="w-full max-w-6xl h-full flex items-center justify-center">
-                        {currentSlide && (
-                            <SlideRenderer
-                                slide={currentSlide}
-                                className="w-full h-full"
-                                isPreview={false}
-                            />
-                        )}
-                    </div>
+                <div className="h-screen w-screen overflow-hidden">
+                    {currentSlide && (
+                        <SlideRenderer
+                            slide={currentSlide}
+                            className="w-full h-full"
+                            isPreview={false}
+                        />
+                    )}
                 </div>
 
                 {/* Navigation hints */}
