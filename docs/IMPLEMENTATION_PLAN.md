@@ -527,6 +527,8 @@ courses/
 }
 ```
 
+Note: Course duration is automatically calculated from the sum of lecture durations.
+
 ### Lecture Info Format (info.json)
 
 ```json

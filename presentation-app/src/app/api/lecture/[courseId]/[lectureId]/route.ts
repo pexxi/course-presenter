@@ -1,35 +1,32 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getLectureInfo } from '@/lib/lecture-loader';
+import { getLectureInfo } from "@/lib/lecture-loader";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-    request: NextRequest,
-    context: { params: Promise<{ courseId: string; lectureId: string }> }
+	request: NextRequest,
+	context: { params: Promise<{ courseId: string; lectureId: string }> },
 ) {
-    try {
-        const { courseId, lectureId } = await context.params;
+	try {
+		const { courseId, lectureId } = await context.params;
 
-        if (!courseId || !lectureId) {
-            return NextResponse.json(
-                { error: 'Course ID and Lecture ID are required' },
-                { status: 400 }
-            );
-        }
+		if (!courseId || !lectureId) {
+			return NextResponse.json(
+				{ error: "Course ID and Lecture ID are required" },
+				{ status: 400 },
+			);
+		}
 
-        const lectureInfo = await getLectureInfo(lectureId, courseId);
+		const lectureInfo = await getLectureInfo(lectureId, courseId);
 
-        if (!lectureInfo) {
-            return NextResponse.json(
-                { error: 'Lecture not found' },
-                { status: 404 }
-            );
-        }
+		if (!lectureInfo) {
+			return NextResponse.json({ error: "Lecture not found" }, { status: 404 });
+		}
 
-        return NextResponse.json(lectureInfo);
-    } catch (error) {
-        console.error('Error fetching lecture info:', error);
-        return NextResponse.json(
-            { error: 'Internal server error' },
-            { status: 500 }
-        );
-    }
-} 
+		return NextResponse.json(lectureInfo);
+	} catch (error) {
+		console.error("Error fetching lecture info:", error);
+		return NextResponse.json(
+			{ error: "Internal server error" },
+			{ status: 500 },
+		);
+	}
+}

@@ -1,303 +1,335 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { remark } from 'remark';
-import remarkHtml from 'remark-html';
-import { Slide, SlideHeader, Lecture } from '@/types';
+import fs from "node:fs";
+import path from "node:path";
+import type { Lecture, Slide, SlideHeader } from "@/types";
 import {
-  generateSlideId,
-  extractSpeakerNotes,
-  extractCodeContent
-} from '@/utils/helpers';
-import { transformImagePath } from '@/utils/image-helpers';
+	extractCodeContent,
+	extractSpeakerNotes,
+	generateSlideId,
+} from "@/utils/helpers";
+import { transformImagePath } from "@/utils/image-helpers";
+import matter from "gray-matter";
+import { remark } from "remark";
+import remarkHtml from "remark-html";
 
 /**
  * Load all slides for a specific lecture in a course
  */
-export async function loadLectureSlides(lectureId: string, courseId: string): Promise<Slide[]> {
-  // New structure: courses/courseId/lectureId
-  const lecturePath = path.join(process.cwd(), 'courses', courseId, lectureId);
+export async function loadLectureSlides(
+	lectureId: string,
+	courseId: string,
+): Promise<Slide[]> {
+	// New structure: courses/courseId/lectureId
+	const lecturePath = path.join(process.cwd(), "courses", courseId, lectureId);
 
-  try {
-    if (!fs.existsSync(lecturePath)) {
-      throw new Error(`Lecture directory not found: course ${courseId}, lecture ${lectureId}`);
-    }
+	try {
+		if (!fs.existsSync(lecturePath)) {
+			throw new Error(
+				`Lecture directory not found: course ${courseId}, lecture ${lectureId}`,
+			);
+		}
 
-    // Get all markdown files and sort them by slide number
-    const files = fs.readdirSync(lecturePath)
-      .filter(file => file.endsWith('.md') && file.match(/^slide\d+\.md$/i))
-      .sort((a, b) => {
-        const aNum = parseInt(a.match(/\d+/)?.[0] || '0');
-        const bNum = parseInt(b.match(/\d+/)?.[0] || '0');
-        return aNum - bNum;
-      });
+		// Get all markdown files and sort them by slide number
+		const files = fs
+			.readdirSync(lecturePath)
+			.filter((file) => file.endsWith(".md") && file.match(/^slide\d+\.md$/i))
+			.sort((a, b) => {
+				const aNum = Number.parseInt(a.match(/\d+/)?.[0] || "0");
+				const bNum = Number.parseInt(b.match(/\d+/)?.[0] || "0");
+				return aNum - bNum;
+			});
 
-    const slides: Slide[] = [];
+		const slides: Slide[] = [];
 
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const filePath = path.join(lecturePath, file);
-      const slideNumber = i + 1;
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			const filePath = path.join(lecturePath, file);
+			const slideNumber = i + 1;
 
-      try {
-        const slide = await processSlideFile(filePath, lectureId, slideNumber, courseId);
-        if (slide) {
-          slides.push(slide);
-        }
-      } catch (error) {
-        console.error(`Error processing slide ${file}:`, error);
-        // Continue with other slides even if one fails
-      }
-    }
+			try {
+				const slide = await processSlideFile(
+					filePath,
+					lectureId,
+					slideNumber,
+					courseId,
+				);
+				if (slide) {
+					slides.push(slide);
+				}
+			} catch (error) {
+				console.error(`Error processing slide ${file}:`, error);
+				// Continue with other slides even if one fails
+			}
+		}
 
-    return slides;
-  } catch (error) {
-    console.error(`Error loading slides for course ${courseId}, lecture ${lectureId}:`, error);
-    return [];
-  }
+		return slides;
+	} catch (error) {
+		console.error(
+			`Error loading slides for course ${courseId}, lecture ${lectureId}:`,
+			error,
+		);
+		return [];
+	}
 }
 
 /**
  * Process a single slide file
  */
 async function processSlideFile(
-  filePath: string,
-  lectureId: string,
-  slideNumber: number,
-  courseId: string
+	filePath: string,
+	lectureId: string,
+	slideNumber: number,
+	courseId: string,
 ): Promise<Slide | null> {
-  try {
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    const { data: frontmatter, content: rawContent } = matter(fileContent);
+	try {
+		const fileContent = fs.readFileSync(filePath, "utf-8");
+		const { data: frontmatter, content: rawContent } = matter(fileContent);
 
-    // Validate frontmatter
-    if (!validateSlideHeader(frontmatter)) {
-      console.warn(`Invalid frontmatter in ${filePath}`);
-      return null;
-    }
+		// Validate frontmatter
+		if (!validateSlideHeader(frontmatter)) {
+			console.warn(`Invalid frontmatter in ${filePath}`);
+			return null;
+		}
 
-    const header: SlideHeader = {
-      template: frontmatter.template as 'cover' | 'content' | 'code',
-      title: frontmatter.title as string,
-      image: frontmatter.image as string | undefined
-    };
+		const header: SlideHeader = {
+			template: frontmatter.template as "cover" | "content" | "code",
+			title: frontmatter.title as string,
+			image: frontmatter.image as string | undefined,
+		};
 
-    // Extract speaker notes from HTML comments
-    const speakerNotes = extractSpeakerNotes(rawContent);
+		// Extract speaker notes from HTML comments
+		const speakerNotes = extractSpeakerNotes(rawContent);
 
-    // Process content based on template type
-    const processedSlide = await processSlideContent({
-      id: generateSlideId(lectureId, slideNumber, courseId),
-      lectureId,
-      courseId,
-      slideNumber,
-      template: header.template,
-      title: header.title,
-      content: '', // Will be filled by processSlideContent
-      rawContent,
-      speakerNotes,
-      language: undefined, // Will be filled for code slides
-      header
-    });
+		// Process content based on template type
+		const processedSlide = await processSlideContent({
+			id: generateSlideId(lectureId, slideNumber, courseId),
+			lectureId,
+			courseId,
+			slideNumber,
+			template: header.template,
+			title: header.title,
+			content: "", // Will be filled by processSlideContent
+			rawContent,
+			speakerNotes,
+			language: undefined, // Will be filled for code slides
+			header,
+		});
 
-    return processedSlide;
-  } catch (error) {
-    console.error(`Error processing slide file ${filePath}:`, error);
-    return null;
-  }
+		return processedSlide;
+	} catch (error) {
+		console.error(`Error processing slide file ${filePath}:`, error);
+		return null;
+	}
 }
 
 /**
  * Process slide content based on template type
  */
 async function processSlideContent(slide: Slide): Promise<Slide> {
-  switch (slide.template) {
-    case 'cover':
-      return processCoverSlide(slide);
+	switch (slide.template) {
+		case "cover":
+			return processCoverSlide(slide);
 
-    case 'content':
-      return await processContentSlide(slide);
+		case "content":
+			return await processContentSlide(slide);
 
-    case 'code':
-      return processCodeSlide(slide);
+		case "code":
+			return processCodeSlide(slide);
 
-    default:
-      console.warn(`Unknown template type: ${slide.template}`);
-      return await processContentSlide(slide); // Fallback to content slide
-  }
+		default:
+			console.warn(`Unknown template type: ${slide.template}`);
+			return await processContentSlide(slide); // Fallback to content slide
+	}
 }
 
 /**
  * Process cover slide (title only, no content)
  */
 function processCoverSlide(slide: Slide): Slide {
-  // Transform relative image paths to API route
-  const transformedImagePath = transformImagePath(
-    slide.header.image,
-    slide.courseId,
-    slide.lectureId
-  );
+	// Transform relative image paths to API route
+	const transformedImagePath = transformImagePath(
+		slide.header.image,
+		slide.courseId,
+		slide.lectureId,
+	);
 
-  return {
-    ...slide,
-    content: '', // Cover slides don't render content
-    header: {
-      ...slide.header,
-      image: transformedImagePath
-    }
-  };
+	return {
+		...slide,
+		content: "", // Cover slides don't render content
+		header: {
+			...slide.header,
+			image: transformedImagePath,
+		},
+	};
 }
 
 /**
  * Process content slide (markdown to HTML)
  */
 async function processContentSlide(slide: Slide): Promise<Slide> {
-  try {
-    const processor = remark().use(remarkHtml, { sanitize: false });
-    const result = await processor.process(slide.rawContent);
+	try {
+		const processor = remark().use(remarkHtml, { sanitize: false });
+		const result = await processor.process(slide.rawContent);
 
-    return {
-      ...slide,
-      content: result.toString(),
-    };
-  } catch (error) {
-    console.error('Error processing content slide:', error);
-    return {
-      ...slide,
-      content: slide.rawContent, // Fallback to raw content
-    };
-  }
+		return {
+			...slide,
+			content: result.toString(),
+		};
+	} catch (error) {
+		console.error("Error processing content slide:", error);
+		return {
+			...slide,
+			content: slide.rawContent, // Fallback to raw content
+		};
+	}
 }
 
 /**
  * Process code slide (extract and syntax highlight code)
  */
 function processCodeSlide(slide: Slide): Slide {
-  const { code, language } = extractCodeContent(slide.rawContent);
+	const { code, language } = extractCodeContent(slide.rawContent);
 
-  return {
-    ...slide,
-    content: code,
-    language: language,
-  };
+	return {
+		...slide,
+		content: code,
+		language: language,
+	};
 }
 
 /**
  * Load a complete lecture with all slides
  */
-export async function loadLecture(lectureId: string, courseId: string): Promise<Lecture | null> {
-  try {
-    const slides = await loadLectureSlides(lectureId, courseId);
+export async function loadLecture(
+	lectureId: string,
+	courseId: string,
+): Promise<Lecture | null> {
+	try {
+		const slides = await loadLectureSlides(lectureId, courseId);
 
-    if (slides.length === 0) {
-      console.warn(`No slides found for course ${courseId}, lecture ${lectureId}`);
-      return null;
-    }
+		if (slides.length === 0) {
+			console.warn(
+				`No slides found for course ${courseId}, lecture ${lectureId}`,
+			);
+			return null;
+		}
 
-    return {
-      id: lectureId,
-      title: slides[0]?.title || `Lecture ${lectureId}`,
-      courseId,
-      slides,
-      currentSlide: 0,
-    };
-  } catch (error) {
-    console.error(`Error loading course ${courseId}, lecture ${lectureId}:`, error);
-    return null;
-  }
+		return {
+			id: lectureId,
+			title: slides[0]?.title || `Lecture ${lectureId}`,
+			courseId,
+			slides,
+			currentSlide: 0,
+		};
+	} catch (error) {
+		console.error(
+			`Error loading course ${courseId}, lecture ${lectureId}:`,
+			error,
+		);
+		return null;
+	}
 }
 
 /**
  * Get a specific slide from a lecture
  */
 export async function getSlide(
-  lectureId: string,
-  slideNumber: number,
-  courseId: string
+	lectureId: string,
+	slideNumber: number,
+	courseId: string,
 ): Promise<Slide | null> {
-  try {
-    const slides = await loadLectureSlides(lectureId, courseId);
-    const slide = slides.find(s => s.slideNumber === slideNumber);
-    return slide || null;
-  } catch (error) {
-    console.error(`Error getting slide ${slideNumber} from course ${courseId}, lecture ${lectureId}:`, error);
-    return null;
-  }
+	try {
+		const slides = await loadLectureSlides(lectureId, courseId);
+		const slide = slides.find((s) => s.slideNumber === slideNumber);
+		return slide || null;
+	} catch (error) {
+		console.error(
+			`Error getting slide ${slideNumber} from course ${courseId}, lecture ${lectureId}:`,
+			error,
+		);
+		return null;
+	}
 }
 
 /**
  * Validate slide header/frontmatter
  */
 function validateSlideHeader(frontmatter: Record<string, unknown>): boolean {
-  return (
-    frontmatter &&
-    typeof frontmatter.template === 'string' &&
-    ['cover', 'content', 'code'].includes(frontmatter.template) &&
-    typeof frontmatter.title === 'string' &&
-    (frontmatter.title as string).length > 0
-  );
+	return (
+		frontmatter &&
+		typeof frontmatter.template === "string" &&
+		["cover", "content", "code"].includes(frontmatter.template) &&
+		typeof frontmatter.title === "string" &&
+		(frontmatter.title as string).length > 0
+	);
 }
 
 /**
  * Get slide navigation info
  */
 export interface SlideNavigation {
-  currentSlide: number;
-  totalSlides: number;
-  hasNext: boolean;
-  hasPrevious: boolean;
-  nextSlideId?: string;
-  previousSlideId?: string;
+	currentSlide: number;
+	totalSlides: number;
+	hasNext: boolean;
+	hasPrevious: boolean;
+	nextSlideId?: string;
+	previousSlideId?: string;
 }
 
 export async function getSlideNavigation(
-  lectureId: string,
-  currentSlideNumber: number,
-  courseId: string
+	lectureId: string,
+	currentSlideNumber: number,
+	courseId: string,
 ): Promise<SlideNavigation | null> {
-  try {
-    const slides = await loadLectureSlides(lectureId, courseId);
-    const totalSlides = slides.length;
+	try {
+		const slides = await loadLectureSlides(lectureId, courseId);
+		const totalSlides = slides.length;
 
-    if (totalSlides === 0) return null;
+		if (totalSlides === 0) return null;
 
-    const hasNext = currentSlideNumber < totalSlides;
-    const hasPrevious = currentSlideNumber > 1;
+		const hasNext = currentSlideNumber < totalSlides;
+		const hasPrevious = currentSlideNumber > 1;
 
-    return {
-      currentSlide: currentSlideNumber,
-      totalSlides,
-      hasNext,
-      hasPrevious,
-      nextSlideId: hasNext ? generateSlideId(lectureId, currentSlideNumber + 1, courseId) : undefined,
-      previousSlideId: hasPrevious ? generateSlideId(lectureId, currentSlideNumber - 1, courseId) : undefined,
-    };
-  } catch (error) {
-    console.error(`Error getting slide navigation for course ${courseId}, lecture ${lectureId}:`, error);
-    return null;
-  }
+		return {
+			currentSlide: currentSlideNumber,
+			totalSlides,
+			hasNext,
+			hasPrevious,
+			nextSlideId: hasNext
+				? generateSlideId(lectureId, currentSlideNumber + 1, courseId)
+				: undefined,
+			previousSlideId: hasPrevious
+				? generateSlideId(lectureId, currentSlideNumber - 1, courseId)
+				: undefined,
+		};
+	} catch (error) {
+		console.error(
+			`Error getting slide navigation for course ${courseId}, lecture ${lectureId}:`,
+			error,
+		);
+		return null;
+	}
 }
 
 /**
  * Preload adjacent slides for performance
  */
 export async function preloadAdjacentSlides(
-  lectureId: string,
-  currentSlideNumber: number,
-  courseId: string
+	lectureId: string,
+	currentSlideNumber: number,
+	courseId: string,
 ): Promise<{ next?: Slide; previous?: Slide }> {
-  try {
-    const [nextSlide, previousSlide] = await Promise.all([
-      getSlide(lectureId, currentSlideNumber + 1, courseId),
-      getSlide(lectureId, currentSlideNumber - 1, courseId),
-    ]);
+	try {
+		const [nextSlide, previousSlide] = await Promise.all([
+			getSlide(lectureId, currentSlideNumber + 1, courseId),
+			getSlide(lectureId, currentSlideNumber - 1, courseId),
+		]);
 
-    return {
-      next: nextSlide || undefined,
-      previous: previousSlide || undefined,
-    };
-  } catch (error) {
-    console.error(`Error preloading adjacent slides:`, error);
-    return {};
-  }
-} 
+		return {
+			next: nextSlide || undefined,
+			previous: previousSlide || undefined,
+		};
+	} catch (error) {
+		console.error("Error preloading adjacent slides:", error);
+		return {};
+	}
+}

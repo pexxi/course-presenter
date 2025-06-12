@@ -1,7 +1,7 @@
 ---
 template: cover
 title: "Welcome to Cursor AI"
-image: "cover.jpg"
+image: "lecture1-cover.jpg"
 ---
 
 This content will be ignored for cover slides - only the title is displayed.
