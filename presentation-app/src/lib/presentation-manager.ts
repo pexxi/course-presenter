@@ -15,6 +15,11 @@ export class PresentationManager {
   private presentationWindow: Window | null = null;
   private presentationReadyPromise: Promise<void> | null = null;
 
+  constructor() {
+    // Try to restore presentation window reference from sessionStorage on initialization
+    this.restorePresentationWindow();
+  }
+
   static getInstance(): PresentationManager {
     if (!PresentationManager.instance) {
       PresentationManager.instance = new PresentationManager();
@@ -55,6 +60,9 @@ export class PresentationManager {
       if (!this.presentationWindow) {
         throw new Error('Failed to open presentation window. Please check popup blockers.');
       }
+
+      // Store window reference for cross-navigation persistence
+      this.storePresentationWindow();
 
       // Wait for presentation window to load
       this.presentationReadyPromise = this.waitForWindowLoad(this.presentationWindow);
@@ -131,15 +139,82 @@ export class PresentationManager {
   }
 
   /**
+ * Store presentation window information in sessionStorage
+ */
+  private storePresentationWindow(): void {
+    if (this.presentationWindow) {
+      sessionStorage.setItem('hasActivePresentation', 'true');
+      sessionStorage.setItem('presentationWindowName', 'presentation');
+
+      // Generate a unique ID for this presentation session
+      const sessionId = Date.now().toString();
+      sessionStorage.setItem('presentationSessionId', sessionId);
+    }
+  }
+
+  /**
+   * Restore presentation window reference from sessionStorage
+   */
+  private restorePresentationWindow(): void {
+    const hasActivePresentation = sessionStorage.getItem('hasActivePresentation');
+
+    if (hasActivePresentation === 'true') {
+      // Set up message listener to handle window communication
+      this.setupWindowMessageListener();
+    }
+  }
+
+  /**
+   * Set up message listener for window communication
+   */
+  private setupWindowMessageListener(): void {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'PRESENTATION_WINDOW_READY') {
+        // Store reference to the presentation window
+        this.presentationWindow = event.source as Window;
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+  }
+
+  /**
+   * Clear stored presentation window reference
+   */
+  private clearStoredPresentationWindow(): void {
+    sessionStorage.removeItem('hasActivePresentation');
+    sessionStorage.removeItem('presentationWindowName');
+    sessionStorage.removeItem('presentationSessionId');
+  }
+
+  /**
    * End the presentation session
    * Closes the presentation window
    */
   endPresentation(): void {
+    // Try to close using direct window reference
     if (this.presentationWindow && !this.presentationWindow.closed) {
       this.presentationWindow.close();
     }
+
+    // Also signal via localStorage for any presentation windows to close themselves
+    // This handles cases where we don't have a direct reference
+    localStorage.setItem('closePresentationWindow', Date.now().toString());
+
+    // Also try to use Broadcast Channel API if available
+    if (typeof BroadcastChannel !== 'undefined') {
+      try {
+        const channel = new BroadcastChannel('presentation-control');
+        channel.postMessage({ type: 'CLOSE_PRESENTATION' });
+        channel.close();
+      } catch (error) {
+        console.warn('BroadcastChannel not available:', error);
+      }
+    }
+
     this.presentationWindow = null;
     this.presentationReadyPromise = null;
+    this.clearStoredPresentationWindow();
   }
 
   /**
@@ -192,6 +267,63 @@ export class PresentationManager {
       this.presentationWindow.resizeTo(screen.width, screen.height);
     }
   }
+
+  /**
+   * Open presentation window without navigating current window
+   * Useful for reopening closed presentation windows from speaker view
+   */
+  async openPresentationWindow(options: PresentationWindowOptions): Promise<void> {
+    const { lectureId, courseId, onWindowReady, onWindowClosed } = options;
+
+    try {
+      // Close any existing presentation window first
+      if (this.presentationWindow && !this.presentationWindow.closed) {
+        this.presentationWindow.close();
+      }
+
+      // Create presentation window URL
+      const presentationUrl = `/presentation/${courseId}/${lectureId}`;
+
+      // Open presentation window with fullscreen settings
+      this.presentationWindow = window.open(
+        presentationUrl,
+        'presentation',
+        [
+          'fullscreen=yes',
+          'scrollbars=no',
+          'toolbar=no',
+          'menubar=no',
+          'status=no',
+          'location=no',
+          'resizable=yes',
+          'directories=no'
+        ].join(',')
+      );
+
+      if (!this.presentationWindow) {
+        throw new Error('Failed to open presentation window. Please check popup blockers.');
+      }
+
+      // Store window reference for cross-navigation persistence
+      this.storePresentationWindow();
+
+      // Wait for presentation window to load
+      this.presentationReadyPromise = this.waitForWindowLoad(this.presentationWindow);
+      await this.presentationReadyPromise;
+
+      // Set up window close detection
+      this.setupWindowCloseDetection(onWindowClosed);
+
+      // Callback when window is ready
+      onWindowReady?.();
+
+    } catch (error) {
+      console.error('Failed to open presentation window:', error);
+      this.presentationWindow = null;
+      this.presentationReadyPromise = null;
+      throw error;
+    }
+  }
 }
 
 // Export singleton instance
@@ -204,6 +336,8 @@ export function usePresentationManager() {
   return {
     startPresentation: (options: PresentationWindowOptions) =>
       presentationManager.startPresentation(options),
+    openPresentationWindow: (options: PresentationWindowOptions) =>
+      presentationManager.openPresentationWindow(options),
     endPresentation: () => presentationManager.endPresentation(),
     isPresentationActive: () => presentationManager.isPresentationActive(),
     focusPresentationWindow: () => presentationManager.focusPresentationWindow(),

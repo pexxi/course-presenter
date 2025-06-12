@@ -230,3 +230,64 @@ Configure as needed for your deployment environment:
 ## 📄 License
 
 This project is part of a course curriculum. Please refer to the main repository for licensing information.
+
+## Cover Image Support
+
+Cover slides can include background images that are stored in the same directory as the slide files.
+
+### Adding Cover Images
+
+1. Place your image file in the lecture directory (e.g., `courses/course1-cursor-ai/lecture1/cover.jpg`)
+2. Reference the image in your cover slide's frontmatter:
+
+```markdown
+---
+template: cover
+title: "Welcome to Cursor AI"
+image: "cover.jpg"
+---
+```
+
+### Supported Image Formats
+
+- JPEG (`.jpg`, `.jpeg`)
+- PNG (`.png`)
+- GIF (`.gif`)
+- WebP (`.webp`)
+- SVG (`.svg`)
+- BMP (`.bmp`)
+- ICO (`.ico`)
+
+### Image Path Resolution
+
+- **Relative paths** (e.g., `"cover.jpg"`) are automatically resolved to the lecture directory
+- **Absolute paths** (e.g., `"/images/cover.jpg"`) are used as-is
+- **Full URLs** (e.g., `"https://example.com/image.jpg"`) are used as-is
+
+### Example Structure
+
+```
+courses/
+  course1-cursor-ai/
+    lecture1/
+      slide1.md          # Cover slide with image reference
+      cover.jpg          # Background image for cover slide
+      slide2.md
+      slide3.md
+      info.json
+```
+
+### API Endpoints
+
+Images are served through the API at:
+
+```
+/api/images/{courseId}/{lectureId}/{filename}
+```
+
+This endpoint:
+
+- Validates file extensions to ensure they're image files
+- Sets appropriate content types and caching headers
+- Returns 404 for missing images
+- Returns 400 for invalid file types

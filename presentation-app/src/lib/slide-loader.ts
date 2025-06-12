@@ -9,6 +9,7 @@ import {
   extractSpeakerNotes,
   extractCodeContent
 } from '@/utils/helpers';
+import { transformImagePath } from '@/utils/image-helpers';
 
 /**
  * Load all slides for a specific lecture in a course
@@ -130,9 +131,20 @@ async function processSlideContent(slide: Slide): Promise<Slide> {
  * Process cover slide (title only, no content)
  */
 function processCoverSlide(slide: Slide): Slide {
+  // Transform relative image paths to API route
+  const transformedImagePath = transformImagePath(
+    slide.header.image,
+    slide.courseId,
+    slide.lectureId
+  );
+
   return {
     ...slide,
     content: '', // Cover slides don't render content
+    header: {
+      ...slide.header,
+      image: transformedImagePath
+    }
   };
 }
 

@@ -1,6 +1,7 @@
 ---
 template: cover
 title: "Advanced Chat & Inline Editing"
+image: "lecture2-cover.jpg"
 ---
 
 <!-- Speaker Notes:

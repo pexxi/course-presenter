@@ -5,13 +5,15 @@ interface SpeakerStatusPanelProps {
     isPresentationActive: boolean;
     elapsedTime: number;
     onEndPresentation: () => void;
+    onOpenPresentationWindow: () => void;
 }
 
 export default function SpeakerStatusPanel({
     isConnected,
     isPresentationActive,
     elapsedTime,
-    onEndPresentation
+    onEndPresentation,
+    onOpenPresentationWindow
 }: SpeakerStatusPanelProps) {
     const formatTime = (seconds: number) => {
         const minutes = Math.floor(seconds / 60);
@@ -33,9 +35,20 @@ export default function SpeakerStatusPanel({
                     </div>
                     <div className="flex items-center justify-between">
                         <span className="text-gray-600">Presentation Window:</span>
-                        <span className={isPresentationActive ? 'text-green-600' : 'text-gray-500'}>
-                            {isPresentationActive ? '✅ Active' : '⚪ Inactive'}
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className={isPresentationActive ? 'text-green-600' : 'text-gray-500'}>
+                                {isPresentationActive ? '✅ Active' : '⚪ Inactive'}
+                            </span>
+                            {!isPresentationActive && (
+                                <button
+                                    onClick={onOpenPresentationWindow}
+                                    className="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded transition-colors"
+                                    title="Open presentation window"
+                                >
+                                    Open
+                                </button>
+                            )}
+                        </div>
                     </div>
                     <div className="flex items-center justify-between">
                         <span className="text-gray-600">Duration:</span>

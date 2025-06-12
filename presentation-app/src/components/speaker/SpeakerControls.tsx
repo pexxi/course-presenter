@@ -14,6 +14,7 @@ interface SpeakerControlsProps {
     onNextSlide: () => void;
     onLastSlide: () => void;
     onEndPresentation: () => void;
+    onOpenPresentationWindow: () => void;
 }
 
 export default function SpeakerControls({
@@ -26,7 +27,8 @@ export default function SpeakerControls({
     onPreviousSlide,
     onNextSlide,
     onLastSlide,
-    onEndPresentation
+    onEndPresentation,
+    onOpenPresentationWindow
 }: SpeakerControlsProps) {
     return (
         <div className="flex-1 bg-white rounded-lg shadow-md p-6">
@@ -47,6 +49,7 @@ export default function SpeakerControls({
                     isPresentationActive={isPresentationActive}
                     elapsedTime={elapsedTime}
                     onEndPresentation={onEndPresentation}
+                    onOpenPresentationWindow={onOpenPresentationWindow}
                 />
             </div>
         </div>

@@ -147,6 +147,54 @@ export function PresentationView({ lectureId, courseId }: PresentationViewProps)
         return () => clearTimeout(timer);
     }, []);
 
+    // Listen for close presentation signals
+    useEffect(() => {
+        // Listen for localStorage changes (close signal)
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === 'closePresentationWindow') {
+                window.close();
+            }
+        };
+
+        // Listen for BroadcastChannel messages
+        let broadcastChannel: BroadcastChannel | null = null;
+        if (typeof BroadcastChannel !== 'undefined') {
+            try {
+                broadcastChannel = new BroadcastChannel('presentation-control');
+                broadcastChannel.onmessage = (event) => {
+                    if (event.data.type === 'CLOSE_PRESENTATION') {
+                        window.close();
+                    }
+                };
+            } catch (error) {
+                console.warn('BroadcastChannel not available:', error);
+            }
+        }
+
+        // Listen for window messages from parent
+        const handleWindowMessage = (event: MessageEvent) => {
+            if (event.data.type === 'CLOSE_PRESENTATION') {
+                window.close();
+            }
+        };
+
+        // Send ready signal to parent window
+        if (window.opener) {
+            window.opener.postMessage({ type: 'PRESENTATION_WINDOW_READY' }, '*');
+        }
+
+        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener('message', handleWindowMessage);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('message', handleWindowMessage);
+            if (broadcastChannel) {
+                broadcastChannel.close();
+            }
+        };
+    }, []);
+
     if (isLoading) {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center">

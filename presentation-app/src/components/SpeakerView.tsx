@@ -35,7 +35,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
     } = useSlideStore();
 
     const { connect, disconnect, emitSlideChange } = useBroadcast();
-    const { endPresentation, isPresentationActive, focusPresentationWindow } = usePresentationManager();
+    const { endPresentation, isPresentationActive, focusPresentationWindow, openPresentationWindow } = usePresentationManager();
 
     // Load lecture and connect socket
     useEffect(() => {
@@ -114,6 +114,24 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
             endPresentation();
             // Navigate back to home
             window.location.href = '/';
+        }
+    };
+
+    const handleOpenPresentationWindow = async () => {
+        try {
+            await openPresentationWindow({
+                lectureId,
+                courseId,
+                onWindowReady: () => {
+                    console.log('Presentation window reopened and ready');
+                },
+                onWindowClosed: () => {
+                    console.log('Presentation window closed');
+                }
+            });
+        } catch (error) {
+            console.error('Failed to open presentation window:', error);
+            alert('Failed to open presentation window. Please check if popup blockers are disabled.');
         }
     };
 
@@ -212,6 +230,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
                             onNextSlide={handleNextSlide}
                             onLastSlide={handleLastSlide}
                             onEndPresentation={handleEndPresentation}
+                            onOpenPresentationWindow={handleOpenPresentationWindow}
                         />
                     </div>
 
