@@ -9,7 +9,7 @@ title: "Installation & Setup"
 
 ### **1. Download**
 
-Visit [cursor.sh](https://cursor.sh) and download for your platform
+Visit [cursor.com](https://cursor.com) and download for your platform
 
 ### **2. Installation**
 
@@ -48,7 +48,7 @@ Create Cursor account for AI features
 <!-- Speaker Notes:
 Now let's get our hands dirty. The setup process is straightforward, but there are a few optimization tips that will make a huge difference in your experience.
 
-First, the installation is as simple as any other application. Visit cursor.sh, download the installer for your platform, and install it like you would any other app.
+First, the installation is as simple as any other application. Visit cursor.com, download the installer for your platform, and install it like you would any other app.
 
 Here's the beautiful part - if you're coming from VS Code, Cursor will offer to import all your extensions, settings, and themes. This isn't just copying files; it's a smart migration that ensures everything works properly in the AI-enhanced environment.
 

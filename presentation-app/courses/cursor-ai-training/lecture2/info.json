@@ -1,0 +1,31 @@
+{
+    "title": "2. Advanced Chat Interface & Inline Editing",
+    "description": "Master Cursor's advanced chat features and inline editing capabilities for complex development tasks. Learn to leverage AI for code explanation, documentation generation, and sophisticated refactoring workflows.",
+    "author": "Pekka Kokkonen",
+    "duration": "30 minutes",
+    "slides": 11,
+    "learningObjectives": [
+        "Master the Cursor chat interface for complex development tasks",
+        "Use inline editing features for precise code modifications",
+        "Apply code explanation and documentation generation techniques",
+        "Perform AI-assisted refactoring and optimization",
+        "Integrate chat-driven development into daily workflow"
+    ],
+    "keyTopics": [
+        "Advanced chat interface navigation and commands",
+        "Context-aware conversations and model selection",
+        "Inline editing modes and use cases",
+        "Code explanation and algorithm analysis",
+        "Documentation generation and best practices"
+    ],
+    "practicalExamples": [
+        "Complex algorithm explanation and optimization",
+        "Inline refactoring with modern JavaScript patterns",
+        "Automated documentation generation for APIs"
+    ],
+    "prerequisites": [
+        "Completion of Lecture 1",
+        "Basic Cursor interface familiarity",
+        "Understanding of fundamental programming concepts"
+    ]
+}

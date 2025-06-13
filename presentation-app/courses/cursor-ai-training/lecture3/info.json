@@ -1,0 +1,33 @@
+{
+    "title": "3. Codebase Understanding & Context Management",
+    "description": "Master large codebase navigation, AI-powered code discovery, and advanced context management techniques using @folders and multi-file operations.",
+    "author": "Pekka Kokkonen",
+    "duration": "30 minutes",
+    "slides": 12,
+    "learningObjectives": [
+        "Navigate and understand large codebases efficiently using AI assistance",
+        "Use @folders and file referencing for enhanced context management",
+        "Apply multi-file operations and cross-file analysis techniques",
+        "Implement advanced search and discovery for complex projects",
+        "Optimize context for better AI performance in enterprise codebases"
+    ],
+    "keyTopics": [
+        "Project architecture analysis and pattern recognition",
+        "@folders integration and advanced file referencing",
+        "Cross-file refactoring and multi-file operations",
+        "Semantic code search and discovery techniques",
+        "Context optimization strategies for large codebases"
+    ],
+    "practicalExamples": [
+        "Project architecture analysis with comprehensive overview",
+        "Cross-file refactoring for API changes and updates",
+        "Multi-file operations for feature implementation",
+        "Advanced code discovery and security audit techniques"
+    ],
+    "prerequisites": [
+        "Lectures 1-2 completion",
+        "Experience with medium to large codebases",
+        "Understanding of software architecture patterns",
+        "Familiarity with version control and code review processes"
+    ]
+}

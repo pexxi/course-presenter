@@ -63,7 +63,7 @@ Third, build iteratively. Don't try to get everything perfect in one pass. Build
 
 Fourth, manage your context. If you're building a to-do app, have your data models open, your utility functions visible. The AI uses this context to make better suggestions.
 
-For our demo, I'll create a simple task model with validation, add/remove functionality, and status management. Watch how I use comments to drive the development process.
+For our demo, I'll create a simple task model with validation, add/remove functionality, and status management. Think about how the examples we saw earlier could fit into this: the `User` class for assigning tasks, validation logic similar to `validateEmail` for task inputs, and perhaps an `fetchTaskData` function if we were using a backend API. Watch how I use comments to drive the development process.
 
 [LIVE DEMO SECTION]
 

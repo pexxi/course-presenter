@@ -12,7 +12,7 @@ import { useBroadcast } from "@/lib/broadcast-client";
 import { usePresentationManager } from "@/lib/presentation-manager";
 import { useSlideStore } from "@/lib/store";
 import { getLectureDurationInMinutes } from "@/utils/duration-helpers";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface SpeakerViewProps {
 	lectureId: string;
@@ -42,7 +42,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 		getTotalSlides,
 	} = useSlideStore();
 
-	const { connect, disconnect, emitSlideChange } = useBroadcast();
+	const { connect, disconnect, emitSlideChange, requestSync } = useBroadcast();
 	const {
 		endPresentation,
 		isPresentationActive,
@@ -50,8 +50,25 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 		openPresentationWindow,
 	} = usePresentationManager();
 
+	const isMounted = useRef(true);
+
+	// Memoize the connection change handler
+	const handleConnectionChange = useCallback((connected: boolean) => {
+		if (isMounted.current) {
+			setIsConnected(connected);
+		}
+	}, []);
+
+	// Memoize the slide change handler
+	const handleSlideChange = useCallback((slideIndex: number) => {
+		if (isMounted.current) {
+			goToSlide(slideIndex);
+		}
+	}, [goToSlide]);
+
 	// Load lecture and connect socket
 	useEffect(() => {
+		isMounted.current = true;
 		console.log("SpeakerView useEffect triggered for lectureId:", lectureId);
 
 		// Only proceed if we have a valid lectureId
@@ -68,7 +85,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 				const response = await fetch(`/api/lecture/${courseId}/${lectureId}`);
 				if (response.ok) {
 					const lectureInfo = await response.json();
-					if (lectureInfo?.duration) {
+					if (lectureInfo?.duration && isMounted.current) {
 						setLectureDurationMinutes(getLectureDurationInMinutes(lectureInfo));
 					}
 				} else {
@@ -80,13 +97,17 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 		};
 		loadLectureDuration();
 
+		// Connect to the broadcast channel
 		connect({
 			lectureId,
 			clientType: "speaker",
-			onConnectionChange: setIsConnected,
-			onSlideChange: (slideIndex: number) => {
-				// Update local state when other clients change slides
-				goToSlide(slideIndex);
+			onConnectionChange: handleConnectionChange,
+			onSlideChange: handleSlideChange,
+			onSyncRequest: () => {
+				// When a sync request is received, respond with the current slide
+				if (isConnected) {
+					emitSlideChange(currentSlideIndex);
+				}
 			},
 		});
 
@@ -95,9 +116,10 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 
 		return () => {
 			console.log("SpeakerView cleanup");
+			isMounted.current = false;
 			disconnect();
 		};
-	}, [lectureId, courseId, loadLecture, connect, disconnect, goToSlide]);
+	}, [lectureId, courseId, loadLecture, connect, disconnect, handleConnectionChange, handleSlideChange, isConnected, currentSlideIndex]);
 
 	// Update elapsed time every second
 	useEffect(() => {

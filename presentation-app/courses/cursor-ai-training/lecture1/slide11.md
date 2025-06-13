@@ -27,6 +27,26 @@ title: "Key Takeaways"
 
 ---
 
+
+
+## 🧠 **Key Learnings & Best Practices**
+
+- **Context is King**: Keep relevant files open.
+- **Comment-Driven Development**: Guide AI with clear comments.
+- **Incremental Acceptance**: Review and accept parts of suggestions.
+- **Avoid Over-reliance**: Understand code before accepting.
+- **Test AI Code**: Always validate AI-generated code.
+
+---
+
+## 📚 **Further Learning**
+
+- **Cursor Official Docs**: [cursor.com/docs](https://cursor.com/docs)
+- **Community Forums**: Share tips and learn from others.
+- **Practice Projects**: Apply skills to real or example projects.
+
+---
+
 ## 🚀 **Next Steps**
 
 ### **Practice Recommendations**
@@ -67,6 +87,8 @@ Experiment with different patterns. Try the examples we showed today. See how Cu
 In our next lecture, we'll dive into the advanced chat interface and inline editing features. You'll learn to have complex conversations with the AI about your code, perform precise refactoring operations, and generate comprehensive documentation.
 
 Remember the core principle: Cursor isn't about replacing developers - it's about amplifying your capabilities. Think of it as having a highly skilled pair programmer who never gets tired, knows every programming language, and can help you write better code faster.
+
+Remember to consult the official Cursor documentation for the latest features and best practices, and engage with the community forums to learn from other developers.
 
 You're now equipped with the foundation to start your AI-assisted development journey. The real learning happens through practice, so start coding with Cursor today.
 -->

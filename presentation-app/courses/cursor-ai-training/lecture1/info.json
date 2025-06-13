@@ -1,7 +1,7 @@
 {
-    "title": "Cursor AI Overview & Basic Features",
+    "title": "1. Cursor AI Overview & Basic Features",
     "description": "Introduction to Cursor AI, its core features, and fundamental concepts for AI-assisted development. Learn installation, setup, interface navigation, and basic autocomplete capabilities.",
-    "author": "AI Development Team",
+    "author": "Pekka Kokkonen",
     "duration": "30 minutes",
     "slides": 11,
     "learningObjectives": [

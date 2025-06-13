@@ -5,7 +5,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import SlideRenderer from "@/components/SlideRenderer";
 import { useBroadcast } from "@/lib/broadcast-client";
 import { useSlideStore } from "@/lib/store";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface PresentationViewProps {
 	lectureId: string;
@@ -30,21 +30,50 @@ export function PresentationView({
 		goToSlide,
 	} = useSlideStore();
 
-	const { connect, disconnect } = useBroadcast();
+	const { connect, disconnect, requestSync } = useBroadcast();
+	const isMounted = useRef(true);
+	const syncTimeout = useRef<NodeJS.Timeout | null>(null);
+
+	// Memoize the connection change handler
+	const handleConnectionChange = useCallback((connected: boolean) => {
+		if (isMounted.current) {
+			setIsConnected(connected);
+		}
+	}, []);
 
 	// Load lecture on mount
 	useEffect(() => {
+		isMounted.current = true;
+
 		loadLecture(lectureId, courseId);
 		connect({
 			lectureId,
 			clientType: "presentation",
-			onConnectionChange: setIsConnected,
+			onConnectionChange: handleConnectionChange,
+			onSyncRequest: () => {
+				// When a sync request is received, respond with the current slide
+				if (isConnected) {
+					requestSync();
+				}
+			},
 		});
 
+		// Request initial sync after a short delay
+		syncTimeout.current = setTimeout(() => {
+			if (isConnected) {
+				requestSync();
+			}
+		}, 1000);
+
 		return () => {
+			isMounted.current = false;
+			if (syncTimeout.current) {
+				clearTimeout(syncTimeout.current);
+				syncTimeout.current = null;
+			}
 			disconnect();
 		};
-	}, [lectureId, courseId, connect, disconnect, loadLecture]);
+	}, [lectureId, courseId, connect, disconnect, loadLecture, handleConnectionChange]);
 
 	// Fullscreen management
 	const toggleFullscreen = useCallback(async () => {

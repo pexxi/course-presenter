@@ -33,55 +33,55 @@ Convert lecture plans from `course-plans/cursor-ai-training/` into a comprehensi
   - [x] Practical Demo Walkthrough (slide10.md)
   - [x] Key Takeaways (slide11.md)
 
-## Phase 4: Lecture 2 - Advanced Chat & Inline Editing
+## Phase 4: Lecture 2 - Advanced Chat & Inline Editing ✅
 
-- [ ] Create `lecture2/` directory
-- [ ] Create lecture `info.json`
-- [ ] Create slides:
-  - [ ] Cover slide (slide1.md)
-  - [ ] Chat Interface Fundamentals (slide2.md)
-  - [ ] Advanced Chat Features (slide3.md)
-  - [ ] Inline Editing Capabilities (slide4.md)
-  - [ ] Code Explanation & Documentation (slide5.md)
-  - [ ] Prompt Example: Complex Algorithm Explanation (slide6.md)
-  - [ ] Code Example: Inline Refactoring (slide7.md)
-  - [ ] Prompt Example: Documentation Generation (slide8.md)
-  - [ ] Integration Workflows (slide9.md)
-  - [ ] Best Practices (slide10.md)
+- [x] Create `lecture2/` directory
+- [x] Create lecture `info.json`
+- [x] Create slides:
+  - [x] Cover slide (slide1.md)
+  - [x] Chat Interface Fundamentals (slide2.md)
+  - [x] Advanced Chat Features (slide3.md)
+  - [x] Inline Editing Capabilities (slide4.md)
+  - [x] Code Explanation & Documentation (slide5.md)
+  - [x] Prompt Example: Complex Algorithm Explanation (slide6.md)
+  - [x] Code Example: Inline Refactoring (slide7.md)
+  - [x] Prompt Example: Documentation Generation (slide8.md)
+  - [x] Integration Workflows (slide9.md)
+  - [x] Best Practices (slide10.md)
 
-## Phase 5: Lecture 3 - Codebase Understanding & Context
+## Phase 5: Lecture 3 - Codebase Understanding & Context ✅
 
-- [ ] Create `lecture3/` directory
-- [ ] Create lecture `info.json`
-- [ ] Create slides:
-  - [ ] Cover slide (slide1.md)
-  - [ ] Codebase Navigation (slide2.md)
-  - [ ] AI-Powered Code Discovery (slide3.md)
-  - [ ] @Folders Integration (slide4.md)
-  - [ ] Advanced File Referencing (slide5.md)
-  - [ ] Multi-File Operations (slide6.md)
-  - [ ] Prompt Example: Project Architecture Analysis (slide7.md)
-  - [ ] Code Example: Cross-File Refactoring (slide8.md)
-  - [ ] Prompt Example: Multi-File Operations (slide9.md)
-  - [ ] Advanced Search & Discovery (slide10.md)
-  - [ ] Context Optimization (slide11.md)
+- [x] Create `lecture3/` directory
+- [x] Create lecture `info.json`
+- [x] Create slides:
+  - [x] Cover slide (slide1.md)
+  - [x] Codebase Navigation (slide2.md)
+  - [x] AI-Powered Code Discovery (slide3.md)
+  - [x] @Folders Integration (slide4.md)
+  - [x] Advanced File Referencing (slide5.md)
+  - [x] Multi-File Operations (slide6.md)
+  - [x] Prompt Example: Project Architecture Analysis (slide7.md)
+  - [x] Code Example: Cross-File Refactoring (slide8.md)
+  - [x] Prompt Example: Multi-File Operations (slide9.md)
+  - [x] Advanced Search & Discovery (slide10.md)
+  - [x] Context Optimization (slide11.md)
 
-## Phase 6: Lecture 4 - Cursor Rules & Configuration
+## Phase 6: Lecture 4 - Cursor Rules & Configuration ✅
 
-- [ ] Create `lecture4/` directory
-- [ ] Create lecture `info.json`
-- [ ] Create slides:
-  - [ ] Cover slide (slide1.md)
-  - [ ] Understanding Cursor Rules (slide2.md)
-  - [ ] Creating Custom Rules (slide3.md)
-  - [ ] Code Style Configuration (slide4.md)
-  - [ ] Prompts Library & Templates (slide5.md)
-  - [ ] Code Example: Basic .cursor-rules Configuration (slide6.md)
-  - [ ] Code Example: Advanced Behavioral Rules (slide7.md)
-  - [ ] Code Example: Language-Specific Custom Prompts (slide8.md)
-  - [ ] Team Configuration Management (slide9.md)
-  - [ ] Enterprise Setup Strategies (slide10.md)
-  - [ ] Implementation Best Practices (slide11.md)
+- [x] Create `lecture4/` directory
+- [x] Create lecture `info.json`
+- [x] Create slides:
+  - [x] Cover slide (slide1.md)
+  - [x] Understanding the New Cursor Rules System (slide2.md)
+  - [x] MDC File Format & Project Rules (slide3.md)
+  - [x] Rule Types & Activation Patterns (slide4.md)
+  - [x] Creating Effective Rules (slide5.md)
+  - [x] Code Example: Basic MDC Rule Configuration (slide6.md)
+  - [x] Code Example: Advanced Rule with Globs & Descriptions (slide7.md)
+  - [x] Code Example: Multi-Type Rule System (slide8.md)
+  - [x] Team Collaboration & Rule Management (slide9.md)
+  - [x] Enterprise Integration Strategies (slide10.md)
+  - [x] Best Practices & Migration Guide (slide11.md)
 
 ## Phase 7: Lecture 5 - MCP Servers & Enterprise Integration
 
@@ -160,8 +160,10 @@ presentation-app/courses/cursor-ai-training/
 - Phase 1: ✅ COMPLETED
 - Phase 2: ✅ COMPLETED
 - Phase 3: ✅ COMPLETED
-- Phase 4: ⏳ IN PROGRESS
-- Phase 5-9: ⏸️ PENDING
+- Phase 4: ✅ COMPLETED
+- Phase 5: ✅ COMPLETED
+- Phase 6: ✅ COMPLETED
+- Phase 7-9: ⏸️ PENDING
 
 ## Notes
 

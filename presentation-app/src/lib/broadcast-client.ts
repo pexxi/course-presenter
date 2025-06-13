@@ -1,6 +1,30 @@
 import type { BroadcastEvents } from "@/types";
-import { useCallback } from "react";
-import { usePresentationStore } from "./store";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+type EventCallback = (...args: any[]) => void;
+
+class EventEmitter {
+	private events: Record<string, EventCallback[]> = {};
+
+	on(event: string, callback: EventCallback) {
+		if (!this.events[event]) {
+			this.events[event] = [];
+		}
+		this.events[event].push(callback);
+		return this;
+	}
+
+	off(event: string, callback: EventCallback) {
+		if (!this.events[event]) return this;
+		this.events[event] = this.events[event].filter(cb => cb !== callback);
+		return this;
+	}
+
+	emit(event: string, ...args: any[]) {
+		if (!this.events[event]) return;
+		this.events[event].forEach(callback => callback(...args));
+	}
+}
 
 type ClientType = "presentation" | "speaker";
 
@@ -10,6 +34,7 @@ interface BroadcastClientConfig {
 	onSlideChange?: (slideIndex: number) => void;
 	onConnectionChange?: (connected: boolean) => void;
 	onError?: (error: string) => void;
+	onSyncRequest?: () => void;
 }
 
 interface ClientHeartbeatMessage {
@@ -69,7 +94,7 @@ type BroadcastMessage =
 	| SyncResponseMessage
 	| ClientConnectedMessage;
 
-class BroadcastClient {
+class BroadcastClient extends EventEmitter {
 	private channel: BroadcastChannel | null = null;
 	private config: BroadcastClientConfig | null = null;
 	private clientId: string;
@@ -78,6 +103,7 @@ class BroadcastClient {
 	private syncTimeout: NodeJS.Timeout | null = null;
 
 	constructor() {
+		super();
 		// Generate unique client ID
 		this.clientId = `client_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -88,54 +114,57 @@ class BroadcastClient {
 		this.handleSyncResponse = this.handleSyncResponse.bind(this);
 		this.handleClientHeartbeat = this.handleClientHeartbeat.bind(this);
 		this.sendHeartbeat = this.sendHeartbeat.bind(this);
+		this.handleConnectionChange = this.handleConnectionChange.bind(this);
 	}
 
+	private handleConnectionChange = (connected: boolean) => {
+		// Only update if the state actually changed
+		if (this.isConnected !== connected) {
+			this.isConnected = connected;
+			// Notify listeners
+			this.config?.onConnectionChange?.(connected);
+			this.emit('connectionChange', connected);
+		}
+	};
+
 	connect(config: BroadcastClientConfig): void {
+		// If already connected with the same config, do nothing
+		if (this.isConnected && this.config?.lectureId === config.lectureId) {
+			console.log("Already connected to the same lecture");
+			return;
+		}
+
+		// Disconnect from previous connection if any
 		if (this.isConnected) {
 			this.disconnect();
 		}
 
 		this.config = config;
-		const channelName = `presentation_lecture_${config.lectureId}`;
 
 		try {
-			// Create broadcast channel for this lecture
-			this.channel = new BroadcastChannel(channelName);
+			this.channel = new BroadcastChannel(`lecture-${config.lectureId}`);
+
+			// Set up message handler
 			this.channel.addEventListener("message", this.handleMessage);
 
-			this.isConnected = true;
-			console.log(`Connected to broadcast channel: ${channelName}`);
-
-			// Update store connection status
-			usePresentationStore.getState().setConnectionStatus(true);
-			usePresentationStore.getState().setError(null);
-
-			// Notify config callback
-			this.config.onConnectionChange?.(true);
-
-			// Start heartbeat to announce presence
-			this.startHeartbeat();
-
-			// Request initial sync
-			this.requestSync();
-
-			// Announce connection to other clients
+			// Send initial connection message
 			this.postMessage({
 				type: "client-connected",
 				data: {
 					clientId: this.clientId,
-					clientType: this.config.clientType,
+					clientType: config.clientType,
 				},
 			});
-		} catch (error) {
-			const errorMessage =
-				error instanceof Error
-					? error.message
-					: "Failed to create broadcast channel";
-			console.error("Broadcast channel connection error:", error);
 
-			usePresentationStore.getState().setError(errorMessage);
-			this.config?.onError?.(errorMessage);
+			// Start heartbeat
+			this.startHeartbeat();
+
+			// Update connection state
+			this.handleConnectionChange(true);
+		} catch (error) {
+			console.error("Failed to connect to broadcast channel:", error);
+			this.config = null;
+			this.handleConnectionChange(false);
 		}
 	}
 
@@ -183,9 +212,6 @@ class BroadcastClient {
 			return;
 		}
 
-		// Update store with new slide index
-		usePresentationStore.getState().setCurrentSlideIndex(data.slideIndex);
-
 		// Notify config callback
 		this.config.onSlideChange?.(data.slideIndex);
 	}
@@ -197,32 +223,23 @@ class BroadcastClient {
 
 		// Only presentation clients should respond to sync requests with current state
 		if (this.config.clientType === "presentation") {
-			const store = usePresentationStore.getState();
-			const currentSlide = store.currentSlideIndex;
-
-			// Send sync response
-			this.postMessage({
-				type: "sync-response",
-				data: {
-					currentSlide,
-					lectureId: this.config.lectureId,
-				},
-			});
+			// Notify the component about the sync request
+			// The component should handle getting the current slide and call requestSync with it
+			this.config.onSyncRequest?.();
 		}
 	}
 
-	private handleSyncResponse(data: BroadcastEvents["sync-response"]): void {
-		console.log("Received sync response:", data);
+	private handleSyncResponse(message: BroadcastMessage): void {
+		if (message.type !== "sync-response" || !this.config) return;
+		const { data } = message;
 
-		if (!this.config || data.lectureId !== this.config.lectureId) {
+		// Only process sync responses that match our current lecture
+		if (data.lectureId !== this.config.lectureId) {
 			return;
 		}
 
-		// Update store with synced data
-		const store = usePresentationStore.getState();
-		if (store.currentLecture?.id === data.lectureId) {
-			store.setCurrentSlideIndex(data.currentSlide);
-		}
+		// Notify about the slide change
+		this.config.onSlideChange?.(data.currentSlide);
 	}
 
 	private handleClientHeartbeat(message: BroadcastMessage): void {
@@ -329,6 +346,12 @@ class BroadcastClient {
 	}
 
 	disconnect(): void {
+		// If already disconnected, do nothing
+		if (!this.isConnected && !this.channel) {
+			return;
+		}
+
+		// Clear intervals and timeouts
 		if (this.heartbeatInterval) {
 			clearInterval(this.heartbeatInterval);
 			this.heartbeatInterval = null;
@@ -339,41 +362,69 @@ class BroadcastClient {
 			this.syncTimeout = null;
 		}
 
-		if (this.channel && this.isConnected) {
-			// Announce disconnection
-			if (this.config) {
-				this.postMessage({
-					type: "client-disconnected",
-					data: {
-						clientId: this.clientId,
-						clientType: this.config.clientType,
-					},
-				});
+		const wasConnected = this.isConnected;
+		const currentConfig = this.config;
+		
+		// Mark as disconnected before making any callbacks
+		this.isConnected = false;
+		this.config = null;
+
+		try {
+			if (this.channel) {
+				// Announce disconnection if we were connected and have a config
+				if (wasConnected && currentConfig) {
+					// Store the channel reference before cleanup
+					const channel = this.channel;
+					
+					try {
+						channel.postMessage({
+							type: "client-disconnected",
+							data: {
+								clientId: this.clientId,
+								clientType: currentConfig.clientType,
+							},
+						});
+					} catch (e) {
+						console.warn("Failed to send disconnect message:", e);
+					}
+				}
+
+				// Clean up channel
+				this.channel.removeEventListener("message", this.handleMessage);
+				this.channel.close();
+			}
+		} catch (e) {
+			console.warn("Error during disconnect cleanup:", e);
+		} finally {
+			// Ensure channel is null even if there was an error
+			this.channel = null;
+
+			// Notify callbacks after all cleanup is done
+			if (wasConnected) {
+				try {
+					currentConfig?.onConnectionChange?.(false);
+				} catch (e) {
+					console.error("Error in onConnectionChange callback:", e);
+				}
 			}
 
-			this.channel.removeEventListener("message", this.handleMessage);
-			this.channel.close();
-			this.channel = null;
+			// Emit event last
+			if (wasConnected) {
+				this.emit('connectionChange', false);
+			}
+
+			console.log("Disconnected from broadcast channel");
 		}
-
-		this.isConnected = false;
-
-		// Update store
-		usePresentationStore.getState().setConnectionStatus(false);
-
-		// Notify config callback
-		this.config?.onConnectionChange?.(false);
-
-		this.config = null;
-		console.log("Disconnected from broadcast channel");
 	}
 
-	isConnectedToBroadcast(): boolean {
-		return this.isConnected && this.channel !== null;
-	}
-
-	getClientId(): string {
+	// Helper to get client ID
+	public getClientId(): string {
 		return this.clientId;
+	}
+
+	// Helper to check if connected
+	public isConnectedToBroadcast(): boolean {
+		return this.isConnected;
 	}
 }
 
@@ -383,33 +434,89 @@ export default broadcastClient;
 
 // React hook for easier usage in components
 export function useBroadcast() {
+	const [isConnected, setIsConnected] = useState(broadcastClient.isConnectedToBroadcast());
+
+	// Memoize the connection change handler
+	const handleConnectionChange = useCallback((connected: boolean) => {
+		setIsConnected(connected);
+	}, []);
+
+	useEffect(() => {
+		// Set initial state
+		setIsConnected(broadcastClient.isConnectedToBroadcast());
+
+		// Subscribe to connection changes
+		broadcastClient.on('connectionChange', handleConnectionChange);
+
+		return () => {
+			// Unsubscribe when component unmounts
+			broadcastClient.off('connectionChange', handleConnectionChange);
+		};
+	}, [handleConnectionChange]);
+
 	const connect = useCallback((broadcastConfig: BroadcastClientConfig) => {
-		broadcastClient.connect(broadcastConfig);
+		if (!broadcastConfig.lectureId) {
+			console.error('Cannot connect: lectureId is required');
+			return;
+		}
+
+		try {
+			broadcastClient.connect({
+				...broadcastConfig,
+				onConnectionChange: (connected) => {
+					// Update local state
+					setIsConnected(connected);
+					// Call the original callback if provided
+					broadcastConfig.onConnectionChange?.(connected);
+				}
+			});
+		} catch (error) {
+			console.error('Failed to connect to broadcast channel:', error);
+			setIsConnected(false);
+		}
 	}, []);
 
 	const disconnect = useCallback(() => {
-		broadcastClient.disconnect();
+		try {
+			broadcastClient.disconnect();
+			// Don't set isConnected to false here - wait for the connectionChange event
+		} catch (error) {
+			console.error('Error disconnecting from broadcast channel:', error);
+		}
 	}, []);
 
 	const emitSlideChange = useCallback((slideIndex: number) => {
+		if (!isConnected) {
+			console.warn('Cannot emit slide change: not connected to broadcast channel');
+			return;
+		}
 		broadcastClient.emitSlideChange(slideIndex);
-	}, []);
+	}, [isConnected]);
 
 	const requestSync = useCallback(() => {
-		broadcastClient.requestSync();
-	}, []);
+		if (isConnected) {
+			broadcastClient.requestSync();
+		}
+	}, [isConnected]);
 
 	const loadLecture = useCallback((lectureId: string) => {
 		broadcastClient.loadLecture(lectureId);
 	}, []);
 
-	return {
+	return useMemo(() => ({
 		connect,
 		disconnect,
 		emitSlideChange,
 		requestSync,
 		loadLecture,
-		isConnected: broadcastClient.isConnectedToBroadcast(),
+		isConnected,
 		clientId: broadcastClient.getClientId(),
-	};
+	}), [
+		connect,
+		disconnect,
+		emitSlideChange,
+		isConnected,
+		loadLecture,
+		requestSync,
+	]);
 }
