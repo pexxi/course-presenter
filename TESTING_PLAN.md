@@ -1,146 +1,319 @@
 # Presentation App Testing Plan
 
+## AI-Executable Test Suite
+
+### Setup Instructions for AI Agent
+
+```bash
+# Clone the repository and install dependencies
+gh repo clone pexxi/course-presenter
+cd course-presenter/presentation-app
+npm install
+
+# Start the development server in the background
+npm run dev &
+
+# Install testing tools
+npm install -D @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom
+```
+
 ## 1. Unit Testing
 
-### 1.1 Broadcast Client
-- [ ] Test connection lifecycle (connect/disconnect)
-- [ ] Test message sending/receiving
-- [ ] Test error handling for connection failures
-- [ ] Test reconnection logic
-- [ ] Test cleanup of resources
+### 1.1 Test Utilities
 
-### 1.2 Store (Zustand)
-- [ ] Test initial state
-- [ ] Test slide navigation actions
-- [ ] Test connection status updates
-- [ ] Test lecture loading state
-- [ ] Test error state handling
+#### 1.1.1 Test Data Generator
 
-### 1.3 Components
-- [ ] Test SpeakerView rendering and interactions
-- [ ] Test PresentationView rendering and interactions
-- [ ] Test slide transitions
-- [ ] Test keyboard navigation
-- [ ] Test fullscreen functionality
+```typescript
+// tests/__mocks__/testData.ts
+export const generateMockSlides = (count = 5) => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `slide-${i + 1}`,
+    content: `## Slide ${i + 1}\n\nContent for slide ${i + 1}`,
+    notes: `Notes for slide ${i + 1}`,
+    media: i % 2 === 0 ? `image-${i}.jpg` : undefined
+  }));
+};
 
-## 2. Integration Testing
+export const mockLecture = {
+  id: 'test-lecture',
+  title: 'Test Lecture',
+  description: 'A test lecture for automated testing',
+  slides: generateMockSlides()
+};
+```
 
-### 2.1 Broadcast Communication
-- [ ] Test sync between SpeakerView and PresentationView
-- [ ] Test handling of multiple PresentationView clients
-- [ ] Test reconnection after network drop
-- [ ] Test late-joining clients sync correctly
+#### 1.1.2 Mock BroadcastChannel
 
-### 2.2 State Management
-- [ ] Test state consistency across components
-- [ ] Test state persistence/non-persistence as appropriate
-- [ ] Test error boundaries and recovery
+```typescript
+// tests/__mocks__/mockBroadcastChannel.ts
+type MessageHandler = (event: { data: any }) => void;
+
+class MockBroadcastChannel {
+  static instances: MockBroadcastChannel[] = [];
+  name: string;
+  onmessage: MessageHandler | null = null;
+  messages: any[] = [];
+
+  constructor(name: string) {
+    this.name = name;
+    MockBroadcastChannel.instances.push(this);
+  }
+
+  postMessage(message: any) {
+    this.messages.push(message);
+    MockBroadcastChannel.instances
+      .filter(channel => channel !== this && channel.name === this.name)
+      .forEach(channel => {
+        if (channel.onmessage) {
+          channel.onmessage({ data: message });
+        }
+      });
+  }
+
+  close() {
+    const index = MockBroadcastChannel.instances.indexOf(this);
+    if (index > -1) {
+      MockBroadcastChannel.instances.splice(index, 1);
+    }
+  }
+}
+
+// @ts-ignore
+global.BroadcastChannel = MockBroadcastChannel;
+
+export function clearMockChannels() {
+  MockBroadcastChannel.instances = [];
+}
+```
+
+### 1.2 Broadcast Client Tests
+
+#### 1.2.1 Connection Lifecycle
+
+```typescript
+// tests/unit/broadcastClient.test.ts
+import { BroadcastClient } from '@/lib/broadcast-client';
+import { clearMockChannels } from '../__mocks__/mockBroadcastChannel';
+
+describe('BroadcastClient', () => {
+  let client: BroadcastClient;
+  
+  beforeEach(() => {
+    jest.useFakeTimers();
+    client = new BroadcastClient();
+    clearMockChannels();
+  });
+  
+  afterEach(() => {
+    client.disconnect();
+    jest.clearAllMocks();
+    jest.clearAllTimers();
+  });
+  
+  test('should connect and emit connection event', async () => {
+    const onConnect = jest.fn();
+    client.on('connectionChange', onConnect);
+    
+    await client.connect({
+      lectureId: 'test-lecture',
+      clientType: 'presentation',
+      onConnectionChange: jest.fn()
+    });
+    
+    expect(onConnect).toHaveBeenCalledWith(true);
+    expect(client.isConnectedToBroadcast()).toBe(true);
+  });
+});
+```
+
+## 2. Component Testing
+
+### 2.1 Test Setup
+
+```typescript
+// tests/test-utils.tsx
+import { render as rtlRender } from '@testing-library/react';
+import { SlideProvider } from '@/context/SlideContext';
+import { useSlideStore } from '@/lib/store';
+
+export function render(
+  ui: React.ReactElement,
+  { initialState, ...options } = {}
+) {
+  function Wrapper({ children }: { children: React.ReactNode }) {
+    // Reset store to initial state
+    useSlideStore.setState(useSlideStore.getState(), true);
+    
+    // Apply any custom initial state
+    if (initialState) {
+      useSlideStore.setState(initialState);
+    }
+    
+    return <SlideProvider>{children}</SlideProvider>;
+  }
+  
+  return rtlRender(ui, { wrapper: Wrapper, ...options });
+}
+
+export * from '@testing-library/react';
+```
+
+### 2.2 SpeakerView Tests
+
+```typescript
+// tests/components/SpeakerView.test.tsx
+import { render, screen, fireEvent, waitFor } from '../../test-utils';
+import { SpeakerView } from '@/components/SpeakerView';
+import { generateMockSlides } from '../__mocks__/testData';
+
+describe('SpeakerView', () => {
+  const mockSlides = generateMockSlides(3);
+  
+  beforeEach(() => {
+    // Mock the fetch implementation
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ slides: mockSlides }),
+      })
+    ) as jest.Mock;
+  });
+
+  test('should load and display slides', async () => {
+    render(<SpeakerView lectureId="test-lecture" courseId="test-course" />);
+    
+    // Verify loading state
+    expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
+    
+    // Wait for slides to load
+    await waitFor(() => {
+      expect(screen.getByText('Slide 1')).toBeInTheDocument();
+    });
+    
+    // Verify navigation controls
+    const nextButton = screen.getByLabelText('Next slide');
+    const prevButton = screen.getByLabelText('Previous slide');
+    
+    expect(prevButton).toBeDisabled();
+    
+    // Navigate to next slide
+    fireEvent.click(nextButton);
+    await waitFor(() => {
+      expect(screen.getByText('Slide 2')).toBeInTheDocument();
+    });
+    
+    // Verify previous button is now enabled
+    expect(prevButton).not.toBeDisabled();
+  });
+});
+```
 
 ## 3. End-to-End Testing
 
-### 3.1 User Flows
-- [ ] Start presentation from SpeakerView
-- [ ] Join presentation from PresentationView
-- [ ] Navigate slides in SpeakerView, verify PresentationView updates
-- [ ] Test keyboard navigation in both views
-- [ ] Test fullscreen mode in both views
+### 3.1 Test Setup
 
-### 3.2 Error Scenarios
-- [ ] Test behavior when broadcast channel is unavailable
-- [ ] Test behavior with invalid lecture data
-- [ ] Test recovery from connection loss
-- [ ] Test handling of malformed messages
-
-## 4. Performance Testing
-
-### 4.1 Memory Usage
-- [ ] Monitor memory usage during presentation
-- [ ] Test for memory leaks during long sessions
-- [ ] Verify proper cleanup on unmount
-
-### 4.2 Responsiveness
-- [ ] Test with large slide decks
-- [ ] Test with media-heavy slides
-- [ ] Measure time to sync between views
-
-## 5. Cross-Browser Testing
-- [ ] Chrome (latest)
-- [ ] Firefox (latest)
-- [ ] Safari (latest)
-- [ ] Edge (latest)
-
-## 6. Accessibility Testing
-- [ ] Keyboard navigation
-- [ ] Screen reader compatibility
-- [ ] Color contrast
-- [ ] Focus management
-
-## 7. Security Testing
-- [ ] Verify no sensitive data is exposed in broadcast messages
-- [ ] Test handling of invalid/malicious input
-- [ ] Verify proper CORS headers if applicable
-
-## 8. Test Environment
-- [ ] Local development environment
-- [ ] Staging environment
-- [ ] Production-like environment
-
-## 9. Test Data
-- [ ] Small presentation (1-5 slides)
-- [ ] Medium presentation (5-20 slides)
-- [ ] Large presentation (20+ slides)
-- [ ] Presentations with various media types (images, videos, code blocks)
-
-## 10. Test Automation
-### 10.1 Unit Tests
 ```bash
-npm test
+# Install Playwright
+npm install -D @playwright/test
+
+# Install browsers
+npx playwright install
 ```
 
-### 10.2 E2E Tests
-```bash
-npm run test:e2e
+### 3.2 Basic Navigation Test
+
+```typescript
+// tests/e2e/navigation.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('SpeakerView Navigation', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/speaker/test-course/test-lecture');
+  });
+
+  test('should navigate between slides', async ({ page }) => {
+    // Wait for slides to load
+    await expect(page.locator('.slide-content')).toBeVisible();
+    
+    // Initial slide should be 1
+    await expect(page.locator('.slide-number')).toContainText('1 / 5');
+    
+    // Go to next slide
+    await page.click('button[aria-label="Next slide"]');
+    await expect(page.locator('.slide-number')).toContainText('2 / 5');
+    
+    // Go to previous slide
+    await page.click('button[aria-label="Previous slide"]');
+    await expect(page.locator('.slide-number')).toContainText('1 / 5');
+  });
+});
 ```
 
-### 10.3 Performance Tests
-```bash
-npm run test:performance
+## 4. Running Tests
+
+### 4.1 Test Scripts
+
+Add these to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "test:unit": "jest",
+    "test:integration": "jest tests/integration",
+    "test:e2e": "playwright test",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch"
+  }
+}
 ```
 
-## 11. Manual Testing Checklist
+### 4.2 CI Configuration
 
-### SpeakerView
-- [ ] Loads lecture correctly
-- [ ] Shows loading state
-- [ ] Handles errors gracefully
-- [ ] Updates slide index on navigation
-- [ ] Broadcasts slide changes
-- [ ] Handles disconnection/reconnection
+Example GitHub Actions workflow:
 
-### PresentationView
-- [ ] Connects to broadcast channel
-- [ ] Syncs with SpeakerView
-- [ ] Handles fullscreen mode
-- [ ] Responds to keyboard navigation
-- [ ] Shows connection status
-- [ ] Recovers from errors
+```yaml
+# .github/workflows/test.yml
+name: Test
 
-## 12. Monitoring and Logging
-- [ ] Console logs for important events
-- [ ] Error tracking
-- [ ] Performance metrics
+on: [push, pull_request]
 
-## 13. Exit Criteria
-- [ ] All unit tests passing
-- [ ] All integration tests passing
-- [ ] No critical or blocker issues
-- [ ] Performance within acceptable limits
-- [ ] Accessibility requirements met
-- [ ] Security review completed
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run unit tests
+        run: npm run test:unit
+        
+      - name: Run integration tests
+        run: npm run test:integration
+        
+      - name: Run E2E tests
+        run: npx playwright install && npm run test:e2e
+```
 
-## 14. Sign-off
-- [ ] Development Team Lead
-- [ ] Quality Assurance Lead
-- [ ] Product Owner
+## 5. Best Practices
 
-*Last Updated: 2025-06-13*
+### 5.1 Test Organization
+
+- Keep test files next to the code they test
+- Use descriptive test names
+- Group related tests with `describe`
+- Keep tests focused and independent
+- Mock external dependencies
+
+### 5.2 Writing Maintainable Tests
+
+- Follow the Arrange-Act-Assert pattern
+- Use test data factories for complex objects
+- Prefer testing behavior over implementation details
+- Keep tests DRY (Don't Repeat Yourself)
+- Use TypeScript for type safety in tests
