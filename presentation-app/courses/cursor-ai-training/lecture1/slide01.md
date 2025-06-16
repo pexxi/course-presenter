@@ -2,7 +2,7 @@
 template: cover
 title: "Cursor AI Overview & Basic Features"
 subtitle: "Master AI-Assisted Development from the Ground Up"
-image: "cursor-overview-cover.png"
+image: "cover.png"
 ---
 
 # Cursor AI Development Mastery

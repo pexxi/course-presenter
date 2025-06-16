@@ -2,7 +2,7 @@
 type: cover
 title: "MCP Servers & Enterprise Integration"
 subtitle: "Connect AI Agents to Real-World Data with Model Context Protocol"
-image: "mcp-enterprise-cover.jpg"
+image: "cover.png"
 ---
 
 # MCP Servers & Enterprise Integration

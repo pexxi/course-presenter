@@ -7,7 +7,7 @@
 ## Cover Image Prompt
 
 ```text
-Create a beautiful and engaging cartoon-style illustration (800x800px, 1:1 aspect ratio) showing a friendly robot assistant sitting at a modern computer workstation. The robot should have a sleek, approachable design with glowing blue elements. Around the robot, show floating code snippets, IDE windows, and AI symbols. Include a subtle gradient background with tech-inspired colors (blues, purples, and whites). The scene should convey innovation, assistance, and modern software development. Style: Clean cartoon/vector art with smooth gradients and modern tech aesthetics.
+Create a beautiful and engaging cartoon-style illustration (16:9 aspect ratio) showing a friendly robot assistant sitting at a modern computer workstation. The robot should have a sleek, approachable design with glowing blue elements. Around the robot, show floating code snippets, IDE windows, and AI symbols. Include a subtle gradient background with tech-inspired colors (blues, purples, and whites). The scene should convey innovation, assistance, and modern software development. Style: Clean cartoon/vector art with smooth gradients and modern tech aesthetics.
 ```
 
 ## Learning Objectives

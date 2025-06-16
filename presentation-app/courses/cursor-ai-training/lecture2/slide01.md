@@ -2,7 +2,7 @@
 template: cover
 title: "Advanced Chat Interface & Inline Editing"
 subtitle: "Master AI-Powered Development Conversations"
-image: "cursor-chat-cover.jpg"
+image: "cover.png"
 ---
 
 # Cursor AI Development Mastery

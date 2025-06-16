@@ -2,7 +2,7 @@
 slide_type: cover
 title: "Cursor Rules & Configuration"
 subtitle: "Master the New .cursor/rules Format & MDC Files"
-image: "cursor-rules-cover.jpg"
+image: "cover.png"
 ---
 
 # Cursor Rules & Configuration

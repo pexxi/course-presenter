@@ -2,7 +2,7 @@
 template: cover
 title: "Codebase Understanding & Context Management"
 subtitle: "Master Large-Scale AI-Assisted Development"
-image: "codebase-context-cover.jpg"
+image: "cover.png"
 ---
 
 # Cursor AI Development Mastery
