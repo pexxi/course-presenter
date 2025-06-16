@@ -7,7 +7,7 @@
 ## Cover Image Prompt
 
 ```
-Create a beautiful and engaging cartoon-style illustration (800x800px, 1:1 aspect ratio) showing a developer character standing in the center of a 3D network of interconnected code files and folders. The files should be floating around them in a organized web pattern, with glowing connection lines showing relationships between components. Include visual elements like a magnifying glass highlighting specific code sections, folder icons, and data flow arrows. Use a modern color scheme with blues, teals, and white accents against a dark gradient background. Style: Clean cartoon/vector art with depth and connectivity themes.
+Create a beautiful and engaging cartoon-style illustration (16:9 aspect ratio) showing a developer character standing in the center of a 3D network of interconnected code files and folders. The files should be floating around them in a organized web pattern, with glowing connection lines showing relationships between components. Include visual elements like a magnifying glass highlighting specific code sections, folder icons, and data flow arrows. Use a modern color scheme with blues, teals, and white accents against a dark gradient background. Style: Clean cartoon/vector art with depth and connectivity themes.
 ```
 
 ## Learning Objectives

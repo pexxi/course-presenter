@@ -1,95 +1,101 @@
 ---
-template: content
-title: "Advanced Search & Discovery"
+template: prompt-example
+title: "Prompt Example: Multi-File Operations"
 ---
 
-# Advanced Search & Discovery
+# Prompt Example: Multi-File Operations
 
-## Semantic Code Search Mastery
+## **Real-World Scenario**
 
-### **Find Code By What It Does**
+You're getting intermittent authentication failures in production that don't occur in development. You need to investigate across multiple system components.
 
-```
-@folder src/
-Find all code that handles user authentication,
-including login, logout, session management,
-and token validation
-```
-
-### **Pattern Recognition**
+## **The Comprehensive Investigation Prompt**
 
 ```
-@folder src/
-Identify all database queries that don't use 
-parameterized statements (SQL injection risks)
+@folder src/auth/
+@folder src/middleware/
+@folder tests/auth/
+@folder config/
+I'm getting intermittent authentication failures in production: 
+"Token validation failed" but it works in development. 
+
+Help me investigate this issue by:
+1. Analyzing the complete authentication flow
+2. Identifying potential environment-specific issues
+3. Finding race conditions or timing problems
+4. Suggesting debugging strategies and fixes
+5. Creating comprehensive tests to prevent regression
 ```
 
-### **Performance Discovery**
+## **Expected AI Analysis Preview**
 
 ```
-@folder src/
-Find functions that make synchronous API calls
-and could benefit from async/await conversion
-```
+## Authentication Flow Analysis
 
-## Knowledge Graph Construction
+### Current Flow Identified:
+1. **Login** → `authController.login()`
+2. **Token Generation** → `tokenService.generateToken()`  
+3. **Token Validation** → `authMiddleware.validateToken()`
+4. **User Verification** → `userService.verifyUser()`
 
-### **Component Relationship Mapping**
+## Potential Production Issues Found:
 
-- **Dependency Visualization** - How modules connect
-- **Data Flow Tracing** - Information pathways
-- **Impact Analysis** - Change propagation effects
+### 1. Environment Variable Problems
+- JWT_SECRET might be different in production
+- TOKEN_EXPIRY configuration inconsistency
 
-### **Advanced Discovery Patterns**
+### 2. Clock Synchronization Issues  
+- Server time discrepancies in distributed systems
+- Recommendation: Add 60-second clock skew tolerance
 
-**Anti-Pattern Detection:**
+### 3. Race Conditions in Token Refresh
+- Multiple simultaneous requests causing token invalidation
+- Suggested fix: Implement distributed token management
 
-```
-@folder src/
-Find code patterns that violate SOLID principles
-or could lead to maintenance issues
-```
+### 4. Load Balancer Session Issues
+- Tests use single instance, production uses multiple
+- Missing session state synchronization
 
-**Security Audit:**
-
-```
-@folder src/
-Analyze for potential security vulnerabilities:
-input validation, authentication bypasses, 
-data exposure risks
-```
-
-**Optimization Opportunities:**
-
-```
-@folder src/
-Identify performance bottlenecks and suggest
-optimizations for database queries and API calls
+## Recommended Solutions:
+[Detailed fixes with code examples]
 ```
 
 <!-- Speaker Notes:
-Advanced search and discovery is about leveraging AI's ability to understand code semantically and find patterns that would be difficult or impossible to find with traditional tools.
+This slide demonstrates how to use AI for complex, multi-system investigations. This is a real scenario that many teams face - issues that only appear in production environments.
 
-Traditional search tools are limited to text matching. But AI can understand the intent and functionality of code. This opens up entirely new possibilities for code analysis and discovery.
+The key elements that make this prompt effective:
 
-Let me give you some examples of what becomes possible:
+1. **Comprehensive Context**: We include authentication code, middleware, tests, and configuration. This gives AI the full picture of how authentication works.
 
-1. **Semantic Understanding**: Instead of searching for the word "authenticate", you can ask AI to find all authentication-related code. It will find login functions, session management, token validation, password reset flows - everything related to authentication, regardless of how it's named.
+2. **Specific Problem Description**: We describe the exact error and the environment difference. This helps AI focus on environment-specific issues.
 
-2. **Pattern Recognition**: AI can identify code patterns and anti-patterns automatically. It can find SQL injection vulnerabilities, performance bottlenecks, security issues, and architectural problems without you having to know exactly what to look for.
+3. **Multi-Faceted Request**: We ask for analysis, identification, debugging strategies, fixes, and prevention. This ensures a complete solution.
 
-3. **Relationship Mapping**: AI can understand how different parts of your codebase relate to each other. It can trace data flow, identify dependencies, and predict the impact of changes.
+4. **Production Focus**: We specify that this is a production-specific issue, which guides AI to consider deployment-specific factors.
 
-The knowledge graph concept is particularly powerful. AI can build a mental model of your entire codebase - understanding not just individual functions, but how they all work together as a system.
+Notice how the AI response addresses multiple potential causes:
+- Environment configuration differences
+- Timing and synchronization issues
+- Race conditions in concurrent systems
+- Infrastructure differences between environments
 
-This is incredibly valuable for:
-- Security audits and vulnerability assessment
-- Performance optimization and bottleneck identification
-- Code quality improvement and technical debt reduction
-- Architecture review and refactoring planning
-- Onboarding new team members who need to understand complex systems
+This type of investigation would typically require:
+- Hours of manual code review
+- Deep understanding of distributed systems
+- Knowledge of common production pitfalls
+- Experience with debugging intermittent issues
 
-The key insight is that AI doesn't just search - it analyzes and understands. It can find problems and opportunities that human reviewers might miss, and it can do it across your entire codebase systematically.
+With AI assistance, you get:
+- Systematic analysis of all potential causes
+- Specific code locations to investigate
+- Concrete solutions with implementation details
+- Testing strategies to prevent regression
 
-This type of analysis used to require specialized tools and deep expertise. Now it's available through natural language queries.
+This is particularly valuable for:
+- Production incident investigation
+- Complex bug diagnosis
+- System architecture reviews
+- Preventive analysis to avoid future issues
+
+The prompt structure ensures you get actionable insights rather than just theoretical analysis.
 -->

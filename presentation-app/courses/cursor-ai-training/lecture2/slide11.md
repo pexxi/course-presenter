@@ -1,46 +1,64 @@
 ---
-template: content
-title: "Hands-On Exercises"
+template: code
+title: "Prompt Example: Documentation Generation"
 ---
 
-# Hands-On Exercises
+# Prompt Example: Documentation Generation
 
-## 🏋️ **Exercise 1: Chat-Driven Development (8 mins)**
+## 📋 **Generated Documentation**
 
-Build a simple user authentication system:
-1.  Use chat to design the architecture.
-2.  Generate the main functions through conversation.
-3.  Ask for security best practices.
-4.  Generate comprehensive documentation.
+```markdown
+# User Operations API
 
----
+## Endpoint: `/api/users/{user_id}`
 
-## 💻 **Exercise 2: Inline Refactoring Challenge (7 mins)**
+**Methods:** GET, PUT, DELETE  
+**Authentication:** Required  
+**Content-Type:** application/json
 
-Given a legacy JavaScript function:
-1.  Use inline editing to modernize syntax.
-2.  Add error handling with AI assistance.
-3.  Optimize performance using suggestions.
-4.  Add TypeScript types inline.
+### GET - Retrieve User
+Returns user information by ID.
 
----
+**Response:** 200 OK
+```json
+{
+  "id": 123,
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+```
 
-## 🐛 **Exercise 3: Debugging Session (5 mins)**
+### PUT - Update User
 
-Debug a broken recursive function:
-1.  Use chat to understand the algorithm.
-2.  Identify the bug through conversation.
-3.  Apply fixes using inline editing.
-4.  Generate test cases to prevent regression.
+Updates user information with provided data.
+
+**Request Body:**
+
+```json
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com"
+}
+```
+
+### DELETE - Remove User
+
+Permanently deletes the user account.
+
+**Response:** 204 No Content
+
+```
 
 <!-- Speaker Notes:
-Now it's time to put these concepts into practice. We have three exercises designed to simulate real-world development scenarios where these advanced features shine.
+The generated documentation is impressive in its completeness. It provides a clear title, identifies all supported methods, includes authentication requirements, and specifies content types. For each HTTP method, it explains the purpose, provides example requests and responses, and includes proper status codes.
 
-First, a chat-driven development exercise. You'll build a user authentication system from scratch, starting with architectural design in chat, generating code, and even asking for security best practices. This simulates a greenfield project workflow.
+What's particularly valuable is how the AI inferred information not explicitly stated in the code. It assumed authentication is required (reasonable for user operations), provided realistic JSON examples, and used proper REST API documentation conventions.
 
-Second, an inline refactoring challenge. You'll take a piece of legacy code and use inline editing to modernize it, add features, and improve its performance. This is a common task in enterprise environments when dealing with older codebases.
+This type of documentation generation is invaluable for API development. Instead of manually writing OpenAPI specs or README documentation, you can generate professional documentation directly from your code. The AI understands API conventions and produces documentation that follows industry standards.
 
-Finally, a debugging session. You'll use a combination of chat and inline editing to understand, identify, and fix a bug in a recursive function, then generate test cases. This demonstrates a powerful, collaborative debugging workflow.
+You can extend this further by asking for specific formats: "Generate OpenAPI 3.0 specification" or "Create Postman collection documentation." The AI can adapt the same code analysis to different documentation formats.
 
-Please take the next 20 minutes to work through these exercises. Feel free to collaborate and ask questions. This hands-on practice is the best way to build muscle memory and truly internalize these advanced AI-assisted workflows.
+This capability transforms API documentation from a tedious, often-skipped task into an automatic part of your development workflow. Well-documented APIs improve team productivity, reduce support requests, and make integration easier for other developers.
+
+The key is providing complete code context and asking for the specific type of documentation you need. The more context you provide, the more accurate and useful the generated documentation will be.
 -->

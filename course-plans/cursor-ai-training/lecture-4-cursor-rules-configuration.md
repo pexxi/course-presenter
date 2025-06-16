@@ -7,7 +7,7 @@
 ## Cover Image Prompt
 
 ```
-Create a beautiful and engaging cartoon-style illustration (800x800px, 1:1 aspect ratio) showing a developer character configuring a control panel with various switches, dials, and settings. The scene should include floating rule cards, configuration icons, and gear symbols around the character. Show elements like code style guides, team badges, and workflow arrows connecting different configuration options. Include a background with subtle circuit patterns and use a professional color scheme with blues, greens, and silver accents. Style: Clean cartoon/vector art with technical precision and organizational themes.
+Create a beautiful and engaging cartoon-style illustration (16:9 aspect ratio) showing a developer character configuring a control panel with various switches, dials, and settings. The scene should include floating rule cards, configuration icons, and gear symbols around the character. Show elements like code style guides, team badges, and workflow arrows connecting different configuration options. Include a background with subtle circuit patterns and use a professional color scheme with blues, greens, and silver accents. Style: Clean cartoon/vector art with technical precision and organizational themes.
 ```
 
 ## Learning Objectives

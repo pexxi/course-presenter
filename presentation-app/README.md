@@ -32,8 +32,34 @@ A modern, responsive web-based presentation system built with Next.js, featuring
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **State Management**: Zustand
+- **Build System**: Turbopack (Next.js 15+)
 - **Real-time Communication**: Socket.IO
 - **Content Format**: Markdown with frontmatter
+
+### Build System
+
+This project uses [Turbopack](https://turbo.build/pack) as its build tool, which is the default in Next.js 15 and later. Key features:
+
+- **Lightning Fast Development**: Significantly faster refresh times during development
+- **Incremental Compilation**: Only rebuilds what's necessary
+- **Built-in Optimization**: Automatic code splitting and optimization
+
+#### Development
+
+```bash
+# Start development server with Turbopack
+npm run dev
+```
+
+#### Production Build
+
+```bash
+# Create an optimized production build
+npm run build
+
+# Start production server
+npm run start
+```
 
 ### Project Structure
 

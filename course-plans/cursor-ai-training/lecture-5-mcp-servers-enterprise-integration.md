@@ -7,7 +7,7 @@
 ## Cover Image Prompt
 
 ```
-Create a beautiful and engaging cartoon-style illustration (800x800px, 1:1 aspect ratio) showing a developer character connecting multiple server towers and cloud services with glowing data streams. The scene should feature enterprise buildings in the background, various API connection points, security shields, and integration pipelines. Include elements like server racks, cloud icons, data flow arrows, and security badges. Use a sophisticated color palette with deep blues, silver, and gold accents against a gradient background. Style: Clean cartoon/vector art with enterprise and connectivity themes.
+Create a beautiful and engaging cartoon-style illustration (16:9 aspect ratio) showing a developer character connecting multiple server towers and cloud services with glowing data streams. The scene should feature enterprise buildings in the background, various API connection points, security shields, and integration pipelines. Include elements like server racks, cloud icons, data flow arrows, and security badges. Use a sophisticated color palette with deep blues, silver, and gold accents against a gradient background. Style: Clean cartoon/vector art with enterprise and connectivity themes.
 ```
 
 ## Learning Objectives

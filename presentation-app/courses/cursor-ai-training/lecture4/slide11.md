@@ -1,135 +1,47 @@
 ---
-slide_type: content
-title: "Best Practices & Migration Guide"
+template: content
+title: "Rule Types & Activation Patterns"
 ---
 
-# Best Practices & Migration Guide
+# Rule Types & Activation Patterns
 
-## 📋 Rule Creation Checklist
+## ⚡ Activation Patterns
 
-### ✅ **Before Creating Rules**
+### 1. **Directory-based Activation**
 
-- [ ] **Identify the Problem:** What specific issue does this rule solve?
-- [ ] **Check Existing Rules:** Could an existing rule be modified instead?
-- [ ] **Choose Rule Type:** Always, Auto-attached, Agent-requested, or Manual?
-- [ ] **Define Scope:** Which files/directories should this apply to?
-
-### ✅ **Writing Effective Rules**
-
-- [ ] **Keep it Focused:** One responsibility per rule (< 500 lines)
-- [ ] **Use Clear Language:** Specific, measurable, actionable instructions
-- [ ] **Include Examples:** Both correct ✅ and incorrect ❌ usage
-- [ ] **Reference Templates:** Link related files with `@filename.ts`
-
-## 🔄 Migration from Legacy `.cursorrules`
-
-### **Step 1: Assessment**
-
-```bash
-# Identify existing .cursorrules files
-find . -name ".cursorrules" -type f
-
-# Review current rule content
-cat .cursorrules
 ```
-
-### **Step 2: Rule Categorization**
-
-```markdown
-Legacy Rule → New Rule Type
-├── Global standards → Always Rule (.cursor/rules/core/)
-├── Language-specific → Auto-attached Rule (.cursor/rules/languages/)
-├── Domain knowledge → Agent-requested Rule (.cursor/rules/domains/)
-└── Templates → Manual Rule (.cursor/rules/templates/)
+.cursor/rules/
+  frontend/
+    react-rules.mdc
+  backend/
+    api-rules.mdc
 ```
+- Rules auto-apply based on file location
+- Perfect for domain-specific conventions
 
-### **Step 3: Migration Script**
+### 2. **File-based Activation**
 
-```bash
-#!/bin/bash
-# Create new rule structure
-mkdir -p .cursor/rules/{core,languages,domains,templates}
-
-# Convert legacy .cursorrules to MDC format
-# (Custom script based on your current rules)
+```yaml
+# In .mdc file
+globs: "**/api/**/*.ts"
 ```
+- Rules apply to matching files
+- Great for technical requirements
 
-## 🎯 Common Patterns & Anti-Patterns
+### 3. **Manual Activation**
 
-### ✅ **Do This**
-
-```markdown
-# Specific, measurable rule
----
-description: "Apply TypeScript strict typing standards"
-globs: "**/*.ts,**/*.tsx"
-alwaysApply: false
----
-
-## Type Safety Rules
-- Use explicit return types for all functions
-- Prefer `interface` over `type` for object shapes
-- Enable `strictNullChecks` in tsconfig.json
+```typescript
+// In your code
+// @rule: security-rules
 ```
-
-### ❌ **Avoid This**
-
-```markdown
-# Vague, immeasurable rule
----
-description: "Make code better"
-globs: "**/*"
-alwaysApply: true
----
-
-## General Guidelines
-- Write good code
-- Make it clean and readable
-- Follow best practices
-```
-
-## 🚀 Implementation Roadmap
-
-### **Week 1-2: Foundation**
-
-- ✅ Set up `.cursor/rules/` directory structure
-- ✅ Migrate critical rules (security, compliance)
-- ✅ Create team training materials
-
-### **Week 3-4: Core Rules**
-
-- ✅ Implement always-apply rules (communication, code quality)
-- ✅ Add language-specific auto-attached rules
-- ✅ Test rule interactions and conflicts
-
-### **Week 5-6: Advanced Features**
-
-- ✅ Create agent-requested domain rules
-- ✅ Build manual template library
-- ✅ Implement rule governance process
-
-### **Week 7+: Optimization**
-
-- ✅ Monitor rule effectiveness
-- ✅ Gather developer feedback
-- ✅ Continuous improvement and refinement
-
-## 📚 Key Takeaways
-
-🎯 **Rules are Prompts:** Write them like clear instructions to a human developer  
-🎯 **Start Simple:** Begin with essential rules, expand gradually  
-🎯 **Team First:** Rules should serve team consistency, not individual preference  
-🎯 **Iterate Often:** Rules evolve with your codebase and team needs  
-🎯 **Measure Impact:** Track adoption, compliance, and developer satisfaction
+- Explicitly reference rules
+- Ideal for special cases
 
 <!-- Speaker Notes:
-This final slide provides actionable guidance for implementing Cursor Rules in practice. The checklist helps ensure thorough rule creation, while the migration guide addresses the common need to upgrade from legacy .cursorrules files.
-
-The patterns section shows concrete examples of effective vs ineffective rules. The key is being specific and measurable rather than vague.
-
-The implementation roadmap provides a practical timeline for rolling out rules systematically. Start with critical security/compliance rules, then add foundational standards, and finally implement advanced features.
-
-The key takeaways reinforce that rules are essentially prompts for the AI, so they should be written with the same care as any important documentation. Success comes from starting simple, focusing on team needs, and iterating based on real usage patterns.
-
-This concludes our comprehensive coverage of the new Cursor Rules system!
+Understanding activation patterns is key to effective rule management. Directory-based activation keeps related rules together, while file-based patterns offer precise control. Manual activation provides flexibility when you need it.
 -->
+
+**Pro Tips:**
+- Organize rules by domain/feature
+- Use clear, descriptive rule names
+- Document activation patterns in your team's wiki

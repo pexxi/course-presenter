@@ -1,94 +1,25 @@
 ---
 template: content
-title: "Key Takeaways"
+title: "Basic Autocomplete Features"
 ---
 
-# Key Takeaways
+# Basic Autocomplete Features
 
-## ✅ **What We've Accomplished**
+## ✅ **Best Practices**
 
-### **🎯 Understanding**
-
-- Cursor AI is an AI-first editor, not just VS Code + plugins
-- Designed around seamless AI integration
-- 2-5x productivity gains with proper usage
-
-### **⚙️ Setup**
-
-- Installation and configuration completed
-- VS Code migration and account setup
-- Privacy and security settings configured
-
-### **🛠️ Core Skills**
-
-- Interface navigation and AI integration points
-- Single-line and multi-line autocomplete mastery
-- Comment-driven development workflow
-
----
-
-
-
-## 🧠 **Key Learnings & Best Practices**
-
-- **Context is King**: Keep relevant files open.
-- **Comment-Driven Development**: Guide AI with clear comments.
-- **Incremental Acceptance**: Review and accept parts of suggestions.
-- **Avoid Over-reliance**: Understand code before accepting.
-- **Test AI Code**: Always validate AI-generated code.
-
----
-
-## 📚 **Further Learning**
-
-- **Cursor Official Docs**: [cursor.com/docs](https://cursor.com/docs)
-- **Community Forums**: Share tips and learn from others.
-- **Practice Projects**: Apply skills to real or example projects.
-
----
-
-## 🚀 **Next Steps**
-
-### **Practice Recommendations**
-
-- Start with small projects to build muscle memory
-- Focus on comment-driven development
-- Experiment with different code patterns
-
-### **Coming Up in Lecture 2**
-
-- Advanced chat interface mastery
-- Inline editing for precise modifications
-- Complex refactoring and documentation generation
-
----
-
-## 💡 **Remember**
-
-**Cursor isn't about replacing developers—it's about amplifying your capabilities**
-
-*Think of it as having a highly skilled pair programmer who never gets tired*
+- **Context Matters**: Keep relevant files open
+- **Comment Driven**: Use comments to guide AI
+- **Incremental Accept**: Accept suggestions in parts
+- **Learn Patterns**: Understand what works for your codebase
 
 <!-- Speaker Notes:
-Let's wrap up with the key takeaways from our first lecture. We've covered a lot of ground in 30 minutes.
+Here are the best practices that will make you incredibly effective:
 
-First, understanding. You now know that Cursor isn't just VS Code with AI plugins bolted on. It's an editor designed from the ground up with AI as a core component. This fundamental difference enables the 2-5x productivity gains teams are reporting.
+First, context matters enormously. Keep relevant files open. If you're working on a user service, have the user model file open. Cursor uses this context to make better suggestions.
 
-Second, setup. You should now have Cursor installed, configured, and ready to use. The VS Code migration process means you can start using it immediately without losing your familiar environment.
+Second, become comment-driven in your development. Instead of thinking "I need to write this function," think "I need to write a comment explaining what this function should do." The AI will handle the implementation.
 
-Third, core skills. You understand the interface, know how to navigate the AI integration points, and have seen both single-line and multi-line autocomplete in action. Most importantly, you understand the power of comment-driven development.
+Third, learn to accept suggestions incrementally. You don't have to accept everything - use arrow keys to accept just the parts you want.
 
-For next steps, I recommend starting with small projects. Don't try to use Cursor on your most critical production code immediately. Instead, use it for utility functions, small features, or experimental code. This builds your muscle memory and confidence.
-
-Focus on comment-driven development. This is probably the biggest mindset shift - instead of thinking "I need to write this function," think "I need to write a comment describing what this function should do."
-
-Experiment with different patterns. Try the examples we showed today. See how Cursor responds to different types of comments and coding scenarios.
-
-In our next lecture, we'll dive into the advanced chat interface and inline editing features. You'll learn to have complex conversations with the AI about your code, perform precise refactoring operations, and generate comprehensive documentation.
-
-Remember the core principle: Cursor isn't about replacing developers - it's about amplifying your capabilities. Think of it as having a highly skilled pair programmer who never gets tired, knows every programming language, and can help you write better code faster.
-
-Remember to consult the official Cursor documentation for the latest features and best practices, and engage with the community forums to learn from other developers.
-
-You're now equipped with the foundation to start your AI-assisted development journey. The real learning happens through practice, so start coding with Cursor today.
+Finally, pay attention to patterns. As you work with your codebase, Cursor learns your patterns and conventions. The more you use it, the better it gets at suggesting code that matches your style.
 -->

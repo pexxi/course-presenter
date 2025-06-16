@@ -34,6 +34,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 	const {
 		slides,
 		currentSlideIndex,
+		currentLecture,
 		isLoading,
 		error,
 		loadLecture,
@@ -255,7 +256,7 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 					<div className="flex items-center justify-between">
 						<div className="flex items-center gap-4">
 							<h1 className="text-xl font-semibold text-gray-900">
-								Speaker View - {lectureId}
+								Speaker View - {currentLecture?.title || lectureId}
 							</h1>
 							<ConnectionStatus isConnected={isConnected} />
 						</div>

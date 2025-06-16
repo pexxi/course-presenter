@@ -41,6 +41,13 @@ export function PresentationView({
 		}
 	}, []);
 
+	// Memoize the slide change handler
+	const handleSlideChange = useCallback((slideIndex: number) => {
+		if (isMounted.current) {
+			goToSlide(slideIndex);
+		}
+	}, [goToSlide]);
+
 	// Load lecture on mount
 	useEffect(() => {
 		isMounted.current = true;
@@ -50,6 +57,7 @@ export function PresentationView({
 			lectureId,
 			clientType: "presentation",
 			onConnectionChange: handleConnectionChange,
+			onSlideChange: handleSlideChange,
 			onSyncRequest: () => {
 				// When a sync request is received, respond with the current slide
 				if (isConnected) {
@@ -73,7 +81,7 @@ export function PresentationView({
 			}
 			disconnect();
 		};
-	}, [lectureId, courseId, connect, disconnect, loadLecture, handleConnectionChange]);
+	}, [lectureId, courseId, connect, disconnect, loadLecture, handleConnectionChange, handleSlideChange]);
 
 	// Fullscreen management
 	const toggleFullscreen = useCallback(async () => {
