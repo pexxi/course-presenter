@@ -139,7 +139,8 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 
 	// Navigation handlers that emit changes
 	const handleNextSlide = () => {
-		const newIndex = Math.min(currentSlideIndex + 1, slides.length - 1);
+		const totalSlides = getTotalSlides();
+		const newIndex = Math.min(currentSlideIndex + 1, totalSlides - 1);
 		if (newIndex !== currentSlideIndex) {
 			goToSlide(newIndex);
 			emitSlideChange(newIndex);
@@ -155,14 +156,18 @@ export function SpeakerView({ lectureId, courseId }: SpeakerViewProps) {
 	};
 
 	const handleGoToSlide = (index: number) => {
-		if (index >= 0 && index < slides.length && index !== currentSlideIndex) {
+		const totalSlides = getTotalSlides();
+		if (index >= 0 && index < totalSlides && index !== currentSlideIndex) {
 			goToSlide(index);
 			emitSlideChange(index);
 		}
 	};
 
 	const handleFirstSlide = () => handleGoToSlide(0);
-	const handleLastSlide = () => handleGoToSlide(slides.length - 1);
+	const handleLastSlide = () => {
+		const totalSlides = getTotalSlides();
+		handleGoToSlide(totalSlides - 1);
+	};
 
 	const handleEndPresentation = () => {
 		const confirmed = window.confirm(

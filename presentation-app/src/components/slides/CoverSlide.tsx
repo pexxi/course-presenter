@@ -41,7 +41,7 @@ export default function CoverSlide({
 						className="object-cover opacity-30"
 						priority={!isPreview}
 					/>
-					<div className="absolute inset-0 bg-gradient-to-br from-blue-900/70 via-purple-900/70 to-indigo-900/70" />
+					<div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-purple-900/50 to-indigo-900/50" />
 				</div>
 			)}
 

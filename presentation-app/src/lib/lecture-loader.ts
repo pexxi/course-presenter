@@ -197,9 +197,6 @@ export async function getLectureInfo(
 			}
 		}
 
-		// Count slide files
-		const slideCount = countSlideFiles(lecturePath);
-
 		return {
 			id: lectureId,
 			title: lectureData.title || `Lecture ${lectureId}`,
@@ -207,7 +204,7 @@ export async function getLectureInfo(
 			courseId,
 			author: lectureData.author,
 			duration: lectureData.duration,
-			slideCount,
+			slides: lectureData.slides || 0,
 		};
 	} catch (error) {
 		console.error(

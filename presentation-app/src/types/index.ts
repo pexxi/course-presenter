@@ -33,7 +33,7 @@ export interface LectureInfo {
 	courseId: string; // Required courseId for new structure
 	author?: string;
 	duration?: string;
-	slideCount: number;
+	slides: number;
 }
 
 export interface CourseInfo {
