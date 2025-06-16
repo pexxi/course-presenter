@@ -12,6 +12,7 @@
     "test:coverage": "jest --coverage",
     "test:unit": "jest src/lib/__tests__",
     "test:components": "jest src/components/__tests__",
+    "test:api": "jest src/app/api",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug"
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@edge-runtime/jest-environment": "^4.0.0",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.53.0",
     "@tailwindcss/postcss": "^4",
