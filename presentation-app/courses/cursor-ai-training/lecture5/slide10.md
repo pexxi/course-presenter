@@ -5,38 +5,23 @@ title: "Setting Up MCP Servers"
 
 # Setting Up MCP Servers
 
-### Installation Methods
+### Configuration Best Practices
 
-#### 1. Using Claude Desktop
+#### Security Configuration
 
-```json
-{
-  "mcpServers": {
-    "postgres": {
-      "command": "npx",
-      "args": ["@modelcontextprotocol/server-postgres"],
-      "env": {
-        "POSTGRES_CONNECTION_STRING": "postgresql://user:pass@localhost/db"
-      }
-    }
-  }
-}
-```
+- **Environment variables** for credentials
+- **OAuth 2.1** for authentication
+- **Principle of least privilege** for permissions
+- **TLS encryption** for remote connections
 
-#### 2. Using Package Managers
+#### Performance Optimization
 
-```bash
-# Python servers
-pip install mcp-server-postgres
-
-# Node.js servers  
-npm install @modelcontextprotocol/server-github
-
-# Using Cursor with MCP
-npm install -g @modelcontextprotocol/cli
-```
+- **Connection pooling** for databases
+- **Rate limiting** to prevent abuse
+- **Caching** for frequently accessed data
+- **Monitoring** for health checks
 
 <!--
 Speaker Notes:
-Installation is straightforward, whether you're using a desktop client like Claude or package managers like pip and npm. The key is to select the method that best fits your development workflow. For local testing, configuring servers directly in your AI host application is often the quickest way to get started.
+Security is paramount when setting up MCP servers. These servers can access sensitive data and perform actions on behalf of AI agents, so proper authentication, authorization, and auditing are essential. Always use environment variables for secrets and follow the principle of least privilege.
 -->

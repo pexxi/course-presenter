@@ -1,35 +1,18 @@
 ---
-template: code
-title: "Code Example: Inline Refactoring"
+template: content
+title: "Hands-On Exercises"
 ---
 
-# Code Example: Inline Refactoring
+# Hands-On Exercises
 
-## ✨ **Refactored Result**
+## 💻 **Exercise 2: Inline Refactoring Challenge (7 mins)**
 
-```javascript
-function calculateTotal(items, taxRate = 0.1) {
-    const subtotal = items.reduce((sum, item) => 
-        sum + (item.price * item.quantity), 0
-    );
-    return subtotal * (1 + taxRate);
-}
-```
-
-## 🎯 **Improvements Applied**
-
-- **Modern syntax**: `reduce()` instead of for loop
-- **Enhanced functionality**: Tax calculation parameter
-- **Better practices**: `const` for immutable values, default parameters
+Given a legacy JavaScript function:
+1. Use inline editing to modernize syntax.
+2. Add error handling with AI assistance.
+3. Optimize performance using suggestions.
+4. Add TypeScript types inline.
 
 <!-- Speaker Notes:
-The refactored result shows sophisticated understanding. The AI didn't just make superficial changes. It replaced the imperative for loop with a functional reduce method, which is more idiomatic in modern JavaScript. It added the tax calculation as an optional parameter with a sensible default.
-
-The improvements go beyond just syntax updates. The code is now more functional in style, easier to test, and more flexible with the tax parameter. The AI also applied best practices like using const for values that don't change.
-
-This type of refactoring would typically require careful thought about modern patterns, testing, and ensuring backwards compatibility. With inline editing, it happens in seconds while preserving the function's core behavior.
-
-The key insight is that inline editing combines code modernization with feature enhancement in a single operation. You're not just updating syntax - you're improving the code's functionality and maintainability simultaneously.
-
-This capability is particularly valuable when working with legacy codebases where you need to gradually modernize code while adding new features. Instead of separate refactoring and feature-addition phases, you can do both together efficiently.
+Second, an inline refactoring challenge. You'll take a piece of legacy code and use inline editing to modernize it, add features, and improve its performance. This is a common task in enterprise environments when dealing with older codebases.
 -->

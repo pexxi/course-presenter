@@ -1,47 +1,81 @@
 ---
 template: content
-title: "Rule Types & Activation Patterns"
+title: "Prompts Library & Templates"
 ---
 
-# Rule Types & Activation Patterns
+# Prompts Library & Templates
 
-## ⚡ Activation Patterns
+## Why Use Prompt Templates?
 
-### 1. **Directory-based Activation**
+- **Reusable**: Save time on common tasks
+- **Consistent**: Standardize team communication with AI
+- **Powerful**: Enable advanced workflows
+
+## Example: Prompt Template
+
+```
+"promptTemplates": {
+  "addUnitTest": "Write a unit test for the following function: {{functionName}}"
+}
+```
+
+## How to Organize
+
+- Store in `.cursor-rules.json` or separate file
+- Use variables for dynamic prompts
+- Share templates across teams
+
+<!-- Speaker Notes:
+Prompt templates are a powerful way to standardize and accelerate your team's use of AI. By creating a library of reusable prompts, you ensure that everyone is asking the AI in the most effective way possible. This leads to better results and more efficient workflows.
+-->
+✅ Good: "Use camelCase for variable names"
+❌ Vague: "Variables should be named properly"
+
+✅ Good: "Maximum line length must be 80 characters"  
+❌ Vague: "Keep lines to a reasonable length"
+```
+
+### **3. Provide Concrete Examples**
+
+```markdown
+## Examples
+<example>
+const userName = 'john_doe'; // ✅ Valid
+</example>
+
+<example type="invalid">
+const user_name = 'john_doe'; // ❌ Invalid  
+</example>
+```
+
+### **4. Structure Rules Hierarchically**
 
 ```
 .cursor/rules/
-  frontend/
-    react-rules.mdc
-  backend/
-    api-rules.mdc
+├── core/               # Always-apply rules
+├── languages/          # Language-specific  
+│   ├── typescript.mdc
+│   └── python.mdc
+└── domains/           # Domain-specific
+    ├── api.mdc
+    └── frontend.mdc
 ```
-- Rules auto-apply based on file location
-- Perfect for domain-specific conventions
 
-### 2. **File-based Activation**
+## 🚫 Common Pitfalls
 
-```yaml
-# In .mdc file
-globs: "**/api/**/*.ts"
-```
-- Rules apply to matching files
-- Great for technical requirements
-
-### 3. **Manual Activation**
-
-```typescript
-// In your code
-// @rule: security-rules
-```
-- Explicitly reference rules
-- Ideal for special cases
+- ❌ **Overly Complex Rules** → Split into smaller rules
+- ❌ **Contradictory Rules** → Use clear priorities
+- ❌ **Too Many Always Rules** → Use auto-attached instead
+- ❌ **Vague Descriptions** → Be specific and measurable
 
 <!-- Speaker Notes:
-Understanding activation patterns is key to effective rule management. Directory-based activation keeps related rules together, while file-based patterns offer precise control. Manual activation provides flexibility when you need it.
--->
+Effective rules are the foundation of a good Cursor setup. The key is to be specific and actionable - avoid vague guidance that the AI might interpret differently.
 
-**Pro Tips:**
-- Organize rules by domain/feature
-- Use clear, descriptive rule names
-- Document activation patterns in your team's wiki
+Structure rules hierarchically using folders. This makes them easier to manage and creates logical separation between different types of guidance.
+
+Examples are crucial - always show both correct and incorrect usage. This helps the AI understand not just what to do, but what to avoid.
+
+Common pitfalls include making rules too complex, having contradictory rules, or using too many always-apply rules which can bloat the context window.
+
+Remember: rules are essentially prompts, so write them like you would write a clear prompt to a human developer.
+-->

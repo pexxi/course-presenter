@@ -1,81 +1,77 @@
 ---
-template: content
-title: "Multi-File Operations"
+template: prompt-example
+title: "Prompt Example: Project Architecture Analysis"
 ---
 
-# Multi-File Operations
+# Prompt Example: Project Architecture Analysis
 
-## Cross-File Refactoring Mastery
+## **Real-World Scenario**
 
-### **API Interface Changes**
+You've inherited a large e-commerce codebase and need to understand its architecture quickly for a security audit.
 
-```
-@folder src/api/
-@folder src/services/
-@folder src/types/
-I need to add a 'status' field to the User model. 
-Update the model, all API endpoints, and TypeScript types.
-```
-
-### **Dependency Updates**
+## **The Prompt**
 
 ```
 @folder src/
-@folder package.json
-Update from React 17 to React 18, including all 
-breaking changes and deprecation warnings.
+Analyze the architecture of this e-commerce project. Explain:
+1. The main architectural pattern being used
+2. How data flows through the system
+3. Key components and their responsibilities
+4. Any potential architectural issues or improvements
+
+Focus on security implications and scalability concerns.
 ```
 
-## Consistency Management
-
-### **Style Enforcement**
-
-- **Naming Conventions** - Consistent terminology across files
-- **Pattern Implementation** - Apply design patterns uniformly
-- **Architecture Compliance** - Follow established guidelines
-
-### **Documentation Synchronization**
+## **Expected AI Response Preview**
 
 ```
-@folder src/components/
-@folder docs/components/
-Update all component documentation to match 
-the latest implementation changes.
+## Architecture Pattern: Layered Architecture with MVC
+
+Your project follows a layered architecture with clear separation:
+
+### Directory Structure Analysis:
+- `src/controllers/` - Request handling and routing
+- `src/models/` - Data models and business logic  
+- `src/views/` - UI components and templates
+- `src/services/` - Business logic and external integrations
+- `src/middleware/` - Authentication and request processing
+
+### Data Flow:
+1. **Request Entry** → Controllers validate and route requests
+2. **Business Logic** → Services handle complex operations
+3. **Data Access** → Models interact with database
+4. **Response** → Views format and return data
+
+### Security Concerns Identified:
+- Input validation inconsistency across controllers
+- JWT token handling needs improvement
+- File upload security requires review
 ```
-
-## Integration Testing Support
-
-### **Test Generation**
-
-- **Unit Tests** - Component-specific testing
-- **Integration Tests** - Cross-module interaction testing
-- **End-to-End** - Complete workflow validation
-
-### **Mock and Fixture Creation**
-
-- **API Mocks** - Realistic test data
-- **Component Fixtures** - Test scenarios
-- **Database Seeding** - Consistent test environments
 
 <!-- Speaker Notes:
-Multi-file operations are where AI really demonstrates its power for enterprise development. This is about making changes that need to be coordinated across multiple files, modules, and even different types of assets.
+This slide demonstrates a comprehensive architecture analysis prompt that you might use when joining a new team or conducting a security audit.
 
-Let me start with a common scenario: API changes. When you modify an API interface, you typically need to update:
-- The API endpoint implementation
-- The data models or types
-- The frontend services that call the API
-- The tests that verify the API behavior
-- The documentation that describes the API
+The key elements of this prompt are:
+1. We use @folder src/ to include the entire source directory
+2. We ask specific, targeted questions about architecture patterns, data flow, and responsibilities
+3. We add context about our specific needs - security and scalability focus
 
-Doing this manually is error-prone and time-consuming. With AI, you can describe the change once and have it propagated consistently across all relevant files.
+Notice how we structure the request to get actionable insights:
+- Architecture pattern identification
+- Data flow understanding
+- Component responsibility mapping
+- Issue identification with improvement suggestions
 
-The key insight here is consistency. AI doesn't just make changes - it makes consistent changes that follow your established patterns and conventions.
+The AI response shows how it can quickly identify patterns that might take a human reviewer hours to compile. It recognizes the MVC pattern, maps out the data flow, and identifies specific security concerns.
 
-Dependency updates are another great example. When you upgrade a major framework version like React, there are often breaking changes that need to be addressed across your entire codebase. AI can identify all the places that need updates and make the changes consistently.
+This type of analysis is particularly valuable for:
+- Code reviews and audits
+- Onboarding new team members
+- Architecture documentation
+- Security assessments
+- Refactoring planning
 
-Style enforcement is particularly valuable for teams. AI can ensure that new code follows your established naming conventions, architectural patterns, and coding standards.
+The prompt is structured to be comprehensive but focused. We're not asking for everything - we're asking for specific insights that will help us understand the system quickly and identify potential issues.
 
-The integration testing support is often overlooked but incredibly valuable. When you make multi-file changes, you often need new tests to verify that everything works together correctly. AI can generate appropriate test scenarios based on understanding how your components interact.
-
-This is especially powerful for large teams where maintaining consistency manually is challenging.
+This approach saves days of manual code review and gives you a structured understanding that you can build upon.
 -->

@@ -1,46 +1,66 @@
 ---
-template: content
-title: "Creating Effective Rules"
+slide_type: code-example
+title: "Code Example: Basic MDC Rule Configuration"
 ---
 
-# Creating Effective Rules
+# Code Example: Basic MDC Rule Configuration
 
-## 🛠️ Testing & Maintenance
+## 📁 File: `.cursor/rules/typescript-standards.mdc`
 
-### **7. Test Your Rules**
+```markdown
+---
+description: TypeScript coding standards and best practices
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
 
-```typescript
-// test/rule-tests/naming-conventions.test.ts
-describe('Naming Conventions Rule', () => {
-  it('should flag snake_case variables', () => {
-    const code = `const user_name = 'test';`;
-    expect(validateRule('naming-conventions', code)).toHaveViolations();
-  });
-});
+# TypeScript Coding Standards
+
+## Naming Conventions
+- Use **camelCase** for variables and functions
+- Use **PascalCase** for classes and interfaces  
+- Use **UPPER_SNAKE_CASE** for constants
+
+## Type Definitions
+- Always use explicit return types for functions
+- Prefer `interface` over `type` for object shapes
+- Use `readonly` for immutable properties
 ```
-
-### **8. Version Control Best Practices**
-
-```bash
-# Good commit message
-feat(rules): Add React hooks best practices rule
-
-- Add comprehensive hooks usage guidelines
-- Include examples of common pitfalls
-- Reference React documentation
-```
-
-### **9. Regular Reviews**
-
-- Schedule monthly rule reviews
-- Remove deprecated rules
-- Update rules for new best practices
 
 <!-- Speaker Notes:
-Testing is crucial for maintaining rule quality. Write unit tests for your rules to ensure they work as expected. Follow version control best practices with clear, descriptive commit messages. Schedule regular reviews to keep your rules up-to-date with the latest best practices and remove any that are no longer needed.
+This example shows the basic structure of an MDC rule file. The YAML frontmatter defines the rule's metadata, while the markdown content provides the actual rules and guidelines. The globs field specifies that this rule applies to all TypeScript files.
 -->
+  first_name: string;
+  last_name: string;
+}
 
-**Maintenance Tips:**
-- Automate testing where possible
-- Document changes thoroughly
-- Keep rules current with ecosystem changes
+function get_user_by_id(id) {
+  return userService.findById(id);
+}
+
+const maxRetryAttempts = 3;
+```
+
+## Referenced Files
+
+@typescript-templates/interface.ts
+@typescript-templates/function.ts
+
+```
+
+## 🎯 Key Points
+
+- **Auto-attached:** Activates for all `.ts` and `.tsx` files
+- **Concrete examples:** Shows both correct and incorrect usage
+- **File references:** Links to template files with `@` syntax
+- **Clear structure:** Easy to scan and understand
+
+<!-- Speaker Notes:
+This is a practical example of a basic MDC rule file. Notice the three required frontmatter fields: description, globs, and alwaysApply.
+
+The description helps the AI understand when this rule should be applied. The globs specify it applies to TypeScript files. alwaysApply is false, so it only activates when TypeScript files are being worked on.
+
+The content uses clear markdown with specific examples. The @syntax at the bottom references template files that would be included as additional context.
+
+This pattern works well for language-specific coding standards that should automatically apply when working with those file types.
+-->

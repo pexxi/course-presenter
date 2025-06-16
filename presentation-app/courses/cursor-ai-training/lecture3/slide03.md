@@ -1,44 +1,63 @@
 ---
 template: content
-title: "Codebase Navigation Fundamentals"
+title: "AI-Powered Code Discovery"
 ---
 
-# Codebase Navigation Fundamentals
+# AI-Powered Code Discovery
 
-## The Traditional Challenge
+## Beyond Traditional Search
 
-- **Manual File Exploration** - Hours spent browsing directories
-- **Documentation Gaps** - Outdated or incomplete architectural docs
-- **Knowledge Silos** - Relying on team members for explanations
-- **Context Switching** - Losing track while jumping between files
+### **Semantic Understanding vs. Keyword Matching**
 
-## AI-Powered Navigation Revolution
+**Traditional Search:**
 
-### **Instant Architecture Understanding**
-
-```
-@folder src/
-Analyze the architecture of this project and explain:
-1. The main architectural pattern being used
-2. How data flows through the system
-3. Key components and their responsibilities
+```bash
+grep -r "authenticate" src/
+# Returns: variable names, comments, file names
 ```
 
-### **Progressive Understanding**
+**AI-Powered Discovery:**
 
-- Start with high-level overview
-- Drill down into specific modules
-- Build mental model incrementally
-- Maintain context across sessions
+```
+Find all code that handles user authentication,
+including login, logout, session management,
+and token validation
+```
+
+## Advanced Discovery Techniques
+
+### **Functionality-Based Search**
+
+- Find code by **what it does**, not what it's called
+- Discover **similar implementations** across modules  
+- Identify **patterns and anti-patterns** automatically
+
+### **Relationship Mapping**
+
+- **Component Dependencies** - How modules interact
+- **Data Flow Analysis** - How information moves through system
+- **Impact Assessment** - What changes when you modify code
+
+### **Performance & Security Insights**
+
+- **Optimization Opportunities** - Inefficient code patterns
+- **Security Vulnerabilities** - Potential risks and exposures
+- **Technical Debt** - Areas needing refactoring
 
 <!-- Speaker Notes:
-Let's start by acknowledging the reality of modern development. Most of us spend significant time just trying to understand codebases - whether joining new teams, working on legacy systems, or diving into unfamiliar modules.
+This is where AI truly shines - understanding code semantically rather than just matching text strings. Traditional search tools like grep are powerful, but they're limited to exact matches and keyword searching.
 
-The traditional approach is painful: manually browsing through directories, reading outdated documentation, and interrupting colleagues with questions. This process is not just time-consuming - it's also error-prone and incomplete.
+AI-powered discovery understands the intent and functionality of code. When you search for "authentication," it doesn't just find variable names - it finds login flows, session management, token validation, password reset functionality, and more.
 
-Cursor changes this completely. With AI assistance, you can get instant architectural overviews that would take human reviewers hours to compile. The AI can identify patterns, relationships, and dependencies that aren't obvious from just looking at individual files.
+Let me demonstrate the difference. A grep search for "authenticate" might return hundreds of results including variable names, comments, and function names. But what you really want to know is: "How does user authentication work in this system?"
 
-The key insight here is progressive understanding. Instead of trying to understand everything at once, we can build our mental model incrementally, starting broad and narrowing focus as needed.
+AI can answer that question directly by analyzing the actual functionality, not just text matches. It can trace the complete authentication flow across multiple files, identify security patterns, and even suggest improvements.
 
-This is particularly powerful for enterprise codebases where understanding the big picture is crucial before making any changes.
+This semantic understanding is particularly valuable for:
+- Understanding unfamiliar codebases quickly
+- Finding security vulnerabilities that aren't obvious
+- Identifying optimization opportunities
+- Discovering related functionality you didn't know existed
+
+The key insight is that AI reads and understands code like a human developer would, but much faster and more comprehensively.
 -->

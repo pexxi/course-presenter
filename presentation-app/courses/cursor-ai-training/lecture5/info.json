@@ -3,7 +3,7 @@
     "description": "Master Model Context Protocol (MCP) servers and enterprise AI integration strategies. Learn to configure secure AI development environments, build custom workflows, and plan enterprise-scale AI adoption.",
     "author": "Pekka Kokkonen",
     "duration": "30 minutes",
-    "slides": 27,
+    "slides": 26,
     "learningObjectives": [
         "Understand and implement Model Context Protocol (MCP) servers",
         "Integrate enterprise systems with Cursor AI workflows",

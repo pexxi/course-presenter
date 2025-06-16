@@ -1,54 +1,52 @@
 ---
 slide_type: content
-title: "Enterprise Security & Compliance"
+title: "Organizational Deployment"
 ---
 
-# Enterprise Security & Compliance
+# Organizational Deployment
 
-## 🔐 Rule Compliance Framework
+## 🏗️ Deployment Strategy
 
-```yaml
-# Enterprise Security Rule Template
----
-description: Apply when handling sensitive data, authentication, or regulatory compliance
-globs: **/secure/**/*.ts,**/auth/**/*.ts,**/compliance/**/*.ts
-alwaysApply: false
----
+### **Phased Rollout**
+1. **Pilot Phase** (2-4 weeks)
+   - Select 1-2 teams
+   - Monitor rule effectiveness
+   - Gather feedback
 
-## Mandatory Security Practices
-- ✅ **GDPR Compliance:** Data anonymization for EU users
-- ✅ **SOX Compliance:** Audit logging for financial data
-- ✅ **PCI DSS:** Secure payment processing patterns
-- ✅ **HIPAA:** Healthcare data protection standards
+2. **Departmental Rollout** (1-2 months)
+   - Expand to entire departments
+   - Department-specific adaptations
+   - Training sessions
 
-## Forbidden Patterns
-- ❌ Hard-coded secrets or API keys
-- ❌ Unencrypted sensitive data storage
-- ❌ Direct database queries without sanitization
-- ❌ Bypassing authentication/authorization
-- ❌ Disabling security headers or CORS
+3. **Enterprise Rollout** (3-6 months)
+   - Organization-wide deployment
+   - Centralized governance
+   - Continuous improvement
+
+## 🔄 Change Management
+
+```mermaid
+graph TD
+    A[Current State] --> B[Rule Definition]
+    B --> C[Testing & Validation]
+    C --> D[Deployment]
+    D --> E[Monitoring]
+    E --> F[Feedback Collection]
+    F --> B
 ```
 
-## 🔒 Data Protection Standards
-
-### **Data Classification**
-- **Public:** No restrictions
-- **Internal:** Company use only
-- **Confidential:** Requires NDA
-- **Restricted:** Regulated data (PII, PHI, PCI)
-
-### **Encryption Requirements**
-- TLS 1.2+ for data in transit
-- AES-256 for data at rest
-- Key management using HSMs or KMS
-- Certificate rotation every 90 days
+### **Key Stakeholders**
+- **Engineering Leadership**: Strategic direction
+- **Security Team**: Compliance oversight
+- **Platform Team**: Tooling and infrastructure
+- **Development Teams**: Implementation and feedback
 
 <!-- Speaker Notes:
-This slide covers the security and compliance aspects of enterprise rule integration. The compliance framework template provides a starting point for implementing security rules, while the data protection standards outline the minimum requirements for handling different types of sensitive data. These rules help ensure that all code meets the organization's security and compliance requirements.
+This slide outlines the organizational deployment strategy for implementing rules at scale. The phased rollout approach allows for gradual adoption and course correction. The change management process ensures that rules are properly tested and validated before being deployed to production. Key stakeholders are involved throughout the process to ensure buy-in and alignment with organizational goals.
 -->
 
-**Key Points:**
-- Follow regulatory requirements
-- Implement defense in depth
-- Regular security audits
-- Document security decisions
+**Success Metrics:**
+- Adoption rate
+- Rule effectiveness
+- Developer satisfaction
+- Compliance coverage

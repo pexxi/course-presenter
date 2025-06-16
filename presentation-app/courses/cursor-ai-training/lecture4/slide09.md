@@ -5,35 +5,34 @@ title: "Rule Types & Activation Patterns"
 
 # Rule Types & Activation Patterns
 
-## 🎯 The Four Rule Types
+## 🎯 The Four Rule Types (Continued)
 
-### 1. **Always Rules**
-
-```yaml
-description: ""
-globs: ""
-alwaysApply: true
-```
-
-- ✅ Applied to **every** chat and Cmd-K interaction
-- 🎯 Use for: Global coding standards, response tone
-
-### 2. **Glob Rules**
+### 3. **Nested Rules**
 
 ```yaml
 description: ""
-globs: "**/*.ts"  # Applies to all TypeScript files
-alwaysApply: false
+globs: "**/components/**/*"
+nested: true
 ```
 
-- 🔍 Matches files using glob patterns
-- 🎯 Use for: Language/framework-specific rules
+- 📁 Automatically applied to files in subdirectories
+- 🎯 Use for: Feature/module specific rules
+
+### 4. **Manual Rules**
+
+```yaml
+description: ""
+# No globs or alwaysApply
+```
+
+- ✋ Only applied when explicitly referenced
+- 🎯 Use for: One-off or optional rules
 
 <!-- Speaker Notes:
-Always Rules are powerful as they apply to every interaction, making them ideal for global standards. Use them judiciously to avoid overwhelming the AI. Glob Rules provide more targeted application, perfect for language or framework-specific guidelines.
+Nested Rules are perfect for organizing rules by feature or module, automatically applying to relevant files. Manual Rules offer flexibility by only applying when specifically called, ideal for temporary or situational guidelines.
 -->
 
 **Best Practices:**
-- Start with a few critical Always Rules
-- Use specific glob patterns for targeted rules
-- Document the purpose of each rule
+- Use Nested Rules for domain-specific conventions
+- Reserve Manual Rules for edge cases
+- Document when and why to use each rule type

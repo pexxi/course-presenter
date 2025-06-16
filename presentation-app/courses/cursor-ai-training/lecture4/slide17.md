@@ -1,54 +1,71 @@
 ---
 slide_type: code-example
-title: "TypeScript Examples: Correct Patterns"
+title: "TypeScript Examples: Anti-Patterns"
 ---
 
-# TypeScript Examples: Correct Patterns
+# TypeScript Examples: Anti-Patterns
 
-## ✅ Proper TypeScript Usage
+## ❌ Common TypeScript Mistakes
 
 ```typescript
-// Interface for user profiles
+// 1. Using 'any' type
+type user_profile = {  // ❌ snake_case for type
+  id: string;
+  first_name: string;  // ❌ snake_case
+  last_name: string;
+}
+
+// 2. Implicit any
+function processUser(user) {  // ❌ Missing parameter type
+  return user.process();
+}
+
+// 3. Overusing type assertions
+const data = {} as UserData;  // ❌ Unsafe assertion
+data.name = 'John';  // No type checking
+
+// 4. Empty interfaces
+interface Config {}  // ❌ Empty interface
+
+// 5. Non-null assertion operator overuse
+document.getElementById('button')!.click();  // ❌ Unsafe
+```
+
+## 🔄 Better Alternatives
+
+```typescript
+// 1. Use proper casing and types
 interface UserProfile {
-  readonly id: string;  // Immutable ID
-  firstName: string;   // camelCase for properties
+  id: string;
+  firstName: string;  // ✅ camelCase
   lastName: string;
-  createdAt: Date;
 }
 
-// Function with explicit return type
-function getUserById(id: string): Promise<UserProfile> {
-  return userService.findById(id);
+// 2. Always type parameters
+function processUser(user: UserProfile): void {
+  user.process?.();
 }
 
-// Constants in UPPER_SNAKE_CASE
-const MAX_RETRY_ATTEMPTS = 3;
-const DEFAULT_TIMEOUT_MS = 5000;
+// 3. Initialize with proper typing
+const data: Partial<UserData> = {};  // ✅ Type-safe
 
-// Class with proper casing
-class UserService {
-  private apiClient: ApiClient;
-  
-  constructor(apiClient: ApiClient) {
-    this.apiClient = apiClient;
-  }
-  
-  async fetchUser(id: string): Promise<UserProfile> {
-    return this.apiClient.get(`/users/${id}`);
-  }
+// 4. Use type when possible
+type FeatureFlag = {
+  enabled: boolean;
+  description: string;
 }
+
+// 5. Proper null checking
+const button = document.getElementById('button');
+button?.addEventListener('click', handleClick);  // ✅ Safe
 ```
 
 <!-- Speaker Notes:
-This example demonstrates proper TypeScript patterns including:
-- Interface usage for object shapes
-- Explicit return types
-- Correct naming conventions (camelCase, PascalCase, UPPER_SNAKE_CASE)
-- Readonly properties for immutability
-- Proper class structure with access modifiers
+This slide highlights common TypeScript anti-patterns and their better alternatives. The key is to leverage TypeScript's type system effectively while avoiding patterns that can lead to runtime errors. Always prefer explicit types over 'any' and use proper type checking instead of type assertions when possible.
 -->
 
-**Key Points:**
-- Use interfaces for object shapes
-- Always specify return types
-- Follow consistent naming conventions
+**Key Improvements:**
+- Use proper type annotations
+- Avoid 'any' type
+- Prefer interfaces for object shapes
+- Use proper null checking

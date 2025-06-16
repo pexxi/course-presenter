@@ -1,110 +1,101 @@
 ---
-template: code-example
-title: "Code Example: Cross-File Refactoring"
+template: prompt-example
+title: "Prompt Example: Multi-File Operations"
 ---
 
-# Code Example: Cross-File Refactoring
+# Prompt Example: Multi-File Operations
 
-## **Scenario**: Adding User Status Field
+## **Real-World Scenario**
 
-You need to add a `status` field to the User model and update all related code across the application.
+You're getting intermittent authentication failures in production that don't occur in development. You need to investigate across multiple system components.
 
-## **The Request**
+## **The Comprehensive Investigation Prompt**
 
 ```
-@folder src/api/
-@folder src/components/
-@folder src/types/
-I need to add a new 'status' field to the User model. Help me:
-1. Update the model definition
-2. Modify all API endpoints that return user data  
-3. Update the frontend components that display user info
-4. Add appropriate validation
+@folder src/auth/
+@folder src/middleware/
+@folder tests/auth/
+@folder config/
+I'm getting intermittent authentication failures in production: 
+"Token validation failed" but it works in development. 
+
+Help me investigate this issue by:
+1. Analyzing the complete authentication flow
+2. Identifying potential environment-specific issues
+3. Finding race conditions or timing problems
+4. Suggesting debugging strategies and fixes
+5. Creating comprehensive tests to prevent regression
 ```
 
-## **AI-Generated Solution**
+## **Expected AI Analysis Preview**
 
-### **1. Model Update** (`src/models/User.js`)
-
-```javascript
-const userSchema = {
-  id: { type: 'string', required: true },
-  name: { type: 'string', required: true },
-  email: { type: 'string', required: true },
-  status: { 
-    type: 'string', 
-    enum: ['active', 'inactive', 'pending'], 
-    default: 'pending' 
-  },
-  createdAt: { type: 'date', default: Date.now }
-};
 ```
+## Authentication Flow Analysis
 
-### **2. API Endpoint Update** (`src/api/users.js`)
+### Current Flow Identified:
+1. **Login** → `authController.login()`
+2. **Token Generation** → `tokenService.generateToken()`  
+3. **Token Validation** → `authMiddleware.validateToken()`
+4. **User Verification** → `userService.verifyUser()`
 
-```javascript
-// Update user serialization
-const serializeUser = (user) => ({
-  id: user.id,
-  name: user.name,
-  email: user.email,
-  status: user.status, // ← Added this line
-  createdAt: user.createdAt
-});
+## Potential Production Issues Found:
 
-// Add status validation for POST/PUT
-const validateStatus = (status) => {
-  const validStatuses = ['active', 'inactive', 'pending'];
-  return !status || validStatuses.includes(status);
-};
-```
+### 1. Environment Variable Problems
+- JWT_SECRET might be different in production
+- TOKEN_EXPIRY configuration inconsistency
 
-### **3. Component Update** (`src/components/UserCard.jsx`)
+### 2. Clock Synchronization Issues  
+- Server time discrepancies in distributed systems
+- Recommendation: Add 60-second clock skew tolerance
 
-```jsx
-const UserCard = ({ user }) => (
-  <div className="user-card">
-    <h3>{user.name}</h3>
-    <p>{user.email}</p>
-    <StatusBadge status={user.status} />
-  </div>
-);
+### 3. Race Conditions in Token Refresh
+- Multiple simultaneous requests causing token invalidation
+- Suggested fix: Implement distributed token management
 
-const StatusBadge = ({ status }) => (
-  <span className={`status-badge status-${status}`}>
-    {status.charAt(0).toUpperCase() + status.slice(1)}
-  </span>
-);
+### 4. Load Balancer Session Issues
+- Tests use single instance, production uses multiple
+- Missing session state synchronization
+
+## Recommended Solutions:
+[Detailed fixes with code examples]
 ```
 
 <!-- Speaker Notes:
-This code example demonstrates the power of AI-assisted cross-file refactoring. What you're seeing here is a real-world scenario that every developer faces: making a change that needs to propagate across multiple files and layers of the application.
+This slide demonstrates how to use AI for complex, multi-system investigations. This is a real scenario that many teams face - issues that only appear in production environments.
 
-Let me walk through what makes this example powerful:
+The key elements that make this prompt effective:
 
-1. **Comprehensive Context**: We included the API folder, components folder, and types folder to give AI full understanding of how user data flows through the system.
+1. **Comprehensive Context**: We include authentication code, middleware, tests, and configuration. This gives AI the full picture of how authentication works.
 
-2. **Clear Requirements**: We specified exactly what we need - model updates, API changes, frontend updates, and validation.
+2. **Specific Problem Description**: We describe the exact error and the environment difference. This helps AI focus on environment-specific issues.
 
-3. **Consistent Implementation**: Notice how AI maintains consistency across all the changes:
-   - The status field uses the same enum values everywhere
-   - Validation logic is consistent between frontend and backend
-   - Component updates follow the established patterns
+3. **Multi-Faceted Request**: We ask for analysis, identification, debugging strategies, fixes, and prevention. This ensures a complete solution.
 
-4. **Complete Solution**: AI doesn't just update one file - it provides a complete solution that includes:
-   - Database/model schema changes
-   - API serialization updates
-   - Validation logic
-   - Frontend component updates
-   - New components (StatusBadge) as needed
+4. **Production Focus**: We specify that this is a production-specific issue, which guides AI to consider deployment-specific factors.
 
-This is particularly valuable because:
-- It eliminates the risk of forgetting to update related files
-- It ensures consistency across the entire stack
-- It follows your existing code patterns and conventions
-- It generates appropriate validation and error handling
+Notice how the AI response addresses multiple potential causes:
+- Environment configuration differences
+- Timing and synchronization issues
+- Race conditions in concurrent systems
+- Infrastructure differences between environments
 
-In a manual approach, this could easily take an hour and multiple rounds of testing to get right. With AI assistance, you get a complete, consistent solution in minutes.
+This type of investigation would typically require:
+- Hours of manual code review
+- Deep understanding of distributed systems
+- Knowledge of common production pitfalls
+- Experience with debugging intermittent issues
 
-The key insight is that AI understands the relationships between different parts of your codebase and can make coordinated changes that maintain consistency and functionality.
+With AI assistance, you get:
+- Systematic analysis of all potential causes
+- Specific code locations to investigate
+- Concrete solutions with implementation details
+- Testing strategies to prevent regression
+
+This is particularly valuable for:
+- Production incident investigation
+- Complex bug diagnosis
+- System architecture reviews
+- Preventive analysis to avoid future issues
+
+The prompt structure ensures you get actionable insights rather than just theoretical analysis.
 -->

@@ -1,21 +1,30 @@
 ---
 template: content
-title: "Practical Demo Walkthrough"
+title: "Basic Autocomplete Features"
 ---
 
-# Practical Demo Walkthrough
+# Basic Autocomplete Features
 
-## 💡 **Key Tips**
+## 📝 **Single-Line Completions**
 
-- **Be specific** in your comments
-- **Keep context** files open
-- **Review suggestions** before accepting
-- **Learn from patterns** AI suggests
+### **Function Signatures**
+
+Parameter suggestions and type definitions
+
+### **Variable Names**
+
+Context-aware naming suggestions
+
+### **Import Statements**
+
+Automatic import suggestions and organization
+
+### **API Calls**
+
+Method completion with proper syntax
 
 <!-- Speaker Notes:
-The AI often suggests patterns and best practices I might not think of immediately. Pay attention to these - they're learning opportunities.
+This is where the magic happens. Let's see AI autocomplete in action and understand the different types of assistance you'll get.
 
-Remember, this isn't about the AI writing all your code. It's about the AI accelerating your development process and helping you write better code faster.
-
-These tips will help you get the most value from Cursor's AI assistance while maintaining code quality and understanding.
+Single-line completions are your bread and butter. As you type function names, Cursor suggests parameters and types. When you're working with APIs, it suggests method calls with proper syntax. Variable naming becomes context-aware - if you're in a user management function, it'll suggest user-related variable names.
 -->

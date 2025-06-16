@@ -1,84 +1,56 @@
 ---
 slide_type: code-example
-title: "Code Example: Multi-Type Rule System"
+title: "Example: Always Rule - Global Standards"
 ---
 
-# Code Example: Multi-Type Rule System
+# Example: Always Rule - Global Standards
 
-## 🏗️ Organized Rule Hierarchy
-
-```
-.cursor/rules/
-├── core/
-│   └── global-standards.mdc     # Always Rule
-├── languages/
-│   ├── typescript.mdc           # Auto Attached Rule  
-│   └── python.mdc               # Auto Attached Rule
-├── domains/
-│   └── security.mdc             # Agent Requested Rule
-└── templates/
-    └── boilerplate.mdc          # Manual Rule
-```
-
-<!-- Speaker Notes:
-This slide introduces the multi-type rule system, showing how rules can be organized by their application pattern. The directory structure demonstrates a clean separation of concerns between different rule types, making the system more maintainable and easier to navigate.
--->
+**File: `.cursor/rules/core/global-standards.mdc`**
 
 ```markdown
 ---
-description: ""
+description: "Global development standards applied to all interactions"
 globs: ""
-alwaysApply: false
+alwaysApply: true
 ---
 
-# React Component Boilerplate
+# Global Development Standards
 
-Use this template when creating new React components:
+## Communication Style
+- Use **clear, concise language** in all responses
+- **Explain your reasoning** when making architectural decisions
+- **Ask clarifying questions** when requirements are ambiguous
+- **Acknowledge limitations** when uncertain
+- **Provide examples** to illustrate complex points
 
-```typescript
-import React from 'react';
-import styles from './ComponentName.module.css';
+## Code Quality
+- Write **self-documenting code** with meaningful names
+- Add **inline comments** for complex business logic only
+- **Prefer composition over inheritance**
+- Follow the **Single Responsibility Principle**
+- Keep functions small and focused
 
-interface ComponentNameProps {
-  // Define props here
-}
+## Security
+- Never include hardcoded credentials
+- Validate all user inputs
+- Follow the principle of least privilege
+- Keep dependencies updated
+- Use secure defaults
 
-export const ComponentName: React.FC<ComponentNameProps> = ({
-  // destructure props
-}) => {
-  return (
-    <div className={styles.container}>
-      {/* Component content */}
-    </div>
-  );
-};
-
-export default ComponentName;
+## Performance
+- Optimize for readability first
+- Document performance-critical sections
+- Consider memory usage in loops
+- Use appropriate data structures
+- Profile before optimizing
 ```
-
-## Usage in chat
-
-`@react-component` to apply this template
-
-```
-
-## 🎯 Usage Patterns
-
-| Rule Type | When Applied | Example Usage |
-|-----------|--------------|---------------|
-| **Always** | Every interaction | Global code style, communication tone |
-| **Auto** | File pattern match | `**/*.tsx` → React rules applied |
-| **Agent** | AI decides relevance | Security rules when discussing auth |
-| **Manual** | Explicit reference | `@react-component` for boilerplate |
 
 <!-- Speaker Notes:
-This slide demonstrates how to build a comprehensive rule system using all four rule types working together.
-
-The hierarchy organizes rules by type and purpose - core always-apply rules, language-specific auto-attached rules, domain-specific agent-requested rules, and manual templates.
-
-The global standards rule applies to every interaction, setting communication style and basic code quality standards.
-
-The manual rule example shows how to create reusable templates that developers can invoke on-demand with @syntax.
-
-This multi-layered approach provides both automatic guidance and on-demand assistance, creating a comprehensive AI development environment.
+Always Rules are applied to every interaction with the AI, making them ideal for establishing global standards. This example shows a comprehensive set of guidelines that ensure consistent quality across all code and documentation. The rule includes sections on communication, code quality, security, and performance, providing a solid foundation for development standards.
 -->
+
+**Key Characteristics:**
+- Applies to all files and interactions
+- No glob patterns needed
+- Ideal for cross-cutting concerns
+- Sets the baseline for all other rules

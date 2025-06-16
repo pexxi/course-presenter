@@ -1,111 +1,48 @@
 ---
 slide_type: content
-title: "Best Practices & Migration Guide"
+title: "Migration from Legacy .cursorrules"
 ---
 
-# Best Practices & Migration Guide
+# Migration from Legacy .cursorrules
 
-## 📋 Rule Creation Checklist
+## 🔄 Migration Overview
 
-### ✅ **Before Creating Rules**
+### **Migration Process**
+1. **Assessment** - Identify existing rules
+2. **Categorization** - Map to new rule types
+3. **Conversion** - Transform to MDC format
+4. **Validation** - Test rule behavior
+5. **Deployment** - Roll out incrementally
 
-- [ ] **Identify the Problem:** What specific issue does this rule solve?
-- [ ] **Check Existing Rules:** Could an existing rule be modified instead?
-- [ ] **Choose Rule Type:** Always, Auto-attached, Agent-requested, or Manual?
-- [ ] **Define Scope:** Which files/directories should this apply to?
+### **Step 1: Assessment**
 
-### ✅ **Writing Effective Rules**
+```bash
+# Identify existing .cursorrules files
+find . -name ".cursorrules" -type f
 
-- [ ] **Keep it Focused:** One responsibility per rule (< 500 lines)
-- [ ] **Use Clear Language:** Specific, measurable, actionable instructions
-- [ ] **Include Examples:** Both correct ✅ and incorrect ❌ usage
-- [ ] **Reference Templates:** Link related files with `@filename.ts`
+# Review current rule content
+cat .cursorrules
 
-<!-- Speaker Notes:
-This slide provides a comprehensive checklist for creating effective rules. The 'Before Creating Rules' section helps ensure that each rule has a clear purpose and fits into the overall rule architecture. The 'Writing Effective Rules' section provides practical guidelines for creating clear, maintainable, and effective rules that will be easy for developers to understand and follow.
--->
-mkdir -p .cursor/rules/{core,languages,domains,templates}
-
-# Convert legacy .cursorrules to MDC format
-# (Custom script based on your current rules)
+# Analyze rule usage
+grep -r "@cursorrules" --include="*.{js,ts,jsx,tsx}" .
 ```
 
-## 🎯 Common Patterns & Anti-Patterns
-
-### ✅ **Do This**
+### **Step 2: Rule Categorization**
 
 ```markdown
-# Specific, measurable rule
----
-description: "Apply TypeScript strict typing standards"
-globs: "**/*.ts,**/*.tsx"
-alwaysApply: false
----
-
-## Type Safety Rules
-- Use explicit return types for all functions
-- Prefer `interface` over `type` for object shapes
-- Enable `strictNullChecks` in tsconfig.json
+Legacy Rule → New Rule Type
+├── Global standards → Always Rule (.cursor/rules/core/)
+├── Language-specific → Auto-attached Rule (.cursor/rules/languages/)
+├── Domain knowledge → Agent-requested Rule (.cursor/rules/domains/)
+└── Templates → Manual Rule (.cursor/rules/templates/)
 ```
-
-### ❌ **Avoid This**
-
-```markdown
-# Vague, immeasurable rule
----
-description: "Make code better"
-globs: "**/*"
-alwaysApply: true
----
-
-## General Guidelines
-- Write good code
-- Make it clean and readable
-- Follow best practices
-```
-
-## 🚀 Implementation Roadmap
-
-### **Week 1-2: Foundation**
-
-- ✅ Set up `.cursor/rules/` directory structure
-- ✅ Migrate critical rules (security, compliance)
-- ✅ Create team training materials
-
-### **Week 3-4: Core Rules**
-
-- ✅ Implement always-apply rules (communication, code quality)
-- ✅ Add language-specific auto-attached rules
-- ✅ Test rule interactions and conflicts
-
-### **Week 5-6: Advanced Features**
-
-- ✅ Create agent-requested domain rules
-- ✅ Build manual template library
-- ✅ Implement rule governance process
-
-### **Week 7+: Optimization**
-
-- ✅ Monitor rule effectiveness
-- ✅ Gather developer feedback
-- ✅ Continuous improvement and refinement
-
-## 📚 Key Takeaways
-
-🎯 **Rules are Prompts:** Write them like clear instructions to a human developer  
-🎯 **Start Simple:** Begin with essential rules, expand gradually  
-🎯 **Team First:** Rules should serve team consistency, not individual preference  
-🎯 **Iterate Often:** Rules evolve with your codebase and team needs  
-🎯 **Measure Impact:** Track adoption, compliance, and developer satisfaction
 
 <!-- Speaker Notes:
-This final slide provides actionable guidance for implementing Cursor Rules in practice. The checklist helps ensure thorough rule creation, while the migration guide addresses the common need to upgrade from legacy .cursorrules files.
-
-The patterns section shows concrete examples of effective vs ineffective rules. The key is being specific and measurable rather than vague.
-
-The implementation roadmap provides a practical timeline for rolling out rules systematically. Start with critical security/compliance rules, then add foundational standards, and finally implement advanced features.
-
-The key takeaways reinforce that rules are essentially prompts for the AI, so they should be written with the same care as any important documentation. Success comes from starting simple, focusing on team needs, and iterating based on real usage patterns.
-
-This concludes our comprehensive coverage of the new Cursor Rules system!
+This slide covers the first two steps of migrating from legacy .cursorrules to the new format. The assessment phase helps identify all existing rules and their usage across the codebase. The categorization step maps each legacy rule to the most appropriate new rule type based on its purpose and scope. This ensures a smooth transition to the new rule architecture while maintaining existing functionality.
 -->
+
+**Key Considerations:**
+- Document all custom rules
+- Identify deprecated patterns
+- Plan for backward compatibility
+- Set up monitoring for rule effectiveness

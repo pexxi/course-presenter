@@ -1,97 +1,91 @@
 ---
 slide_type: content
-title: "Team Collaboration & Rule Management"
+title: "Enterprise Integration Strategies"
 ---
 
-# Team Collaboration & Rule Management
+# Enterprise Integration Strategies
 
-## 🤝 Team Rule Strategies
+## 🏢 Enterprise Rule Architecture
 
-### **Version Control Integration**
-
-```bash
-# Rules are part of your codebase
-.cursor/
-└── rules/
-    ├── team-standards.mdc       # Shared team rules
-    ├── code-review.mdc          # Review guidelines  
-    └── project-specific.mdc     # Project conventions
-```
-
-### **Rule Organization Patterns**
-
-#### **By Domain:**
+### **Multi-Level Rule Hierarchy**
 
 ```
-.cursor/rules/
-├── frontend/
-│   ├── react-patterns.mdc
-│   └── styling-guides.mdc
-├── backend/
-│   ├── api-standards.mdc
-│   └── database-rules.mdc
-└── shared/
-    └── testing-standards.mdc
+Enterprise Rules Strategy
+├── Organization Level    # Company-wide standards
+│   ├── Security policies
+│   ├── Compliance rules
+│   └── Brand guidelines
+├── Division Level        # Department-specific
+│   ├── Frontend standards
+│   ├── Backend patterns
+│   └── Data governance
+└── Project Level         # Project-specific
+    ├── Technical stack
+    ├── Feature flags
+    └── Performance targets
 ```
-
-#### **By Priority:**
-
-```
-.cursor/rules/
-├── critical/          # Always-apply rules
-├── recommendations/   # Auto-attached rules
-└── templates/         # Manual rules
-```
-
-## 🛠️ Rule Management Workflow
-
-### **1. Rule Creation Process**
-
-```mermaid
-graph LR
-    A[Identify Need] --> B[Draft Rule]
-    B --> C[Team Review]
-    C --> D[Test & Validate]
-    D --> E[Merge to Main]
-    E --> F[Team Training]
-```
-
-### **2. Rule Governance**
-
-- 👥 **Rule Ownership:** Assign maintainers per rule category
-- 📝 **Change Process:** PR reviews for rule modifications
-- 🧪 **Testing:** Validate rules don't conflict
-- 📚 **Documentation:** Keep rule rationale updated
-
-### **3. Onboarding New Team Members**
-
-```markdown
-# Onboarding Checklist
-□ Clone repository with rules
-□ Review team-standards.mdc
-□ Complete rule training session
-□ Pair with experienced developer
-□ Test rule application in practice
-```
-
-## 🔄 No Built-in Team Sharing (Yet)
-
-### **Current Workarounds:**
-
-- **Git Submodules:** Share rules across repositories
-- **Symbolic Links:** Link to shared rule repository
-- **Template Repository:** Bootstrap new projects with rules
-
-### **Future:** Cursor plans native team rule sharing
 
 <!-- Speaker Notes:
-Team collaboration with Cursor Rules requires thoughtful organization and governance. Since rules are version-controlled, they become part of your team's shared development standards.
+This slide introduces the multi-level rule hierarchy for enterprise environments. The architecture is designed to support different levels of governance, from organization-wide standards down to project-specific rules. This structure allows for consistent standards across the enterprise while still providing flexibility for individual teams and projects.
+-->
 
-The key is organizing rules logically - either by domain (frontend/backend) or by priority level. Having clear ownership and change processes prevents rule conflicts and ensures quality.
+## 🏗️ Organizational Deployment
 
-Currently, there's no built-in way to share rules across projects, but teams use Git submodules, symbolic links, or template repositories as workarounds.
+### **1. Rule Distribution Strategy**
 
-The onboarding process is crucial - new team members need to understand not just the rules, but why they exist and how to apply them effectively.
+| Method | Use Case | Pros | Cons |
+|--------|----------|------|------|
+| **Git Submodules** | Shared rules across repos | Version control | Complex updates |
+| **Internal NPM** | Package-based distribution | Easy versioning | Requires npm setup |
+| **Template Repos** | Bootstrap new projects | Standardized setup | Manual updates |
+| **Shared Filesystem** | Enterprise environments | Central management | Dependency issues |
 
-Rule governance becomes more important as teams grow - assign owners, require PR reviews for changes, and maintain documentation about rule rationale.
+### **2. Governance Structure**
+
+```mermaid
+graph TD
+    A[Architecture Board] --> B[Rule Committee]
+    B --> C[Domain Experts]
+    C --> D[Developer Teams]
+    D --> E[Rule Feedback]
+    E --> B
+```
+
+## 🚀 Implementation Phases
+
+### **Phase 1: Foundation (Weeks 1-2)**
+
+- ✅ Establish rule committee and governance
+- ✅ Create core security and compliance rules
+- ✅ Set up rule distribution mechanism
+
+### **Phase 2: Rollout (Weeks 3-6)**
+
+- ✅ Pilot with 2-3 teams
+- ✅ Gather feedback and iterate
+- ✅ Create training materials
+
+### **Phase 3: Scale (Weeks 7-12)**
+
+- ✅ Deploy to all development teams
+- ✅ Monitor compliance and adoption
+- ✅ Continuous improvement process
+
+## 📊 Success Metrics
+
+- **Adoption Rate:** % of projects using enterprise rules
+- **Compliance Score:** Security/regulatory rule adherence
+- **Developer Satisfaction:** Rule usefulness surveys
+- **Code Quality:** Defect reduction metrics
+
+<!-- Speaker Notes:
+Enterprise deployment requires a structured approach with clear governance and phased rollout. The key is balancing consistency with team autonomy.
+
+Start with security and compliance rules - these are non-negotiable and provide immediate value. Build a rule committee with representatives from architecture, security, and development teams.
+
+Choose your distribution strategy based on your organization's infrastructure. Git submodules work well for companies already using Git extensively, while internal NPM packages suit organizations with strong package management practices.
+
+The governance structure should include feedback loops - rules aren't set in stone and should evolve based on developer experience and changing requirements.
+
+Success metrics help justify the investment and identify areas for improvement. Track both technical metrics (compliance, quality) and human metrics (satisfaction, adoption).
 -->

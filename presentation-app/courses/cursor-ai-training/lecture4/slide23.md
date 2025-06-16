@@ -1,56 +1,63 @@
 ---
 slide_type: code-example
-title: "Example: Auto-Attached Rule - TypeScript"
+title: "Example: Agent-Requested Rule - Security"
 ---
 
-# Example: Auto-Attached Rule - TypeScript
+# Example: Agent-Requested Rule - Security
 
-**File: `.cursor/rules/languages/typescript.mdc`**
+**File: `.cursor/rules/domains/security.mdc`**
 
 ```markdown
 ---
-description: "TypeScript-specific coding standards and best practices"
-globs: "**/*.{ts,tsx}"
-nested: true  # Apply to all TypeScript files in subdirectories
+description: "Security best practices and guidelines"
+globs: "**/*.{ts,tsx,js,jsx,py,java}"
+# No alwaysApply - must be explicitly requested
 ---
 
-# TypeScript Development Standards
+# Security Best Practices
 
-## Type Definitions
-- Always use explicit return types
-- Prefer `interface` over `type` for object shapes
-- Use `readonly` for immutable properties
-- Avoid `any` type - use `unknown` or specific types
-- Use type guards for runtime type checking
+## Authentication & Authorization
+- Always validate JWT tokens
+- Implement proper role-based access control (RBAC)
+- Use secure session management
+- Implement rate limiting
+- Set secure, HTTP-only cookies for sessions
 
-## Modern Features
-- Use optional chaining (`?.`) and nullish coalescing (`??`)
-- Prefer template literals over string concatenation
-- Use object and array destructuring
-- Leverage async/await for asynchronous code
-- Use `const` assertions where appropriate
+## Input Validation
+- Validate all user inputs on the server
+- Use allowlists over denylists
+- Sanitize HTML/JS in user-generated content
+- Use parameterized queries to prevent SQL injection
+- Set proper CORS policies
 
-## React/TSX Specific
-- Define prop and state types explicitly
-- Use functional components with hooks
-- Prefer `React.FC` type for components
-- Use proper event types for handlers
-- Memoize expensive calculations with `useMemo`
+## Secure Dependencies
+- Regularly update dependencies
+- Use `npm audit` or similar tools
+- Pin dependency versions
+- Review third-party code
+- Use dependency locking
 
-## Error Handling
-- Use custom error classes
-- Implement proper error boundaries in React
-- Use type predicates for type narrowing
-- Document thrown errors in JSDoc
-- Use discriminated unions for state management
+## Secure Configuration
+- Never commit secrets to version control
+- Use environment variables for configuration
+- Implement secure defaults
+- Disable debug modes in production
+- Use secure headers (CSP, HSTS, etc.)
+
+## Secure Communication
+- Enforce HTTPS
+- Use secure WebSocket (WSS)
+- Implement certificate pinning
+- Use secure cookie attributes
+- Implement proper CORS policies
 ```
 
 <!-- Speaker Notes:
-Auto-Attached Rules are automatically applied based on file patterns. This TypeScript rule demonstrates how to set language-specific standards that only apply to relevant files. The rule includes comprehensive guidelines for TypeScript development, covering type definitions, modern features, React/TSX specifics, and error handling patterns.
+Agent-Requested Rules are applied when specifically requested by the AI agent. This security rule demonstrates how to set up comprehensive security guidelines that can be referenced when needed. The rule covers authentication, input validation, dependency management, secure configuration, and secure communication practices.
 -->
 
 **Key Characteristics:**
-- Automatically applied based on file patterns
-- Great for language/framework-specific rules
-- Can be nested in subdirectories
-- Reduces manual configuration
+- Must be explicitly requested by the agent
+- Great for domain-specific knowledge
+- Can be applied across multiple file types
+- Provides in-depth guidance on specific topics

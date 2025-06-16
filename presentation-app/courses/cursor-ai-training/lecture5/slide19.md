@@ -1,43 +1,48 @@
 ---
-title: "Security and Compliance"
-type: "content"
+title: "Code Example: Setting Up Database MCP Server"
+type: "code-example"
 ---
 
-# Security and Compliance
+# Code Example: Setting Up Database MCP Server
 
-## Security Tools & Solutions
+## Alternative: MongoDB MCP Server
 
-### Pomerium for MCP Security
+```json
+{
+  "mcpServers": {
+    "mongodb": {
+      "command": "npx",
+      "args": ["-y", "@mongodb-js/mongodb-mcp-server"],
+      "env": {
+        "MONGODB_URI": "mongodb://localhost:27017/your-database",
+        "MONGODB_MAX_POOL_SIZE": "10"
+      }
+    }
+  }
+}
+```
 
-- Gate every MCP request with identity verification
-- Enforce rules based on role, time, or source
-- Log and audit every agent action
-- Block agents from going off-script
+### Usage Example
 
-### Implementation Example
-
-```yaml
-# Pomerium policy for MCP servers
-- from: https://internal.company.com
-  to: mcp://database-server
-  policy:
-    - allow:
-        users: ["data-team@company.com"]
-        during: ["business-hours"]
+```javascript
+// MCP server automatically provides these tools:
+// - query: Execute MongoDB queries
+// - insert: Insert documents
+// - update: Update documents  
+// - delete: Delete documents
+// - schema: Get collection schemas
 ```
 
 <!-- Speaker Notes:
-When we talk about securing MCP implementations, traditional security approaches fall short because we're dealing with autonomous agents that make decisions and access resources dynamically. This is where Pomerium becomes crucial - it's specifically designed for securing agentic access patterns.
+This MongoDB example demonstrates an important architectural principle: MCP servers can be database-agnostic while providing consistent interfaces to AI agents. The configuration here shows how you can connect to MongoDB with the same simplicity we demonstrated earlier with PostgreSQL.
 
-Let me walk you through how Pomerium addresses the unique challenges of AI agent security. First, it gates every MCP request with identity verification. Unlike traditional API security that might trust internal traffic, Pomerium assumes zero trust - every request from every agent must be authenticated.
+Notice that the environment variables include connection pooling configuration. When you're dealing with AI agents that might make multiple concurrent requests, proper connection management becomes critical. The MongoDB MCP server handles this automatically, but you can tune parameters like max pool size based on your workload patterns.
 
-The policy enforcement layer is where this gets interesting. You can enforce rules based on user identity, time constraints, or request source. For example, you might allow your development team's AI agents to access the database during business hours, but restrict access outside those hours or from unknown locations.
+The security model here is worth highlighting. The MongoDB server includes built-in authentication and access control support. This means you can leverage MongoDB's existing role-based access controls and authentication mechanisms. The MCP server respects these constraints - if a user doesn't have permission to access a particular collection in MongoDB, the MCP server will enforce those restrictions.
 
-Logging and auditing become critical when agents are acting autonomously. Pomerium captures every agent action, creating an audit trail that's essential for compliance and security monitoring. When an AI agent makes a decision that affects your business, you need to know exactly what data it accessed and what actions it took.
+Looking at the usage example, the automatically provided tools cover the full CRUD operation spectrum. The query tool supports MongoDB's powerful aggregation framework, so AI agents can perform complex data analysis operations. The schema tool is particularly valuable because it allows agents to understand your data structure dynamically, making their queries more intelligent and reducing errors.
 
-The "block agents from going off-script" capability is particularly important. AI agents can be unpredictable, and without proper controls, they might attempt to access resources or perform actions outside their intended scope. Pomerium acts as a circuit breaker, ensuring agents stay within their defined boundaries.
+This flexibility extends beyond just different database technologies. The same pattern works for different data storage approaches - document databases like MongoDB, relational databases like PostgreSQL, graph databases, or even file-based storage systems. MCP provides the abstraction layer that lets AI agents work with data regardless of the underlying storage technology.
 
-Looking at the implementation example, notice how the policy is declarative and readable. You're not writing complex security code - you're defining business rules in YAML. This approach makes security policies auditable and maintainable by both security teams and developers.
-
-The integration with identity providers means this works with your existing authentication infrastructure. Whether you're using Active Directory, Okta, or any other identity provider, Pomerium can enforce your existing role-based access controls for AI agents.
+The practical implication is that you can standardize your AI agent interfaces while maintaining flexibility in your data architecture choices. This becomes particularly valuable in enterprise environments where you might have multiple database technologies serving different use cases.
 -->

@@ -5,27 +5,28 @@ title: "Enterprise Integration Strategies"
 
 # Enterprise Integration Strategies
 
-## Enterprise Deployment Patterns
+### Current Enterprise Adopters
 
-#### 1. **Hybrid Architecture**
+#### Microsoft Ecosystem
 
-- **Local servers**: File system, development tools
-- **Remote servers**: Databases, enterprise APIs
-- **Edge servers**: Global distribution via Cloudflare
+- **Windows 11**: Native MCP support with security registry
+- **Copilot Studio**: GA integration with Dataverse server
+- **Azure**: C# SDK and deployment on Azure Functions
+- **Teams/SharePoint**: Conversational data access
 
-#### 2. **Multi-Agent Orchestration**
+#### Google Cloud Platform
 
-- **Specialized agents**: Data analysis, workflow automation
-- **Coordinated via MCP**: Shared tool access
-- **Microsoft's vision**: "Agentic OS" integration
+- **MCP Toolbox**: AlloyDB, Spanner, Cloud SQL, Bigtable
+- **Security Operations**: Threat intelligence integration
+- **Vertex AI**: Agent Development Kit with MCP support
 
-#### 3. **Zero-Trust Security Model**
+#### AWS Integration
 
-- **Mandatory code signing** for MCP servers
-- **Declarative capabilities** with explicit permissions
-- **Proxy-mediated communication** for policy enforcement
+- **Lambda/ECS/EKS**: Container and serverless deployment
+- **Cost Explorer**: AI-driven spend analysis
+- **Bedrock Agents**: Third-party tool integration
 
 <!--
 Speaker Notes:
-The zero-trust security model is particularly important. With AI agents potentially accessing sensitive enterprise data and performing actions, security cannot be an afterthought - it must be built into the architecture from day one.
+The key insight from Microsoft Build 2025 was the announcement that Windows 11 will have native MCP support, positioning it as an "agentic OS." This represents a fundamental shift in how we think about operating systems - they're becoming platforms for AI agent orchestration.
 -->

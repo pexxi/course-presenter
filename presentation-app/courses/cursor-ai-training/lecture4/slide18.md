@@ -1,71 +1,91 @@
 ---
 slide_type: code-example
-title: "TypeScript Examples: Anti-Patterns"
+title: "Advanced TypeScript Patterns"
 ---
 
-# TypeScript Examples: Anti-Patterns
+# Advanced TypeScript Patterns
 
-## ❌ Common TypeScript Mistakes
+## 🛠️ Utility Types & Advanced Features
+
+### 1. Mapped Types
 
 ```typescript
-// 1. Using 'any' type
-type user_profile = {  // ❌ snake_case for type
+type ReadonlyUser = Readonly<{
   id: string;
-  first_name: string;  // ❌ snake_case
-  last_name: string;
-}
+  name: string;
+  email: string;
+}>;
 
-// 2. Implicit any
-function processUser(user) {  // ❌ Missing parameter type
-  return user.process();
-}
-
-// 3. Overusing type assertions
-const data = {} as UserData;  // ❌ Unsafe assertion
-data.name = 'John';  // No type checking
-
-// 4. Empty interfaces
-interface Config {}  // ❌ Empty interface
-
-// 5. Non-null assertion operator overuse
-document.getElementById('button')!.click();  // ❌ Unsafe
+// Resulting type:
+// {
+//   readonly id: string;
+//   readonly name: string;
+//   readonly email: string;
+// }
 ```
 
-## 🔄 Better Alternatives
+### 2. Conditional Types
 
 ```typescript
-// 1. Use proper casing and types
-interface UserProfile {
+type NonNullableUserField<T> = {
+  [K in keyof T]: NonNullable<T[K]>;
+};
+
+// Usage:
+type User = {
   id: string;
-  firstName: string;  // ✅ camelCase
-  lastName: string;
+  name: string | null;
+  email: string | null;
+};
+
+type ValidUser = NonNullableUserField<User>;
+// { id: string; name: string; email: string; }
+```
+
+### 3. Template Literal Types
+
+```typescript
+type EventType = 'click' | 'submit' | 'hover';
+type EventHandler = `on${Capitalize<EventType>}`;
+// 'onClick' | 'onSubmit' | 'onHover'
+
+// Usage with mapped types
+type Handlers = {
+  [K in EventType as `handle${Capitalize<K>}`]: () => void;
+};
+/*
+{
+  handleClick: () => void;
+  handleSubmit: () => void;
+  handleHover: () => void;
+}
+*/
+```
+
+### 4. Type Guards
+
+```typescript
+function isAdmin(user: User): user is AdminUser {
+  return 'permissions' in user;
 }
 
-// 2. Always type parameters
-function processUser(user: UserProfile): void {
-  user.process?.();
+// Usage
+function handleUser(user: User) {
+  if (isAdmin(user)) {
+    // TypeScript knows user is AdminUser here
+    console.log(user.permissions);
+  } else {
+    console.log('Regular user');
+  }
 }
-
-// 3. Initialize with proper typing
-const data: Partial<UserData> = {};  // ✅ Type-safe
-
-// 4. Use type when possible
-type FeatureFlag = {
-  enabled: boolean;
-  description: string;
-}
-
-// 5. Proper null checking
-const button = document.getElementById('button');
-button?.addEventListener('click', handleClick);  // ✅ Safe
 ```
 
 <!-- Speaker Notes:
-This slide highlights common TypeScript anti-patterns and their better alternatives. The key is to leverage TypeScript's type system effectively while avoiding patterns that can lead to runtime errors. Always prefer explicit types over 'any' and use proper type checking instead of type assertions when possible.
+Advanced TypeScript features like mapped types, conditional types, and template literal types enable powerful type transformations and type safety. These patterns help create more maintainable and type-safe codebases by moving more logic into the type system. Use them to enforce complex business rules and create self-documenting APIs.
 -->
 
-**Key Improvements:**
-- Use proper type annotations
-- Avoid 'any' type
-- Prefer interfaces for object shapes
-- Use proper null checking
+**When to Use:**
+- Building complex type systems
+- Creating type-safe utility functions
+- Enforcing business rules at compile-time
+- Improving developer experience with better type inference

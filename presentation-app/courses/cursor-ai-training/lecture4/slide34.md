@@ -1,71 +1,72 @@
 ---
 slide_type: content
-title: "Migration Script & Testing"
+title: "Deployment & Rollout"
 ---
 
-# Migration Script & Testing
+# Deployment & Rollout Strategy
 
-## 🔧 Migration Script
+## 🚀 Phased Rollout Plan
 
-```bash
-#!/bin/bash
-# Migration script: legacy .cursorrules to MDC format
+### **Phase 1: Pilot (Weeks 1-2)**
+- Select 2-3 representative projects
+- Test with a small group of developers
+- Gather feedback and fix critical issues
+- Document common questions and pain points
 
-# Create new rule structure
-mkdir -p .cursor/rules/{core,languages,domains,templates}
+### **Phase 2: Early Adopters (Weeks 3-4)**
+- Expand to 25% of teams
+- Provide training sessions
+- Collect detailed feedback
+- Refine documentation and examples
 
-# Convert legacy .cursorrules to MDC format
-find . -name ".cursorrules" -type f | while read -r file; do
-    # Extract rule name from filename
-    rule_name=$(basename "$file" .cursorrules)
-    
-    # Determine rule type based on location/content
-    if [[ "$file" == *"/security/"* ]]; then
-        target=".cursor/rules/core/security-${rule_name}.md"
-    elif [[ "$file" == *"/languages/"* ]]; then
-        target=".cursor/rules/languages/${rule_name}.md"
-    else
-        target=".cursor/rules/core/${rule_name}.md"
-    fi
-    
-    # Create MDC file with frontmatter
-    echo "---" > "$target"
-    echo "description: Migrated from ${file}" >> "$target"
-    echo "globs: **/*.ts" >> "$target"
-    echo "---" >> "$target"
-    echo "" >> "$target"
-    
-    # Convert content to MDC format
-    cat "$file" | sed 's/^#/##/' >> "$target"
-    
-    echo "Migrated $file to $target"
-done
+### **Phase 3: Full Rollout (Week 5+)**
+- Organization-wide deployment
+- Monitor adoption and effectiveness
+- Address any remaining issues
+- Share success stories and best practices
+
+## 🔍 Monitoring & Feedback
+
+```yaml
+# monitoring-dashboard.yaml
+dashboard:
+  - name: "Rule Adoption"
+    metrics:
+      - active_users: 85%
+      - rules_triggered: 1,247
+      - avg_resolution_time: "2.3h"
+  - name: "Rule Effectiveness"
+    metrics:
+      - false_positives: 3%
+      - developer_satisfaction: 4.2/5.0
+      - code_quality_impact: +15%
+  - name: "Performance"
+    metrics:
+      - avg_rule_eval_time: "120ms"
+      - memory_usage: "450MB"
+      - cpu_impact: "5%"
 ```
 
-## 🧪 Testing Migrated Rules
+## 📚 Training & Resources
 
-### **Test Cases**
-1. **Basic Validation**
-   - Rules load without errors
-   - Correct files are matched by glob patterns
-   - Rule descriptions are clear and accurate
+### **Developer Onboarding**
+- Interactive tutorial
+- Video walkthroughs
+- Cheat sheet of common rules
+- Example repository
 
-2. **Functionality Testing**
-   - Rules trigger as expected
-   - Error messages are helpful
-   - Fix suggestions are accurate
-
-3. **Performance Testing**
-   - Rules don't significantly impact IDE performance
-   - Large codebases handle rules efficiently
-   - Memory usage remains stable
+### **Support Channels**
+- Dedicated Slack channel
+- Office hours
+- Knowledge base articles
+- FAQ document
 
 <!-- Speaker Notes:
-This slide provides a migration script to automate the conversion of legacy .cursorrules files to the new MDC format. The script handles the basic structure conversion, but manual review is still required for each rule. The testing section outlines key test cases to ensure that migrated rules work as expected and don't introduce performance issues. It's important to test rules in a controlled environment before rolling them out to the entire team.
+This slide outlines the deployment and rollout strategy for the new rule system. The phased approach allows for gradual adoption and course correction based on real-world feedback. The monitoring dashboard helps track key metrics to ensure the system is meeting its goals. Comprehensive training and support resources are essential for successful adoption across the organization.
 -->
 
-**Best Practices:**
-- Keep a backup of original rules
-- Test in a branch first
-- Monitor performance impact
-- Document any manual changes
+**Success Metrics:**
+- 90% adoption within 6 weeks
+- 50% reduction in rule-related issues
+- 25% improvement in code quality metrics
+- 4.5/5 developer satisfaction score

@@ -5,9 +5,25 @@ title: "Setting Up MCP Servers"
 
 # Setting Up MCP Servers
 
-## From Installation to First Connection
+### MCP Transport Mechanisms
+
+#### Evolution of Transport Layers
+
+- **stdio**: Local development, low latency (current standard)
+- **HTTP + SSE**: Remote servers (legacy, deprecated)
+- **Streamable HTTP**: Enterprise, cloud-native (preferred for production)
+
+#### Choosing the Right Transport
+
+| Use Case          | Transport          | Benefits                   |
+|-------------------|--------------------|----------------------------|
+| Local development | stdio              | Simple, secure, fast       |
+| Enterprise remote | Streamable HTTP    | Proxy-friendly, scalable   |
+| Edge deployment   | Cloudflare Workers | Global distribution        |
 
 <!--
 Speaker Notes:
-Now that we understand what MCP is, let's dive into the practical side of setting them up. In the next few slides, we'll cover everything from the underlying transport mechanisms to installation, configuration, and security best practices.
+Setting up MCP servers has evolved significantly since the protocol's introduction. The transport layer evolution is particularly important - we've moved from experimental SSE to production-ready Streamable HTTP for enterprise deployments.
+
+The key insight here is choosing the right setup for your use case. Local development with stdio is perfect for getting started, but enterprise deployments need the robustness of Streamable HTTP with proper authentication and monitoring.
 -->

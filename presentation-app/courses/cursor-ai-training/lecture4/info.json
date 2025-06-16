@@ -3,7 +3,7 @@
     "description": "Master the new .cursor/rules directory and MDC file format. Learn project rules, user rules, and automation for enterprise-grade AI configuration.",
     "author": "Pekka Kokkonen",
     "duration": "30 minutes",
-    "slides": 36,
+    "slides": 35,
     "learningObjectives": [
         "Understand the new .cursor/rules system vs legacy .cursorrules",
         "Master MDC file format and frontmatter configuration",

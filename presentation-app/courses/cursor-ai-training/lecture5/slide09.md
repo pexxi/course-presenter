@@ -5,27 +5,38 @@ title: "Setting Up MCP Servers"
 
 # Setting Up MCP Servers
 
-### Popular MCP Server Categories
+### Installation Methods
 
-#### Database Servers
+#### 1. Using Claude Desktop
 
-- **PostgreSQL/MySQL**: SQL query execution
-- **MongoDB**: NoSQL document operations
-- **Vector databases**: Semantic search (Qdrant, Pinecone)
+```json
+{
+  "mcpServers": {
+    "postgres": {
+      "command": "npx",
+      "args": ["@modelcontextprotocol/server-postgres"],
+      "env": {
+        "POSTGRES_CONNECTION_STRING": "postgresql://user:pass@localhost/db"
+      }
+    }
+  }
+}
+```
 
-#### Enterprise Integration
+#### 2. Using Package Managers
 
-- **Microsoft Dataverse**: Business data interaction
-- **Salesforce**: CRM operations
-- **Atlassian**: Jira/Confluence management
+```bash
+# Python servers
+pip install mcp-server-postgres
 
-#### Development Tools
+# Node.js servers  
+npm install @modelcontextprotocol/server-github
 
-- **GitHub**: Repository management
-- **Docker**: Container operations
-- **AWS/Azure**: Cloud resource control
+# Using Cursor with MCP
+npm install -g @modelcontextprotocol/cli
+```
 
 <!--
 Speaker Notes:
-The ecosystem has exploded with over 1,000 community-built servers available. The categories shown here represent the most common enterprise use cases we're seeing in 2025.
+Installation is straightforward, whether you're using a desktop client like Claude or package managers like pip and npm. The key is to select the method that best fits your development workflow. For local testing, configuring servers directly in your AI host application is often the quickest way to get started.
 -->

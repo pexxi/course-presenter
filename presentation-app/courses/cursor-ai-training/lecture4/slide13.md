@@ -5,36 +5,46 @@ title: "Creating Effective Rules"
 
 # Creating Effective Rules
 
-## ✅ Best Practices
+## 🎯 Rule Design Principles
 
-### **1. Keep Rules Focused & Concise**
+### **4. Structure Rules Logically**
 
-- 🎯 Target: Under 500 lines per rule
-- 🎯 Split large concepts into multiple, composable rules
-- 🎯 One responsibility per rule
-
-### **2. Use Clear, Actionable Language**
-
-```markdown
-✅ Good: "Use camelCase for variable names"
-❌ Vague: "Variables should be named properly"
+```yaml
+# .cursor/rules/
+├── code-style/
+│   ├── naming-conventions.mdc
+│   └── formatting.mdc
+└── security/
+    ├── auth.mdc
+    └── input-validation.mdc
 ```
 
-### **3. Include Examples**
+### **5. Use Meaningful Rule Names**
 
-```typescript
-// Good
-const userName = 'John';
+```yaml
+# Good
+- use-react-hooks-correctly.mdc
+- api-versioning-standards.mdc
 
-// Bad
-const username = 'John';
+# Less Clear
+- rule1.mdc
+- frontend-guidelines.mdc
+```
+
+### **6. Document the "Why"**
+
+```markdown
+<!-- Why this rule exists -->
+This rule enforces consistent error handling patterns
+across our API services to ensure maintainability
+and better error reporting.
 ```
 
 <!-- Speaker Notes:
-Creating effective rules is both an art and a science. Focus on keeping rules concise and single-purpose. Use clear, directive language that leaves no room for interpretation. Always include concrete examples of both correct and incorrect usage to provide clear guidance.
+Organizing rules in a logical directory structure makes them easier to maintain. Use specific, descriptive names that clearly indicate the rule's purpose. Always document the reasoning behind rules to help team members understand their importance and context.
 -->
 
-**Key Points:**
-- One responsibility per rule
-- Be explicit in your instructions
-- Show, don't just tell
+**Best Practices:**
+- Group related rules in directories
+- Be specific with rule names
+- Document the rationale

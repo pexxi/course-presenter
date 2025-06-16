@@ -5,19 +5,19 @@ title: "MDC File Format & Project Rules"
 
 # MDC File Format & Project Rules
 
-## 🎯 Rule Activation Methods
+## 🔧 Creating Rules
 
-| Method | When Used | Configuration |
-|--------|-----------|---------------|
-| **Nested Rules** | Auto-attached when directory files referenced | Place in subdirectories |
-| **Manual Rules** | Only when explicitly mentioned `@ruleName` | No description or globs |
-| **Command Creation** | Quick setup | `Cmd+Shift+P` → "New Cursor Rule" |
+1. **Via Command:** `New Cursor Rule` command
+2. **Via Settings:** Cursor Settings > Rules
+3. **Via Chat:** `/Generate Cursor Rules` command
+4. **Manually:** Create `.mdc` files in `.cursor/rules/`
 
 <!-- Speaker Notes:
-Rules can be activated in several ways depending on your needs. Nested rules are automatically applied based on file location, manual rules require explicit reference, and command creation provides a quick setup interface. Choose the method that best fits your workflow and project structure.
+There are multiple ways to create Cursor rules, each suited for different workflows. The command palette provides quick access, while the settings UI offers a more visual approach. For advanced users, manually creating MDC files provides the most control. The chat-based generation is particularly useful for quickly prototyping rules based on natural language descriptions.
 -->
 
-**Best Practices:**
-- Use nested rules for project-specific configurations
-- Reserve manual rules for one-off or temporary rules
-- Leverage command creation for quick prototyping
+**Pro Tips:**
+- Start with the command palette for quick rule creation
+- Use the settings UI for visual configuration
+- Leverage chat generation for complex rule prototyping
+- Edit MDC files directly for fine-grained control

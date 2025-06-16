@@ -1,22 +1,36 @@
 ---
-template: cover
-title: "Advanced Chat Interface & Inline Editing"
-subtitle: "Master AI-Powered Development Conversations"
-image: "cursor-chat-cover.jpg"
+template: content
+title: "Chat Interface Fundamentals"
 ---
 
-# Cursor AI Development Mastery
+# Chat Interface Fundamentals
 
-## Lecture 2: Advanced Chat Interface & Inline Editing
+## 🚀 **Access Methods**
 
-**Duration:** 30 minutes  
-**Target:** Senior developers, tech leads, development teams  
-**Focus:** Advanced interaction techniques
+- **Cmd/Ctrl + L**: Quick chat access
+- **Sidebar Panel**: Persistent chat interface
+- **Context Menu**: Right-click → "Chat about this code"
+
+## 🧠 **Context Awareness**
+
+- **File Understanding**: AI knows your current file and project structure
+- **Selection Context**: Highlighted code automatically included
+- **Project Scope**: Understands relationships between files
+
+## 🎛️ **Model Selection**
+
+- **GPT-4**: Best for complex reasoning and architecture
+- **Claude**: Excellent for code review and explanations
+- **Model Switching**: Choose the right AI for the task
 
 <!-- Speaker Notes:
-By the end of this session, you'll understand how to have meaningful technical conversations with AI, use inline editing like a precision instrument, and leverage AI for tasks like code explanation and documentation that would normally take hours.
+Let's start with the fundamentals of Cursor's chat interface. Understanding how to access and use chat effectively is crucial for advanced development workflows.
 
-The key insight for today is this: Cursor isn't just about generating code - it's about having an intelligent conversation about your code. Think of it as having a senior developer mentor who's available 24/7, knows every programming language, and can help you understand, improve, and document your work.
+First, access methods. The fastest way is Cmd+L on Mac or Ctrl+L on Windows/Linux. This gives you immediate access to chat from anywhere in your code. You can also use the sidebar panel for persistent conversations, or right-click on code for contextual chat.
 
-Let's dive into these advanced capabilities that will fundamentally change how you approach development challenges.
+The real power comes from context awareness. When you open chat, Cursor doesn't start with a blank slate. It already understands your current file, your project structure, and any code you have selected. This context awareness is what makes the conversations meaningful and relevant.
+
+Model selection is important but often overlooked. GPT-4 excels at complex architectural decisions and reasoning through difficult problems. Claude is particularly good at code review and providing detailed explanations. Don't just stick with one model - choose the right tool for each task.
+
+The key insight here is that chat isn't just a question-answer interface - it's a collaborative workspace where AI has full context of what you're working on. This changes everything about how you can interact with AI assistance.
 -->

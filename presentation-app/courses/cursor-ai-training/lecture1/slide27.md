@@ -5,22 +5,12 @@ title: "Course Wrap-up & Summary"
 
 # Course Wrap-up & Summary
 
-## 🚀 **Next Steps**
+## 🎯 **Remember**
 
-### **Practice Recommendations**
-
-- Start with small projects to build muscle memory
-- Focus on comment-driven development
-- Experiment with different code patterns
-
-### **Coming Up in Lecture 2**
-
-- Advanced chat interface mastery
-- Inline editing for precise modifications
-- Complex refactoring and documentation generation
+- **AI is your coding partner**, not your replacement
+- **Context is everything** - keep relevant files open
+- **Start small** and build confidence with AI assistance
 
 <!-- Speaker Notes:
-In our next lecture, we'll dive into the advanced chat interface and inline editing features. You'll learn to have complex conversations with the AI about your code, perform precise refactoring operations, and generate comprehensive documentation.
-
-You're now equipped with the foundation to start your AI-assisted development journey.
+Remember the core principle: Cursor isn't about replacing developers - it's about amplifying your capabilities. Think of it as having a highly skilled pair programmer who never gets tired, knows every programming language, and can help you write better code faster.
 -->

@@ -1,98 +1,84 @@
 ---
 slide_type: code-example
-title: "Code Example: Advanced Rule with Globs & Descriptions"
+title: "Code Example: Multi-Type Rule System"
 ---
 
-# Code Example: Advanced Rule with Globs & Descriptions
+# Code Example: Multi-Type Rule System
 
-## 📁 File: `.cursor/rules/api-security.mdc`
+## 🏗️ Organized Rule Hierarchy
+
+```
+.cursor/rules/
+├── core/
+│   └── global-standards.mdc     # Always Rule
+├── languages/
+│   ├── typescript.mdc           # Auto Attached Rule  
+│   └── python.mdc               # Auto Attached Rule
+├── domains/
+│   └── security.mdc             # Agent Requested Rule
+└── templates/
+    └── boilerplate.mdc          # Manual Rule
+```
+
+<!-- Speaker Notes:
+This slide introduces the multi-type rule system, showing how rules can be organized by their application pattern. The directory structure demonstrates a clean separation of concerns between different rule types, making the system more maintainable and easier to navigate.
+-->
 
 ```markdown
 ---
-description: Apply security best practices when working with API endpoints, authentication, database queries, or handling sensitive data
-globs: **/api/**/*.ts,**/routes/**/*.ts,**/middleware/**/*.ts
+description: ""
+globs: ""
 alwaysApply: false
 ---
 
-# API Security Standards
+# React Component Boilerplate
 
-## Authentication & Authorization
-- **Always validate** JWT tokens before processing requests
-- **Never expose** sensitive data in error messages
-- **Implement rate limiting** for all public endpoints
+Use this template when creating new React components:
 
-## Data Handling
-- **Sanitize all inputs** using validation libraries (zod, joi)
-- **Use parameterized queries** to prevent SQL injection
-- **Hash passwords** using bcrypt with salt rounds ≥ 12
-
-## Examples
-
-### ✅ Secure API Endpoint
 ```typescript
-import { z } from 'zod';
-import bcrypt from 'bcrypt';
+import React from 'react';
+import styles from './ComponentName.module.css';
 
-const userSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8)
-});
-
-export async function createUser(req: Request, res: Response) {
-  try {
-    const { email, password } = userSchema.parse(req.body);
-    const hashedPassword = await bcrypt.hash(password, 12);
-    
-    const user = await db.query(
-      'INSERT INTO users (email, password) VALUES ($1, $2)',
-      [email, hashedPassword]
-    );
-    
-    res.json({ id: user.id, email: user.email });
-  } catch (error) {
-    res.status(400).json({ error: 'Invalid request' });
-  }
+interface ComponentNameProps {
+  // Define props here
 }
-```
 
-### ❌ Insecure Implementation
-
-```typescript
-export async function createUser(req: Request, res: Response) {
-  const { email, password } = req.body;
-  
-  const user = await db.query(
-    `INSERT INTO users (email, password) VALUES ('${email}', '${password}')`
+export const ComponentName: React.FC<ComponentNameProps> = ({
+  // destructure props
+}) => {
+  return (
+    <div className={styles.container}>
+      {/* Component content */}
+    </div>
   );
-  
-  res.json(user);
-}
+};
+
+export default ComponentName;
 ```
 
-## Context Guidelines
+## Usage in chat
 
-- When refactoring existing APIs, prioritize security fixes
-- For new endpoints, use the secure patterns from @templates/secure-endpoint.ts
-- Always run security audits before deployment
-
-@templates/secure-endpoint.ts
-@templates/auth-middleware.ts
+`@react-component` to apply this template
 
 ```
 
-## 🎯 Advanced Features
+## 🎯 Usage Patterns
 
-- **Agent-Requested Rule:** AI decides when to apply based on description
-- **Multi-path Globs:** Covers `/api/`, `/routes/`, `/middleware/` directories  
-- **Context Guidelines:** Additional situational guidance
-- **Template References:** Links to reusable security patterns
+| Rule Type | When Applied | Example Usage |
+|-----------|--------------|---------------|
+| **Always** | Every interaction | Global code style, communication tone |
+| **Auto** | File pattern match | `**/*.tsx` → React rules applied |
+| **Agent** | AI decides relevance | Security rules when discussing auth |
+| **Manual** | Explicit reference | `@react-component` for boilerplate |
 
 <!-- Speaker Notes:
-This example demonstrates an agent-requested rule with sophisticated targeting. The description tells the AI when to apply this rule - when working with APIs, authentication, databases, or sensitive data.
+This slide demonstrates how to build a comprehensive rule system using all four rule types working together.
 
-The globs cover multiple directory patterns where API code typically lives. This ensures the rule activates whether someone is working in /api/, /routes/, or /middleware/ directories.
+The hierarchy organizes rules by type and purpose - core always-apply rules, language-specific auto-attached rules, domain-specific agent-requested rules, and manual templates.
 
-The content provides both security best practices and concrete examples. The template references at the bottom link to reusable secure code patterns.
+The global standards rule applies to every interaction, setting communication style and basic code quality standards.
 
-This pattern is excellent for domain-specific expertise that should apply contextually rather than always being present.
+The manual rule example shows how to create reusable templates that developers can invoke on-demand with @syntax.
+
+This multi-layered approach provides both automatic guidance and on-demand assistance, creating a comprehensive AI development environment.
 -->

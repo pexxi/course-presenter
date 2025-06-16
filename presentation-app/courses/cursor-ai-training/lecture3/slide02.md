@@ -1,26 +1,44 @@
 ---
-template: cover
-title: "Codebase Understanding & Context Management"
-subtitle: "Master Large-Scale AI-Assisted Development"
-image: "codebase-context-cover.jpg"
+template: content
+title: "Codebase Navigation Fundamentals"
 ---
 
-# Cursor AI Development Mastery
+# Codebase Navigation Fundamentals
 
-## Lecture 3: Codebase Understanding & Context Management
+## The Traditional Challenge
 
-**Duration:** 30 minutes  
-**Target:** Senior developers, tech leads, development teams  
-**Focus:** Large codebase navigation and context optimization
+- **Manual File Exploration** - Hours spent browsing directories
+- **Documentation Gaps** - Outdated or incomplete architectural docs
+- **Knowledge Silos** - Relying on team members for explanations
+- **Context Switching** - Losing track while jumping between files
+
+## AI-Powered Navigation Revolution
+
+### **Instant Architecture Understanding**
+
+```
+@folder src/
+Analyze the architecture of this project and explain:
+1. The main architectural pattern being used
+2. How data flows through the system
+3. Key components and their responsibilities
+```
+
+### **Progressive Understanding**
+
+- Start with high-level overview
+- Drill down into specific modules
+- Build mental model incrementally
+- Maintain context across sessions
 
 <!-- Speaker Notes:
-Today, we'll transform this experience using Cursor's AI capabilities. You'll learn to:
-- Get instant architectural overviews of complex projects
-- Navigate codebases using intelligent context management
-- Perform multi-file operations with precision
-- Discover code relationships and dependencies automatically
+Let's start by acknowledging the reality of modern development. Most of us spend significant time just trying to understand codebases - whether joining new teams, working on legacy systems, or diving into unfamiliar modules.
 
-This isn't just about understanding code faster - it's about gaining deeper insights than traditional methods could ever provide. By the end of this session, you'll approach large codebases with confidence rather than overwhelm.
+The traditional approach is painful: manually browsing through directories, reading outdated documentation, and interrupting colleagues with questions. This process is not just time-consuming - it's also error-prone and incomplete.
 
-The techniques you'll learn today are essential for modern enterprise development, where codebases can span thousands of files and multiple teams.
+Cursor changes this completely. With AI assistance, you can get instant architectural overviews that would take human reviewers hours to compile. The AI can identify patterns, relationships, and dependencies that aren't obvious from just looking at individual files.
+
+The key insight here is progressive understanding. Instead of trying to understand everything at once, we can build our mental model incrementally, starting broad and narrowing focus as needed.
+
+This is particularly powerful for enterprise codebases where understanding the big picture is crucial before making any changes.
 -->

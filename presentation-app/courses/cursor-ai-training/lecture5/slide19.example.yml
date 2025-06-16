@@ -1,7 +1,0 @@
-# Pomerium policy for MCP servers
-- from: https://internal.company.com
-  to: mcp://database-server
-  policy:
-    - allow:
-        users: ["data-team@company.com"]
-        during: ["business-hours"]

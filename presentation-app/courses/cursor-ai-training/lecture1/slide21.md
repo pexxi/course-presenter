@@ -1,48 +1,34 @@
 ---
 template: content
-title: "Core Interface Overview"
+title: "Practical Demo Walkthrough"
 ---
 
-# Core Interface Overview
+# Practical Demo Walkthrough
 
-## **🤖 AI Integration Points**
+## 🛠️ **Components to Create:**
 
-### **✨ Inline Suggestions**
+- Task model with validation
+- Add/remove functionality  
+- Status management (complete/pending)
+- Basic error handling
 
-- **Tab** to accept suggestions
-- **Escape** to dismiss
-- **Partial acceptance** with arrow keys
+## **Key Techniques:**
 
-### **💬 Chat Interface**
-
-- **Cmd/Ctrl + L** to open chat
-- Context-aware conversations
-- File and code references
-
-### **🧠 Context Awareness**
-
-- Automatic file and project understanding
-
-### **📚 Docs Feature**
-
-- AI can read documentation via Chat
-
-### **⚡ Command Mode**
-
-- **Cmd/Ctrl + K** for quick actions
-- Natural language commands
-- Contextual operations
+- Comment-driven development
+- Incremental acceptance
+- Context management
+- Pattern recognition
 
 <!-- Speaker Notes:
-The key integration points are what make this powerful:
+For our demo, I'll create a simple task model with validation, add/remove functionality, and status management. Think about how the examples we saw earlier could fit into this: the `User` class for assigning tasks, validation logic similar to `validateEmail` for task inputs, and perhaps an `fetchTaskData` function if we were using a backend API. Watch how I use comments to drive the development process.
 
-Inline suggestions appear as you type. Tab accepts, Escape dismisses, and you can use arrow keys for partial acceptance. This becomes muscle memory very quickly.
+[LIVE DEMO SECTION]
 
-The chat interface, accessed with Cmd/Ctrl + L, is context-aware. It knows what files you have open, what code you're working on, and can reference specific parts of your project. It can even read documentation for you if you point it to the right source via the 'Docs' button!
+As I build this, notice a few things:
 
-Command mode, triggered with Cmd/Ctrl + K, lets you give natural language commands. Instead of remembering specific menu paths, you can just describe what you want to do.
+I start each component with a descriptive comment. This isn't just for the AI - it's good development practice that makes your code more maintainable.
 
-Cursor's context awareness means it understands your current project files and recent changes, leading to more relevant suggestions.
+I don't accept every suggestion blindly. Sometimes I'll accept the structure but modify the implementation details.
 
-The magic is in how seamlessly these features work together. You're not switching between tools - you're having a conversation with your development environment.
+I keep related files open. When working on the task manager, I have the task model file open so the AI understands the data structure.
 -->

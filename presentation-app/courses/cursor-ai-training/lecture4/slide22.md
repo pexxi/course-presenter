@@ -1,56 +1,56 @@
 ---
 slide_type: code-example
-title: "Example: Always Rule - Global Standards"
+title: "Example: Auto-Attached Rule - TypeScript"
 ---
 
-# Example: Always Rule - Global Standards
+# Example: Auto-Attached Rule - TypeScript
 
-**File: `.cursor/rules/core/global-standards.mdc`**
+**File: `.cursor/rules/languages/typescript.mdc`**
 
 ```markdown
 ---
-description: "Global development standards applied to all interactions"
-globs: ""
-alwaysApply: true
+description: "TypeScript-specific coding standards and best practices"
+globs: "**/*.{ts,tsx}"
+nested: true  # Apply to all TypeScript files in subdirectories
 ---
 
-# Global Development Standards
+# TypeScript Development Standards
 
-## Communication Style
-- Use **clear, concise language** in all responses
-- **Explain your reasoning** when making architectural decisions
-- **Ask clarifying questions** when requirements are ambiguous
-- **Acknowledge limitations** when uncertain
-- **Provide examples** to illustrate complex points
+## Type Definitions
+- Always use explicit return types
+- Prefer `interface` over `type` for object shapes
+- Use `readonly` for immutable properties
+- Avoid `any` type - use `unknown` or specific types
+- Use type guards for runtime type checking
 
-## Code Quality
-- Write **self-documenting code** with meaningful names
-- Add **inline comments** for complex business logic only
-- **Prefer composition over inheritance**
-- Follow the **Single Responsibility Principle**
-- Keep functions small and focused
+## Modern Features
+- Use optional chaining (`?.`) and nullish coalescing (`??`)
+- Prefer template literals over string concatenation
+- Use object and array destructuring
+- Leverage async/await for asynchronous code
+- Use `const` assertions where appropriate
 
-## Security
-- Never include hardcoded credentials
-- Validate all user inputs
-- Follow the principle of least privilege
-- Keep dependencies updated
-- Use secure defaults
+## React/TSX Specific
+- Define prop and state types explicitly
+- Use functional components with hooks
+- Prefer `React.FC` type for components
+- Use proper event types for handlers
+- Memoize expensive calculations with `useMemo`
 
-## Performance
-- Optimize for readability first
-- Document performance-critical sections
-- Consider memory usage in loops
-- Use appropriate data structures
-- Profile before optimizing
+## Error Handling
+- Use custom error classes
+- Implement proper error boundaries in React
+- Use type predicates for type narrowing
+- Document thrown errors in JSDoc
+- Use discriminated unions for state management
 ```
 
 <!-- Speaker Notes:
-Always Rules are applied to every interaction with the AI, making them ideal for establishing global standards. This example shows a comprehensive set of guidelines that ensure consistent quality across all code and documentation. The rule includes sections on communication, code quality, security, and performance, providing a solid foundation for development standards.
+Auto-Attached Rules are automatically applied based on file patterns. This TypeScript rule demonstrates how to set language-specific standards that only apply to relevant files. The rule includes comprehensive guidelines for TypeScript development, covering type definitions, modern features, React/TSX specifics, and error handling patterns.
 -->
 
 **Key Characteristics:**
-- Applies to all files and interactions
-- No glob patterns needed
-- Ideal for cross-cutting concerns
-- Sets the baseline for all other rules
+- Automatically applied based on file patterns
+- Great for language/framework-specific rules
+- Can be nested in subdirectories
+- Reduces manual configuration

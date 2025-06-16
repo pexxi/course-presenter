@@ -5,18 +5,14 @@ title: "Course Wrap-up & Summary"
 
 # Course Wrap-up & Summary
 
-## 🧠 **Key Learnings & Best Practices**
+## 📚 **Further Learning**
 
-- **Context is King**: Keep relevant files open.
-- **Comment-Driven Development**: Guide AI with clear comments.
-- **Incremental Acceptance**: Review and accept parts of suggestions.
-- **Avoid Over-reliance**: Understand code before accepting.
-- **Test AI Code**: Always validate AI-generated code.
+- **Cursor Official Docs**: [cursor.com/docs](https://cursor.com/docs)
+- **Community Forums**: Share tips and learn from others.
+- **Practice Projects**: Apply skills to real or example projects.
 
 <!-- Speaker Notes:
-For next steps, I recommend starting with small projects. Don't try to use Cursor on your most critical production code immediately. Instead, use it for utility functions, small features, or experimental code. This builds your muscle memory and confidence.
+Remember to consult the official Cursor documentation for the latest features and best practices, and engage with the community forums to learn from other developers.
 
-Focus on comment-driven development. This is probably the biggest mindset shift - instead of thinking "I need to write this function," think "I need to write a comment describing what this function should do."
-
-Experiment with different patterns. Try the examples we showed today. See how Cursor responds to different types of comments and coding scenarios.
+The real learning happens through practice, so start coding with Cursor today.
 -->

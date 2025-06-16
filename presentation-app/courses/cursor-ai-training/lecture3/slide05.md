@@ -1,63 +1,78 @@
 ---
 template: content
-title: "@Folders Integration"
+title: "Advanced File Referencing"
 ---
 
-# @Folders Integration
+# Advanced File Referencing
 
-## Your Gateway to Comprehensive Context
+## Beyond Single File Context
 
-### **Basic @folder Syntax**
+### **Multi-File Context Strategy**
+
+**Related Component Groups:**
 
 ```
-@folder src/components/
-Analyze all React components for accessibility issues
+@folder src/components/user/
+@folder src/hooks/useUser.js
+@folder src/types/user.ts
+Refactor user management to support role-based permissions
 ```
+
+**Cross-Module Analysis:**
 
 ```
 @folder src/api/
-@folder src/models/
-Review the API and data model consistency
+@folder src/services/
+@folder src/utils/validation/
+Standardize error handling across all API interactions
 ```
 
-## Advanced @Folders Techniques
+## Strategic File Selection
 
-### **Selective Context Building**
-
-- **Targeted Analysis** - Include only relevant directories
-- **Performance Balance** - Context vs. processing efficiency
-- **Progressive Inclusion** - Start narrow, expand as needed
-
-### **Multiple Folder Strategy**
+### **Configuration Integration**
 
 ```
 @folder src/auth/
-@folder src/middleware/
-@folder config/
-Analyze the complete authentication and security setup
+@folder config/auth.json
+@folder .env.example
+Update authentication to support OAuth2 providers
 ```
 
-### **Best Practices**
+### **Documentation Inclusion**
 
-- **Relevant Scope** - Don't include everything
-- **Logical Grouping** - Related functionality together
-- **Context Cleanup** - Remove when switching tasks
+```
+@folder src/api/
+@folder docs/api-guidelines.md
+@folder README.md
+Ensure API implementation follows documented standards
+```
+
+### **Hierarchical Context Building**
+
+1. **Start Specific** - Core functionality files
+2. **Add Related** - Dependencies and utilities  
+3. **Include Config** - Settings and environment
+4. **Add Documentation** - Context and guidelines
 
 <!-- Speaker Notes:
-The @folder feature is your gateway to providing comprehensive context to AI. Think of it as telling the AI: "Here's exactly what I want you to focus on."
+Advanced file referencing is about strategic context building. It's not just about including files - it's about building a comprehensive understanding by carefully selecting related components.
 
-The beauty of @folder is its simplicity and power. With a single command, you can include entire directory trees in your conversation context. But with great power comes the need for strategy.
+The key insight here is that modern applications are built with interconnected components. When you're working on a feature, you often need to understand not just the core implementation, but also the configuration, utilities, types, and documentation that support it.
 
-The key insight here is selective context building. More context isn't always better - it can actually make AI responses slower and less focused. You want to include enough context to get meaningful analysis, but not so much that you overwhelm the system.
+Let me give you a practical example. If you're working on user management, you don't just need the user component. You likely need:
+- The user component files
+- The custom hooks that manage user state
+- The TypeScript types that define user data
+- The API endpoints that serve user data
+- The validation utilities
+- The configuration files
+- The documentation that explains the user flow
 
-Let me show you the difference between good and poor @folder usage:
+This hierarchical approach to context building is particularly powerful. Start with your core functionality, then progressively add related components, configuration, and documentation.
 
-Poor usage: @folder . (includes everything)
-Good usage: @folder src/auth/ @folder src/middleware/ (focused on specific functionality)
+The configuration integration pattern is especially important in enterprise environments where settings are often split across multiple files - environment variables, JSON configs, and documentation.
 
-The multiple folder strategy is particularly powerful when you're working on features that span multiple modules. For example, if you're working on authentication, you might want to include the auth directory, middleware directory, and configuration files.
+Documentation inclusion is often overlooked but incredibly valuable. Including README files and API documentation helps AI understand not just how the code works, but how it's supposed to work according to your team's standards.
 
-Remember, you can always add more context as needed, but starting focused is usually the better approach.
-
-Performance considerations are important too. Including massive directories can slow down AI responses. Start with the most relevant directories and expand your context as needed.
+Remember: the goal is comprehensive understanding, not just code modification.
 -->

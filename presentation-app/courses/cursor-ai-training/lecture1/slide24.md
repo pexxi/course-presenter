@@ -1,30 +1,22 @@
 ---
 template: content
-title: "Basic Autocomplete Features"
+title: "Course Wrap-up & Summary"
 ---
 
-# Basic Autocomplete Features
+# Course Wrap-up & Summary
 
-## 📝 **Single-Line Completions**
+## 🧠 **Key Learnings & Best Practices**
 
-### **Function Signatures**
-
-Parameter suggestions and type definitions
-
-### **Variable Names**
-
-Context-aware naming suggestions
-
-### **Import Statements**
-
-Automatic import suggestions and organization
-
-### **API Calls**
-
-Method completion with proper syntax
+- **Context is King**: Keep relevant files open.
+- **Comment-Driven Development**: Guide AI with clear comments.
+- **Incremental Acceptance**: Review and accept parts of suggestions.
+- **Avoid Over-reliance**: Understand code before accepting.
+- **Test AI Code**: Always validate AI-generated code.
 
 <!-- Speaker Notes:
-This is where the magic happens. Let's see AI autocomplete in action and understand the different types of assistance you'll get.
+For next steps, I recommend starting with small projects. Don't try to use Cursor on your most critical production code immediately. Instead, use it for utility functions, small features, or experimental code. This builds your muscle memory and confidence.
 
-Single-line completions are your bread and butter. As you type function names, Cursor suggests parameters and types. When you're working with APIs, it suggests method calls with proper syntax. Variable naming becomes context-aware - if you're in a user management function, it'll suggest user-related variable names.
+Focus on comment-driven development. This is probably the biggest mindset shift - instead of thinking "I need to write this function," think "I need to write a comment describing what this function should do."
+
+Experiment with different patterns. Try the examples we showed today. See how Cursor responds to different types of comments and coding scenarios.
 -->

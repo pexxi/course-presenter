@@ -1,64 +1,43 @@
 ---
-template: code
-title: "Prompt Example: Documentation Generation"
+template: content
+title: "Integration Workflows"
 ---
 
-# Prompt Example: Documentation Generation
+# Integration Workflows
 
-## 📋 **Generated Documentation**
+## 🔄 **Chat + Inline Edit Combination**
 
-```markdown
-# User Operations API
+- **Explore with Chat**: Understand requirements and approach
+- **Implement with Inline**: Make precise code modifications
+- **Refine through Conversation**: Iterative improvement process
 
-## Endpoint: `/api/users/{user_id}`
+## 🏗️ **Development Workflow Integration**
 
-**Methods:** GET, PUT, DELETE  
-**Authentication:** Required  
-**Content-Type:** application/json
+- **Code Review**: Use chat to analyze and explain changes
+- **Feature Development**: Plan in chat, implement inline
+- **Bug Fixing**: Debug in chat, fix with inline editing
+- **Refactoring**: Discuss approach, apply changes precisely
 
-### GET - Retrieve User
-Returns user information by ID.
+## 📊 **Team Collaboration**
 
-**Response:** 200 OK
-```json
-{
-  "id": 123,
-  "name": "John Doe",
-  "email": "john@example.com"
-}
-```
-
-### PUT - Update User
-
-Updates user information with provided data.
-
-**Request Body:**
-
-```json
-{
-  "name": "Jane Doe",
-  "email": "jane@example.com"
-}
-```
-
-### DELETE - Remove User
-
-Permanently deletes the user account.
-
-**Response:** 204 No Content
-
-```
+- **Knowledge Sharing**: Document complex logic for team members
+- **Code Standards**: Apply consistent patterns across codebase
+- **Onboarding**: Generate explanations for new team members
 
 <!-- Speaker Notes:
-The generated documentation is impressive in its completeness. It provides a clear title, identifies all supported methods, includes authentication requirements, and specifies content types. For each HTTP method, it explains the purpose, provides example requests and responses, and includes proper status codes.
+The real power of Cursor's advanced features comes from integrating them into cohesive development workflows. This isn't about using individual features in isolation - it's about combining chat and inline editing into powerful development patterns.
 
-What's particularly valuable is how the AI inferred information not explicitly stated in the code. It assumed authentication is required (reasonable for user operations), provided realistic JSON examples, and used proper REST API documentation conventions.
+The chat plus inline edit combination is particularly effective. Start conversations in chat to explore requirements, understand constraints, and discuss different approaches. Use chat's conversational nature to think through complex problems. Then switch to inline editing for precise implementation of the solutions you've discussed.
 
-This type of documentation generation is invaluable for API development. Instead of manually writing OpenAPI specs or README documentation, you can generate professional documentation directly from your code. The AI understands API conventions and produces documentation that follows industry standards.
+This creates a natural workflow: explore, implement, refine. Chat for exploration and understanding, inline editing for implementation, then back to chat for refinements and improvements. This cycle mirrors how you might work with a human pair programmer.
 
-You can extend this further by asking for specific formats: "Generate OpenAPI 3.0 specification" or "Create Postman collection documentation." The AI can adapt the same code analysis to different documentation formats.
+For development workflow integration, consider how these features fit into common development tasks. During code review, use chat to understand unfamiliar code sections or to analyze the implications of changes. For feature development, plan the architecture and approach in chat, then implement specific functions with inline editing.
 
-This capability transforms API documentation from a tedious, often-skipped task into an automatic part of your development workflow. Well-documented APIs improve team productivity, reduce support requests, and make integration easier for other developers.
+Bug fixing becomes more systematic: describe the problem in chat to get debugging approaches, then use inline editing to implement fixes precisely where they're needed. Refactoring follows a similar pattern - discuss the refactoring strategy in chat, then apply changes with surgical precision using inline editing.
 
-The key is providing complete code context and asking for the specific type of documentation you need. The more context you provide, the more accurate and useful the generated documentation will be.
+Team collaboration benefits significantly from these capabilities. Instead of lengthy code review comments, you can generate detailed explanations of complex logic. Code standards can be applied consistently by using AI to help identify and fix pattern violations. New team member onboarding becomes more efficient when you can quickly generate explanations of any code section.
+
+The key insight is that these features work best when integrated into your existing development processes, not as separate activities. Think of AI assistance as an integrated part of your development workflow, available at every stage from initial planning through final documentation.
+
+This integration approach transforms AI from an occasional helper into a continuous development partner that enhances every aspect of your coding workflow.
 -->

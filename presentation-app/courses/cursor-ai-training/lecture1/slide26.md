@@ -5,14 +5,22 @@ title: "Course Wrap-up & Summary"
 
 # Course Wrap-up & Summary
 
-## 📚 **Further Learning**
+## 🚀 **Next Steps**
 
-- **Cursor Official Docs**: [cursor.com/docs](https://cursor.com/docs)
-- **Community Forums**: Share tips and learn from others.
-- **Practice Projects**: Apply skills to real or example projects.
+### **Practice Recommendations**
+
+- Start with small projects to build muscle memory
+- Focus on comment-driven development
+- Experiment with different code patterns
+
+### **Coming Up in Lecture 2**
+
+- Advanced chat interface mastery
+- Inline editing for precise modifications
+- Complex refactoring and documentation generation
 
 <!-- Speaker Notes:
-Remember to consult the official Cursor documentation for the latest features and best practices, and engage with the community forums to learn from other developers.
+In our next lecture, we'll dive into the advanced chat interface and inline editing features. You'll learn to have complex conversations with the AI about your code, perform precise refactoring operations, and generate comprehensive documentation.
 
-The real learning happens through practice, so start coding with Cursor today.
+You're now equipped with the foundation to start your AI-assisted development journey.
 -->

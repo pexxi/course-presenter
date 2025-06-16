@@ -5,34 +5,43 @@ title: "Rule Types & Activation Patterns"
 
 # Rule Types & Activation Patterns
 
-## 🎯 The Four Rule Types (Continued)
+## ⚡ Activation Patterns
 
-### 3. **Nested Rules**
+### 1. **Directory-based Activation**
+
+```
+.cursor/rules/
+  frontend/
+    react-rules.mdc
+  backend/
+    api-rules.mdc
+```
+- Rules auto-apply based on file location
+- Perfect for domain-specific conventions
+
+### 2. **File-based Activation**
 
 ```yaml
-description: ""
-globs: "**/components/**/*"
-nested: true
+# In .mdc file
+globs: "**/api/**/*.ts"
 ```
+- Rules apply to matching files
+- Great for technical requirements
 
-- 📁 Automatically applied to files in subdirectories
-- 🎯 Use for: Feature/module specific rules
+### 3. **Manual Activation**
 
-### 4. **Manual Rules**
-
-```yaml
-description: ""
-# No globs or alwaysApply
+```typescript
+// In your code
+// @rule: security-rules
 ```
-
-- ✋ Only applied when explicitly referenced
-- 🎯 Use for: One-off or optional rules
+- Explicitly reference rules
+- Ideal for special cases
 
 <!-- Speaker Notes:
-Nested Rules are perfect for organizing rules by feature or module, automatically applying to relevant files. Manual Rules offer flexibility by only applying when specifically called, ideal for temporary or situational guidelines.
+Understanding activation patterns is key to effective rule management. Directory-based activation keeps related rules together, while file-based patterns offer precise control. Manual activation provides flexibility when you need it.
 -->
 
-**Best Practices:**
-- Use Nested Rules for domain-specific conventions
-- Reserve Manual Rules for edge cases
-- Document when and why to use each rule type
+**Pro Tips:**
+- Organize rules by domain/feature
+- Use clear, descriptive rule names
+- Document activation patterns in your team's wiki

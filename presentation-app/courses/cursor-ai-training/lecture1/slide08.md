@@ -1,32 +1,34 @@
 ---
 template: content
-title: "Installation & Setup"
+title: "Core Interface Overview"
 ---
 
-# Installation & Setup
+# Core Interface Overview
 
-## **🔧 Initial Configuration**
+## 🏗️ **Main Components**
 
-### **API Keys & Models**
+### **📝 Editor Pane**
 
-- OpenAI integration setup
-- Model selection (GPT-4, Claude, etc.)
-- Usage limits and billing preferences
+Enhanced with AI suggestions and inline assistance
 
-### **Privacy & Security**
+### **📁 Sidebar**
 
-- Code sharing preferences
-- Data handling settings
-- Local vs. cloud processing options
+Traditional file explorer + AI chat interface
 
-### **Workspace Setup**
+### **⌨️ Command Palette**
 
-- Import existing projects
-- Configure workspace-specific settings
-- Set up team collaboration features
+AI-enhanced command search and execution
+
+### **📊 Status Bar**
+
+AI model status and usage indicators
 
 <!-- Speaker Notes:
-Pay special attention to the privacy settings. You can configure whether your code is sent to external services, how data is handled, and whether to prefer local processing where possible. For enterprise environments, these settings are critical.
+The interface will feel familiar if you're coming from VS Code, but notice these key differences that make AI integration seamless.
 
-Finally, workspace setup. Import your existing projects and spend a few minutes configuring workspace-specific settings. This initial investment will pay dividends as Cursor learns your coding patterns and preferences.
+The editor pane looks the same, but now it's enhanced with AI suggestions that appear inline as you type. These aren't just simple autocomplete - they're intelligent suggestions based on your context, coding patterns, and the broader codebase.
+
+The sidebar maintains the familiar file explorer, but now includes an integrated chat interface. This isn't a separate window or panel - it's built right into your workflow.
+
+Pay attention to the status bar. It now shows AI model status, usage indicators, and processing state. This helps you understand when AI is working and what resources you're using.
 -->

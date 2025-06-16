@@ -1,49 +1,40 @@
 ---
-title: "Prompt Example: Enterprise Integration Planning"
-type: "prompt-example"
+title: "Advanced Workflows"
+type: "content"
 ---
 
-# Prompt Example: Enterprise Integration Planning
+# Advanced Workflows
 
-## Expected Response Structure
+## Advanced MCP Server Features
 
-### AI Response Framework
+### Transport Evolution (2025)
 
-The AI will provide:
+- **Streamable HTTP Transport**: Latest standard replacing stdio
+- **Server-Sent Events (SSE)**: For real-time data streaming
+- **WebSocket Support**: For bi-directional communication
+- **HTTP+SSE**: Deprecated but still supported
 
-- **Phase 1: Foundation** (Months 1-2)
-  - GitHub and Jira MCP servers for developers
-  - Basic security framework with Pomerium
-  - Pilot group of 50 developers
+### Latest MCP Capabilities
 
-- **Phase 2: Data Integration** (Months 3-4)
-  - PostgreSQL MCP servers with read-only access
-  - Salesforce MCP server for customer data
-  - Extended to 200 developers
-
-- **Phase 3: Full Deployment** (Months 5-6)
-  - Complete infrastructure integration
-  - All 500 developers enabled
-  - Advanced analytics and monitoring
-
-### Security Recommendations
-
-- Zero Trust architecture for all MCP connections
-- Role-based access control per data source
-- Real-time audit logging and compliance reporting
+- **Resource Templates**: Dynamic resource generation
+- **Progress Notifications**: Long-running operation tracking  
+- **Sampling Integration**: Direct LLM sampling within servers
+- **Annotation Support**: Content metadata and priority system
 
 <!-- Speaker Notes:
-This enterprise integration planning example highlights one of the most compelling use cases for AI with MCP access to business systems. What we're showing here is how AI can analyze your existing infrastructure and generate comprehensive integration plans that would typically require weeks of consultant analysis.
+The evolution of MCP from its November 2024 launch to where we are today in 2025 demonstrates how quickly foundational technologies can mature when they address real industry needs. What you're seeing here represents significant architectural improvements based on real-world usage patterns.
 
-The three-phase approach you see here isn't arbitrary - it's based on proven enterprise deployment methodologies. Phase 1 establishes the foundation with essential tools and a limited pilot group. This approach allows you to validate the technology, identify integration challenges, and build internal expertise before scaling.
+The transport evolution is particularly important for enterprise deployments. The original stdio transport worked well for development and simple use cases, but production environments needed more robust communication mechanisms. Streamable HTTP transport provides better error handling, monitoring capabilities, and integration with existing infrastructure.
 
-The progression from 50 to 200 to 500 developers reflects realistic adoption curves in large organizations. Each phase introduces additional complexity - from basic development tools to data integration to full infrastructure access. This staged approach allows you to address security, performance, and training challenges at manageable scale.
+Server-Sent Events represent a major advancement for real-time applications. When you have AI agents processing large datasets or performing long-running operations, the ability to stream progress updates and intermediate results transforms the user experience. Instead of waiting for complete responses, users get real-time feedback on operation progress.
 
-The security recommendations demonstrate the maturity of thinking required for enterprise deployments. Zero Trust architecture isn't optional when you're giving AI agents access to business-critical systems. Every connection, every request, every data access must be authenticated and authorized.
+WebSocket support enables truly interactive AI experiences. Think about collaborative editing scenarios where multiple users and AI agents are working together in real-time. The bi-directional communication capability opens up entirely new workflow possibilities that weren't feasible with request-response patterns.
 
-What makes this particularly powerful is that the AI can customize these plans based on your specific technology stack, organizational structure, and compliance requirements. The same prompt framework can generate integration plans for different industries, different scales, and different technical architectures.
+Resource templates address one of the early limitations of MCP - the need to pre-define all available resources. Dynamic resource generation means AI agents can discover and access data that's created or modified during their operation. This is crucial for applications where the data landscape changes frequently.
 
-The time savings here are substantial. Traditional enterprise integration planning involves multiple stakeholders, extensive requirements gathering, and iterative planning cycles. With AI assistance, you can generate detailed implementation roadmaps in minutes rather than weeks, then refine and customize them through continued interaction.
+Progress notifications solve a critical user experience problem. When AI agents perform complex operations - like analyzing large codebases or processing extensive datasets - users need visibility into operation status. The progress notification system provides standardized ways to communicate operation status, estimated completion times, and intermediate results.
 
-This capability extends beyond just MCP integration. The same approach works for any complex technology adoption - cloud migrations, security framework implementations, or digital transformation initiatives. AI becomes your strategic planning partner, not just a coding assistant.
+The sampling integration feature represents a significant architectural advancement. Instead of AI agents making external calls for LLM operations, MCP servers can now perform sampling directly. This reduces latency, improves security by keeping sensitive data within your infrastructure, and enables more sophisticated AI workflows within enterprise boundaries.
+
+These improvements show how rapidly this technology is maturing, but they also highlight the importance of staying current with MCP developments and planning your implementations with future capabilities in mind.
 -->

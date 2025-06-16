@@ -1,81 +1,40 @@
 ---
 template: content
-title: "Prompts Library & Templates"
+title: "Creating Effective Rules"
 ---
 
-# Prompts Library & Templates
+# Creating Effective Rules
 
-## Why Use Prompt Templates?
+## ✅ Best Practices
 
-- **Reusable**: Save time on common tasks
-- **Consistent**: Standardize team communication with AI
-- **Powerful**: Enable advanced workflows
+### **1. Keep Rules Focused & Concise**
 
-## Example: Prompt Template
+- 🎯 Target: Under 500 lines per rule
+- 🎯 Split large concepts into multiple, composable rules
+- 🎯 One responsibility per rule
 
-```
-"promptTemplates": {
-  "addUnitTest": "Write a unit test for the following function: {{functionName}}"
-}
-```
-
-## How to Organize
-
-- Store in `.cursor-rules.json` or separate file
-- Use variables for dynamic prompts
-- Share templates across teams
-
-<!-- Speaker Notes:
-Prompt templates are a powerful way to standardize and accelerate your team's use of AI. By creating a library of reusable prompts, you ensure that everyone is asking the AI in the most effective way possible. This leads to better results and more efficient workflows.
--->
-✅ Good: "Use camelCase for variable names"
-❌ Vague: "Variables should be named properly"
-
-✅ Good: "Maximum line length must be 80 characters"  
-❌ Vague: "Keep lines to a reasonable length"
-```
-
-### **3. Provide Concrete Examples**
+### **2. Use Clear, Actionable Language**
 
 ```markdown
-## Examples
-<example>
-const userName = 'john_doe'; // ✅ Valid
-</example>
-
-<example type="invalid">
-const user_name = 'john_doe'; // ❌ Invalid  
-</example>
+✅ Good: "Use camelCase for variable names"
+❌ Vague: "Variables should be named properly"
 ```
 
-### **4. Structure Rules Hierarchically**
+### **3. Include Examples**
 
+```typescript
+// Good
+const userName = 'John';
+
+// Bad
+const username = 'John';
 ```
-.cursor/rules/
-├── core/               # Always-apply rules
-├── languages/          # Language-specific  
-│   ├── typescript.mdc
-│   └── python.mdc
-└── domains/           # Domain-specific
-    ├── api.mdc
-    └── frontend.mdc
-```
-
-## 🚫 Common Pitfalls
-
-- ❌ **Overly Complex Rules** → Split into smaller rules
-- ❌ **Contradictory Rules** → Use clear priorities
-- ❌ **Too Many Always Rules** → Use auto-attached instead
-- ❌ **Vague Descriptions** → Be specific and measurable
 
 <!-- Speaker Notes:
-Effective rules are the foundation of a good Cursor setup. The key is to be specific and actionable - avoid vague guidance that the AI might interpret differently.
-
-Structure rules hierarchically using folders. This makes them easier to manage and creates logical separation between different types of guidance.
-
-Examples are crucial - always show both correct and incorrect usage. This helps the AI understand not just what to do, but what to avoid.
-
-Common pitfalls include making rules too complex, having contradictory rules, or using too many always-apply rules which can bloat the context window.
-
-Remember: rules are essentially prompts, so write them like you would write a clear prompt to a human developer.
+Creating effective rules is both an art and a science. Focus on keeping rules concise and single-purpose. Use clear, directive language that leaves no room for interpretation. Always include concrete examples of both correct and incorrect usage to provide clear guidance.
 -->
+
+**Key Points:**
+- One responsibility per rule
+- Be explicit in your instructions
+- Show, don't just tell

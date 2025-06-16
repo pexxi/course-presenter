@@ -5,15 +5,27 @@ title: "Code Example: Function Creation"
 
 # Code Example: Function Creation
 
-## 💡 **Prompt Comment**
+## ✨ **AI Generated Code**
 
 ```javascript
-// Create a function that validates email addresses
-// Should check for proper format and return boolean
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+// Usage example
+console.log(validateEmail("user@example.com")); // true
+console.log(validateEmail("invalid-email"));    // false
 ```
 
 <!-- Speaker Notes:
-Let's look at our first practical example. This demonstrates the power of comment-driven development with Cursor.
+The AI generated a complete function with several notable qualities:
 
-I started with a simple comment describing what I want - a function that validates email addresses and returns a boolean. Watch how Cursor responds.
+First, the naming is clear and matches the intent. The function is called validateEmail, which is exactly what we asked for.
+
+Second, it uses best practices. Instead of a simple string check, it uses a proper regex pattern for email validation. This isn't just working code - it's good code.
+
+Third, the implementation is clean and readable. A senior developer reviewing this code would approve it.
+
+Fourth, and this is really nice, the AI often includes usage examples. It's not just giving you the function - it's showing you how to use it.
 -->

@@ -1,34 +1,30 @@
 ---
 template: content
-title: "Core Interface Overview"
+title: "Basic Autocomplete Features"
 ---
 
-# Core Interface Overview
+# Basic Autocomplete Features
 
-## 🏗️ **Main Components**
+## 📋 **Multi-Line Completions**
 
-### **📝 Editor Pane**
+### **Function Bodies**
 
-Enhanced with AI suggestions and inline assistance
+Complete function implementations from comments
 
-### **📁 Sidebar**
+### **Class Definitions**
 
-Traditional file explorer + AI chat interface
+Boilerplate code generation and structure
 
-### **⌨️ Command Palette**
+### **Documentation**
 
-AI-enhanced command search and execution
+Automatic docstring and comment generation
 
-### **📊 Status Bar**
+### **Test Cases**
 
-AI model status and usage indicators
+Test function scaffolding and scenarios
 
 <!-- Speaker Notes:
-The interface will feel familiar if you're coming from VS Code, but notice these key differences that make AI integration seamless.
+But the real power comes with multi-line completions. Type a comment describing what you want a function to do, and Cursor will generate the entire function body. Define a class name and Cursor will scaffold the complete class structure with appropriate methods.
 
-The editor pane looks the same, but now it's enhanced with AI suggestions that appear inline as you type. These aren't just simple autocomplete - they're intelligent suggestions based on your context, coding patterns, and the broader codebase.
-
-The sidebar maintains the familiar file explorer, but now includes an integrated chat interface. This isn't a separate window or panel - it's built right into your workflow.
-
-Pay attention to the status bar. It now shows AI model status, usage indicators, and processing state. This helps you understand when AI is working and what resources you're using.
+Documentation generation is particularly powerful. Write a function and Cursor will generate comprehensive docstrings that follow your project's conventions.
 -->

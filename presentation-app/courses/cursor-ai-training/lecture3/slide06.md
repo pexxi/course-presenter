@@ -1,78 +1,81 @@
 ---
 template: content
-title: "Advanced File Referencing"
+title: "Multi-File Operations"
 ---
 
-# Advanced File Referencing
+# Multi-File Operations
 
-## Beyond Single File Context
+## Cross-File Refactoring Mastery
 
-### **Multi-File Context Strategy**
-
-**Related Component Groups:**
-
-```
-@folder src/components/user/
-@folder src/hooks/useUser.js
-@folder src/types/user.ts
-Refactor user management to support role-based permissions
-```
-
-**Cross-Module Analysis:**
+### **API Interface Changes**
 
 ```
 @folder src/api/
 @folder src/services/
-@folder src/utils/validation/
-Standardize error handling across all API interactions
+@folder src/types/
+I need to add a 'status' field to the User model. 
+Update the model, all API endpoints, and TypeScript types.
 ```
 
-## Strategic File Selection
-
-### **Configuration Integration**
+### **Dependency Updates**
 
 ```
-@folder src/auth/
-@folder config/auth.json
-@folder .env.example
-Update authentication to support OAuth2 providers
+@folder src/
+@folder package.json
+Update from React 17 to React 18, including all 
+breaking changes and deprecation warnings.
 ```
 
-### **Documentation Inclusion**
+## Consistency Management
+
+### **Style Enforcement**
+
+- **Naming Conventions** - Consistent terminology across files
+- **Pattern Implementation** - Apply design patterns uniformly
+- **Architecture Compliance** - Follow established guidelines
+
+### **Documentation Synchronization**
 
 ```
-@folder src/api/
-@folder docs/api-guidelines.md
-@folder README.md
-Ensure API implementation follows documented standards
+@folder src/components/
+@folder docs/components/
+Update all component documentation to match 
+the latest implementation changes.
 ```
 
-### **Hierarchical Context Building**
+## Integration Testing Support
 
-1. **Start Specific** - Core functionality files
-2. **Add Related** - Dependencies and utilities  
-3. **Include Config** - Settings and environment
-4. **Add Documentation** - Context and guidelines
+### **Test Generation**
+
+- **Unit Tests** - Component-specific testing
+- **Integration Tests** - Cross-module interaction testing
+- **End-to-End** - Complete workflow validation
+
+### **Mock and Fixture Creation**
+
+- **API Mocks** - Realistic test data
+- **Component Fixtures** - Test scenarios
+- **Database Seeding** - Consistent test environments
 
 <!-- Speaker Notes:
-Advanced file referencing is about strategic context building. It's not just about including files - it's about building a comprehensive understanding by carefully selecting related components.
+Multi-file operations are where AI really demonstrates its power for enterprise development. This is about making changes that need to be coordinated across multiple files, modules, and even different types of assets.
 
-The key insight here is that modern applications are built with interconnected components. When you're working on a feature, you often need to understand not just the core implementation, but also the configuration, utilities, types, and documentation that support it.
+Let me start with a common scenario: API changes. When you modify an API interface, you typically need to update:
+- The API endpoint implementation
+- The data models or types
+- The frontend services that call the API
+- The tests that verify the API behavior
+- The documentation that describes the API
 
-Let me give you a practical example. If you're working on user management, you don't just need the user component. You likely need:
-- The user component files
-- The custom hooks that manage user state
-- The TypeScript types that define user data
-- The API endpoints that serve user data
-- The validation utilities
-- The configuration files
-- The documentation that explains the user flow
+Doing this manually is error-prone and time-consuming. With AI, you can describe the change once and have it propagated consistently across all relevant files.
 
-This hierarchical approach to context building is particularly powerful. Start with your core functionality, then progressively add related components, configuration, and documentation.
+The key insight here is consistency. AI doesn't just make changes - it makes consistent changes that follow your established patterns and conventions.
 
-The configuration integration pattern is especially important in enterprise environments where settings are often split across multiple files - environment variables, JSON configs, and documentation.
+Dependency updates are another great example. When you upgrade a major framework version like React, there are often breaking changes that need to be addressed across your entire codebase. AI can identify all the places that need updates and make the changes consistently.
 
-Documentation inclusion is often overlooked but incredibly valuable. Including README files and API documentation helps AI understand not just how the code works, but how it's supposed to work according to your team's standards.
+Style enforcement is particularly valuable for teams. AI can ensure that new code follows your established naming conventions, architectural patterns, and coding standards.
 
-Remember: the goal is comprehensive understanding, not just code modification.
+The integration testing support is often overlooked but incredibly valuable. When you make multi-file changes, you often need new tests to verify that everything works together correctly. AI can generate appropriate test scenarios based on understanding how your components interact.
+
+This is especially powerful for large teams where maintaining consistency manually is challenging.
 -->

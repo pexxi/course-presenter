@@ -5,22 +5,22 @@ title: "Introduction to MCP Servers"
 
 # Introduction to MCP Servers
 
-### What is Model Context Protocol (MCP)?
+### Why MCP Matters for Enterprise
 
-**MCP is the "USB-C for AI apps"** - a universal standard that enables AI assistants to securely connect to any data source or tool.
+#### Current Adoption (2025)
 
-#### Key Components
+- **5,000+** public MCP servers deployed globally
+- **Major adopters**: Microsoft, OpenAI, Google, AWS, Cloudflare
+- **50K+** GitHub stars across MCP repositories
 
-- **MCP Host**: AI application (like Claude Desktop, Cursor)
-- **MCP Client**: Secure connector within the host
-- **MCP Server**: Lightweight service exposing data/tools
+#### Business Benefits
 
-#### The Problem MCP Solves
-
-- **Before**: N×M custom integrations (complex, fragmented)
-- **After**: N+M standardized connections (simple, scalable)
+- **Democratizes data access** through natural language
+- **Reduces integration complexity** by 60-80%
+- **Improves AI accuracy** with real-time context
+- **Enables true agentic workflows**
 
 <!--
 Speaker Notes:
-The key insight is that MCP solves the "N×M problem" - instead of building custom integrations for every AI model with every data source, we now have a universal protocol. This is similar to how USB standardized device connections or how HTTP standardized web communication.
+The statistics here are remarkable - in just 6 months since its November 2024 launch by Anthropic, MCP has achieved widespread adoption across the technology industry. When competitors like Microsoft, OpenAI, and Google all adopt the same standard, you know it's addressing a fundamental need.
 -->

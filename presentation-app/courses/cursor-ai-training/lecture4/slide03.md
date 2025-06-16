@@ -1,49 +1,40 @@
 ---
 slide_type: content
-title: "Understanding the New Cursor Rules System"
+title: "MDC File Format & Project Rules"
 ---
 
-# Understanding the New Cursor Rules System
+# MDC File Format & Project Rules
 
-## 🏗️ System Architecture Overview
+## 📁 Project Rules Structure
 
 ```
-Cursor Rules System (v0.45+)
-├── Project Rules (.cursor/rules/)    ← Version-controlled, scoped
-├── User Rules (Settings)             ← Global, personal preferences  
-├── Memories (Auto-generated)         ← AI learns from conversations
-└── Legacy .cursorrules               ← Still supported, deprecated
+.cursor/
+└── rules/
+    ├── coding-standards.mdc
+    ├── api-guidelines.mdc
+    ├── frontend/
+    │   ├── react-patterns.mdc
+    │   └── styling-rules.mdc
+    └── backend/
+        ├── database-rules.mdc
+        └── auth-patterns.mdc
 ```
-
-## 🔄 How Rules Work
-
-**Core Principle:** Large language models have no memory between completions
-
-✅ **Solution:** Rules provide persistent, reusable context at prompt level  
-✅ **When Applied:** Rule contents included at start of model context  
-✅ **Scope:** Both Chat and Inline Edit (Cmd/Ctrl + K)
-
-## 📊 Three Types of Rules
-
-| Rule Type | Storage | Scope | Use Case |
-|-----------|---------|-------|----------|
-| **Project** | `.cursor/rules/` | Repository | Team standards, domain knowledge |
-| **User** | Settings | Global | Personal preferences, tone |
-| **Memories** | Auto-created | Repository | AI learns from conversations |
-
-## 🚀 Key Benefits
-
-- **Granular Control:** File-specific, directory-specific, or global
-- **Team Collaboration:** Version-controlled project rules
-- **Smart Activation:** Rules apply when relevant (glob patterns)
-- **Enterprise Ready:** Nested rules, organizational hierarchies
 
 <!-- Speaker Notes:
-The new Cursor Rules system is a complete redesign. The key insight is that LLMs don't retain context between conversations, so rules solve this by injecting consistent guidance.
+Project rules are organized in a hierarchical structure under the .cursor/rules directory. This structure helps maintain organization as your rule set grows. The example shows a typical structure with root-level rules and categorized subdirectories for different domains like frontend and backend.
+-->
+2. **Via Settings:** Cursor Settings > Rules
+3. **Via Chat:** `/Generate Cursor Rules` command
+4. **Manually:** Create `.mdc` files in `.cursor/rules/`
 
-Project rules are the most important - they're stored in .cursor/rules/, version controlled, and can be scoped using glob patterns or descriptions for AI to decide when to apply them.
+<!-- Speaker Notes:
+Project rules are stored in .cursor/rules/ and written in MDC format - which is markdown with YAML frontmatter.
 
-User rules are personal preferences stored in settings. Memories are automatically generated based on conversations - Cursor learns patterns from how you work.
+The frontmatter contains three required fields: description (for AI context), globs (file patterns), and alwaysApply (boolean).
 
-The legacy .cursorrules file still works but is deprecated in favor of this more flexible system.
+You can organize rules in subdirectories - these become "nested rules" that automatically activate when files in their directory are referenced.
+
+The MDC format allows referencing other files with @ syntax, and the AI can generate rules automatically using the /Generate Cursor Rules command.
+
+This is much more powerful than the old single .cursorrules file.
 -->

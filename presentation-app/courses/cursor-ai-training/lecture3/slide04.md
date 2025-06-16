@@ -1,63 +1,63 @@
 ---
 template: content
-title: "AI-Powered Code Discovery"
+title: "@Folders Integration"
 ---
 
-# AI-Powered Code Discovery
+# @Folders Integration
 
-## Beyond Traditional Search
+## Your Gateway to Comprehensive Context
 
-### **Semantic Understanding vs. Keyword Matching**
-
-**Traditional Search:**
-
-```bash
-grep -r "authenticate" src/
-# Returns: variable names, comments, file names
-```
-
-**AI-Powered Discovery:**
+### **Basic @folder Syntax**
 
 ```
-Find all code that handles user authentication,
-including login, logout, session management,
-and token validation
+@folder src/components/
+Analyze all React components for accessibility issues
 ```
 
-## Advanced Discovery Techniques
+```
+@folder src/api/
+@folder src/models/
+Review the API and data model consistency
+```
 
-### **Functionality-Based Search**
+## Advanced @Folders Techniques
 
-- Find code by **what it does**, not what it's called
-- Discover **similar implementations** across modules  
-- Identify **patterns and anti-patterns** automatically
+### **Selective Context Building**
 
-### **Relationship Mapping**
+- **Targeted Analysis** - Include only relevant directories
+- **Performance Balance** - Context vs. processing efficiency
+- **Progressive Inclusion** - Start narrow, expand as needed
 
-- **Component Dependencies** - How modules interact
-- **Data Flow Analysis** - How information moves through system
-- **Impact Assessment** - What changes when you modify code
+### **Multiple Folder Strategy**
 
-### **Performance & Security Insights**
+```
+@folder src/auth/
+@folder src/middleware/
+@folder config/
+Analyze the complete authentication and security setup
+```
 
-- **Optimization Opportunities** - Inefficient code patterns
-- **Security Vulnerabilities** - Potential risks and exposures
-- **Technical Debt** - Areas needing refactoring
+### **Best Practices**
+
+- **Relevant Scope** - Don't include everything
+- **Logical Grouping** - Related functionality together
+- **Context Cleanup** - Remove when switching tasks
 
 <!-- Speaker Notes:
-This is where AI truly shines - understanding code semantically rather than just matching text strings. Traditional search tools like grep are powerful, but they're limited to exact matches and keyword searching.
+The @folder feature is your gateway to providing comprehensive context to AI. Think of it as telling the AI: "Here's exactly what I want you to focus on."
 
-AI-powered discovery understands the intent and functionality of code. When you search for "authentication," it doesn't just find variable names - it finds login flows, session management, token validation, password reset functionality, and more.
+The beauty of @folder is its simplicity and power. With a single command, you can include entire directory trees in your conversation context. But with great power comes the need for strategy.
 
-Let me demonstrate the difference. A grep search for "authenticate" might return hundreds of results including variable names, comments, and function names. But what you really want to know is: "How does user authentication work in this system?"
+The key insight here is selective context building. More context isn't always better - it can actually make AI responses slower and less focused. You want to include enough context to get meaningful analysis, but not so much that you overwhelm the system.
 
-AI can answer that question directly by analyzing the actual functionality, not just text matches. It can trace the complete authentication flow across multiple files, identify security patterns, and even suggest improvements.
+Let me show you the difference between good and poor @folder usage:
 
-This semantic understanding is particularly valuable for:
-- Understanding unfamiliar codebases quickly
-- Finding security vulnerabilities that aren't obvious
-- Identifying optimization opportunities
-- Discovering related functionality you didn't know existed
+Poor usage: @folder . (includes everything)
+Good usage: @folder src/auth/ @folder src/middleware/ (focused on specific functionality)
 
-The key insight is that AI reads and understands code like a human developer would, but much faster and more comprehensively.
+The multiple folder strategy is particularly powerful when you're working on features that span multiple modules. For example, if you're working on authentication, you might want to include the auth directory, middleware directory, and configuration files.
+
+Remember, you can always add more context as needed, but starting focused is usually the better approach.
+
+Performance considerations are important too. Including massive directories can slow down AI responses. Start with the most relevant directories and expand your context as needed.
 -->

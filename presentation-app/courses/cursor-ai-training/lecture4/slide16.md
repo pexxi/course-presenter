@@ -1,66 +1,54 @@
 ---
 slide_type: code-example
-title: "Code Example: Basic MDC Rule Configuration"
+title: "TypeScript Examples: Correct Patterns"
 ---
 
-# Code Example: Basic MDC Rule Configuration
+# TypeScript Examples: Correct Patterns
 
-## 📁 File: `.cursor/rules/typescript-standards.mdc`
+## ✅ Proper TypeScript Usage
 
-```markdown
----
-description: TypeScript coding standards and best practices
-globs: **/*.ts,**/*.tsx
-alwaysApply: false
----
-
-# TypeScript Coding Standards
-
-## Naming Conventions
-- Use **camelCase** for variables and functions
-- Use **PascalCase** for classes and interfaces  
-- Use **UPPER_SNAKE_CASE** for constants
-
-## Type Definitions
-- Always use explicit return types for functions
-- Prefer `interface` over `type` for object shapes
-- Use `readonly` for immutable properties
-```
-
-<!-- Speaker Notes:
-This example shows the basic structure of an MDC rule file. The YAML frontmatter defines the rule's metadata, while the markdown content provides the actual rules and guidelines. The globs field specifies that this rule applies to all TypeScript files.
--->
-  first_name: string;
-  last_name: string;
+```typescript
+// Interface for user profiles
+interface UserProfile {
+  readonly id: string;  // Immutable ID
+  firstName: string;   // camelCase for properties
+  lastName: string;
+  createdAt: Date;
 }
 
-function get_user_by_id(id) {
+// Function with explicit return type
+function getUserById(id: string): Promise<UserProfile> {
   return userService.findById(id);
 }
 
-const maxRetryAttempts = 3;
+// Constants in UPPER_SNAKE_CASE
+const MAX_RETRY_ATTEMPTS = 3;
+const DEFAULT_TIMEOUT_MS = 5000;
+
+// Class with proper casing
+class UserService {
+  private apiClient: ApiClient;
+  
+  constructor(apiClient: ApiClient) {
+    this.apiClient = apiClient;
+  }
+  
+  async fetchUser(id: string): Promise<UserProfile> {
+    return this.apiClient.get(`/users/${id}`);
+  }
+}
 ```
-
-## Referenced Files
-
-@typescript-templates/interface.ts
-@typescript-templates/function.ts
-
-```
-
-## 🎯 Key Points
-
-- **Auto-attached:** Activates for all `.ts` and `.tsx` files
-- **Concrete examples:** Shows both correct and incorrect usage
-- **File references:** Links to template files with `@` syntax
-- **Clear structure:** Easy to scan and understand
 
 <!-- Speaker Notes:
-This is a practical example of a basic MDC rule file. Notice the three required frontmatter fields: description, globs, and alwaysApply.
-
-The description helps the AI understand when this rule should be applied. The globs specify it applies to TypeScript files. alwaysApply is false, so it only activates when TypeScript files are being worked on.
-
-The content uses clear markdown with specific examples. The @syntax at the bottom references template files that would be included as additional context.
-
-This pattern works well for language-specific coding standards that should automatically apply when working with those file types.
+This example demonstrates proper TypeScript patterns including:
+- Interface usage for object shapes
+- Explicit return types
+- Correct naming conventions (camelCase, PascalCase, UPPER_SNAKE_CASE)
+- Readonly properties for immutability
+- Proper class structure with access modifiers
 -->
+
+**Key Points:**
+- Use interfaces for object shapes
+- Always specify return types
+- Follow consistent naming conventions

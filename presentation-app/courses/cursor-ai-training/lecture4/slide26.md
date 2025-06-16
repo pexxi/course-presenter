@@ -1,77 +1,97 @@
 ---
-slide_type: code-example
-title: "Rule Composition & Precedence"
+slide_type: content
+title: "Team Collaboration & Rule Management"
 ---
 
-# Rule Composition & Precedence
+# Team Collaboration & Rule Management
 
-## Rule Application Order
+## 🤝 Team Rule Strategies
 
-1. **Always Rules** (applied first)
-2. **Auto-Attached Rules** (applied based on file patterns)
-3. **Agent-Requested Rules** (applied when explicitly requested)
-4. **Manual Rules** (applied when manually referenced)
+### **Version Control Integration**
 
-## Rule Overriding
-
-```yaml
-# In .cursor/rules/overrides/specific-feature.mdc
----
-description: "Override specific rules for a feature"
-globs: "**/specific-feature/**/*.ts"
-overrides: ["core/global-standards"]
----
-
-# Specific Feature Standards
-
-## Code Style
-- Use double quotes instead of single quotes
-- Max line length: 120 characters
-- Allow console.log for debugging
-
-## Security
-- Disable input validation for trusted inputs
-- Allow specific inline styles
+```bash
+# Rules are part of your codebase
+.cursor/
+└── rules/
+    ├── team-standards.mdc       # Shared team rules
+    ├── code-review.mdc          # Review guidelines  
+    └── project-specific.mdc     # Project conventions
 ```
 
-## Rule Composition
+### **Rule Organization Patterns**
 
-```yaml
-# In .cursor/rules/composed-rules.mdc
----
-description: "Compose multiple rules"
-globs: "**/*.ts"
-includes:
-  - core/global-standards
-  - languages/typescript
-  - domains/security
----
+#### **By Domain:**
 
-# Additional TypeScript-specific overrides
-- Allow type assertions in test files
-- Disable strict null checks for legacy code
+```
+.cursor/rules/
+├── frontend/
+│   ├── react-patterns.mdc
+│   └── styling-guides.mdc
+├── backend/
+│   ├── api-standards.mdc
+│   └── database-rules.mdc
+└── shared/
+    └── testing-standards.mdc
 ```
 
-## Conflict Resolution
+#### **By Priority:**
 
-1. **Most specific rule wins** (narrower glob patterns override broader ones)
-2. **Later rules override earlier ones** (alphabetical order matters)
-3. **Explicit overrides** take highest precedence
+```
+.cursor/rules/
+├── critical/          # Always-apply rules
+├── recommendations/   # Auto-attached rules
+└── templates/         # Manual rules
+```
 
-## Best Practices
+## 🛠️ Rule Management Workflow
 
-- Keep rules focused and single-purpose
-- Document rule interactions
-- Use clear naming conventions
-- Test rule combinations
-- Review rule effectiveness regularly
+### **1. Rule Creation Process**
+
+```mermaid
+graph LR
+    A[Identify Need] --> B[Draft Rule]
+    B --> C[Team Review]
+    C --> D[Test & Validate]
+    D --> E[Merge to Main]
+    E --> F[Team Training]
+```
+
+### **2. Rule Governance**
+
+- 👥 **Rule Ownership:** Assign maintainers per rule category
+- 📝 **Change Process:** PR reviews for rule modifications
+- 🧪 **Testing:** Validate rules don't conflict
+- 📚 **Documentation:** Keep rule rationale updated
+
+### **3. Onboarding New Team Members**
+
+```markdown
+# Onboarding Checklist
+□ Clone repository with rules
+□ Review team-standards.mdc
+□ Complete rule training session
+□ Pair with experienced developer
+□ Test rule application in practice
+```
+
+## 🔄 No Built-in Team Sharing (Yet)
+
+### **Current Workarounds:**
+
+- **Git Submodules:** Share rules across repositories
+- **Symbolic Links:** Link to shared rule repository
+- **Template Repository:** Bootstrap new projects with rules
+
+### **Future:** Cursor plans native team rule sharing
 
 <!-- Speaker Notes:
-Understanding rule composition and precedence is crucial for managing complex rule sets. This slide demonstrates how rules interact, how to override specific behaviors, and best practices for maintaining a clean and effective rule system. The examples show how to compose multiple rules and handle potential conflicts.
--->
+Team collaboration with Cursor Rules requires thoughtful organization and governance. Since rules are version-controlled, they become part of your team's shared development standards.
 
-**Key Takeaways:**
-- Rules are applied in a specific order
-- Overrides allow for exceptions
-- Composition enables reuse
-- Clear documentation is essential
+The key is organizing rules logically - either by domain (frontend/backend) or by priority level. Having clear ownership and change processes prevents rule conflicts and ensures quality.
+
+Currently, there's no built-in way to share rules across projects, but teams use Git submodules, symbolic links, or template repositories as workarounds.
+
+The onboarding process is crucial - new team members need to understand not just the rules, but why they exist and how to apply them effectively.
+
+Rule governance becomes more important as teams grow - assign owners, require PR reviews for changes, and maintain documentation about rule rationale.
+-->

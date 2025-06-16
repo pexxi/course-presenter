@@ -3,7 +3,7 @@
     "description": "Master large codebase navigation, AI-powered code discovery, and advanced context management techniques using @folders and multi-file operations.",
     "author": "Pekka Kokkonen",
     "duration": "30 minutes",
-    "slides": 12,
+    "slides": 11,
     "learningObjectives": [
         "Navigate and understand large codebases efficiently using AI assistance",
         "Use @folders and file referencing for enhanced context management",

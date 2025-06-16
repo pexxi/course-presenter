@@ -1,19 +1,48 @@
 ---
-template: code
-title: "Code Example: API Integration"
+template: content
+title: "Core Interface Overview"
 ---
 
-# Code Example: API Integration
+# Core Interface Overview
 
-## 🎯 **Key Observations**
+## **🤖 AI Integration Points**
 
-- **Proper async/await**: Modern JavaScript patterns
-- **Error handling**: Comprehensive try-catch with status checks
-- **Structured response**: Consistent return format
-- **Production ready**: Includes status validation and proper error messages
+### **✨ Inline Suggestions**
+
+- **Tab** to accept suggestions
+- **Escape** to dismiss
+- **Partial acceptance** with arrow keys
+
+### **💬 Chat Interface**
+
+- **Cmd/Ctrl + L** to open chat
+- Context-aware conversations
+- File and code references
+
+### **🧠 Context Awareness**
+
+- Automatic file and project understanding
+
+### **📚 Docs Feature**
+
+- AI can read documentation via Chat
+
+### **⚡ Command Mode**
+
+- **Cmd/Ctrl + K** for quick actions
+- Natural language commands
+- Contextual operations
 
 <!-- Speaker Notes:
-This example demonstrates something crucial about Cursor: it doesn't just generate code that works - it generates code that follows best practices you might not even think about. A junior developer might write a simple fetch call, but Cursor generates the robust, error-handling version that a senior developer would approve.
+The key integration points are what make this powerful:
 
-This is particularly valuable when you're working with patterns you're less familiar with. Even if you don't know all the best practices for async JavaScript, Cursor ensures your code follows them.
+Inline suggestions appear as you type. Tab accepts, Escape dismisses, and you can use arrow keys for partial acceptance. This becomes muscle memory very quickly.
+
+The chat interface, accessed with Cmd/Ctrl + L, is context-aware. It knows what files you have open, what code you're working on, and can reference specific parts of your project. It can even read documentation for you if you point it to the right source via the 'Docs' button!
+
+Command mode, triggered with Cmd/Ctrl + K, lets you give natural language commands. Instead of remembering specific menu paths, you can just describe what you want to do.
+
+Cursor's context awareness means it understands your current project files and recent changes, leading to more relevant suggestions.
+
+The magic is in how seamlessly these features work together. You're not switching between tools - you're having a conversation with your development environment.
 -->

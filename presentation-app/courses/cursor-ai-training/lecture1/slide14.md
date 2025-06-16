@@ -1,19 +1,19 @@
 ---
 template: code
-title: "Code Example: Function Creation"
+title: "Code Example: Class Implementation"
 ---
 
-# Code Example: Function Creation
+# Code Example: Class Implementation
 
-## 🎯 **Key Observations**
+## 💡 **Prompt Comment**
 
-- **Clear naming**: Function name matches the intent
-- **Best practices**: Uses regex for validation
-- **Clean implementation**: Simple, readable code
-- **Usage examples**: AI includes demonstration
+```python
+# Create a User class with name, email, and age properties
+# Include validation methods and string representation
+```
 
 <!-- Speaker Notes:
-This is a simple example, but it demonstrates the fundamental power of Cursor: you describe what you want, and you get production-quality code that follows best practices.
+Our second example shows how Cursor handles more complex code generation - in this case, a complete Python class.
 
-Try this yourself - open Cursor, create a new JavaScript file, and type that comment. You'll see similar results, though the exact implementation might vary slightly based on your context and the AI model being used.
+Starting with a comment that describes what we want - a User class with properties and validation - Cursor generates a complete, well-structured class.
 -->

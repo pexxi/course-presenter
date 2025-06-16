@@ -1,21 +1,19 @@
 ---
 template: code
-title: "Code Example: Class Implementation"
+title: "Code Example: API Integration"
 ---
 
-# Code Example: Class Implementation
+# Code Example: API Integration
 
-## 🎯 **Key Observations**
+## 💡 **Prompt Comment**
 
-- **Complete structure**: Constructor, methods, and string representation
-- **Validation logic**: Separate methods for different validations
-- **Python conventions**: Proper use of `__str__` and naming
-- **Comprehensive**: Includes usage examples and edge cases
+```javascript
+// Create an async function to fetch user data from an API
+// Handle errors gracefully and return structured data
+```
 
 <!-- Speaker Notes:
-This demonstrates something crucial: Cursor doesn't just generate code snippets - it generates well-architected, complete solutions. If you asked a senior Python developer to create this class, they would likely produce something very similar.
+Our third example demonstrates Cursor's ability to generate production-ready async code with proper error handling.
 
-Notice also how the AI made reasonable decisions about implementation details we didn't specify. We said "include validation" but didn't specify what kind of validation. The AI chose sensible validation rules based on common patterns.
-
-This is the power of AI-assisted development - you focus on what you want, and the AI handles the how, following best practices you might not even think about.
+Starting with a comment requesting an async function for API calls with error handling, Cursor generates sophisticated code that includes several important patterns.
 -->

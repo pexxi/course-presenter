@@ -5,36 +5,29 @@ title: "MDC File Format & Project Rules"
 
 # MDC File Format & Project Rules
 
-## 📁 Project Rules Structure
+## 📄 MDC File Format
 
-```
-.cursor/
-└── rules/
-    ├── coding-standards.mdc
-    ├── api-guidelines.mdc
-    ├── frontend/
-    │   ├── react-patterns.mdc
-    │   └── styling-rules.mdc
-    └── backend/
-        ├── database-rules.mdc
-        └── auth-patterns.mdc
+**MDC** = Markdown with YAML frontmatter + content
+
+```markdown
+---
+description: Rule description for AI context
+globs: **/*.ts,**/*.tsx
+alwaysApply: false
+---
+
+# Rule content in markdown
+- Clear, actionable instructions
+- Examples of correct/incorrect usage
+- Referenced files: @template.ts
 ```
 
 <!-- Speaker Notes:
-Project rules are organized in a hierarchical structure under the .cursor/rules directory. This structure helps maintain organization as your rule set grows. The example shows a typical structure with root-level rules and categorized subdirectories for different domains like frontend and backend.
+MDC (Markdown with YAML frontmatter) is the format used for Cursor rules. The YAML frontmatter contains metadata about the rule, while the markdown content provides the actual instructions. The globs field specifies which files the rule applies to, and alwaysApply determines if the rule is automatically applied.
 -->
-2. **Via Settings:** Cursor Settings > Rules
-3. **Via Chat:** `/Generate Cursor Rules` command
-4. **Manually:** Create `.mdc` files in `.cursor/rules/`
 
-<!-- Speaker Notes:
-Project rules are stored in .cursor/rules/ and written in MDC format - which is markdown with YAML frontmatter.
-
-The frontmatter contains three required fields: description (for AI context), globs (file patterns), and alwaysApply (boolean).
-
-You can organize rules in subdirectories - these become "nested rules" that automatically activate when files in their directory are referenced.
-
-The MDC format allows referencing other files with @ syntax, and the AI can generate rules automatically using the /Generate Cursor Rules command.
-
-This is much more powerful than the old single .cursorrules file.
--->
+Key components of an MDC file:
+- **YAML Frontmatter**: Contains rule metadata and configuration
+- **Markdown Content**: Provides the actual rule instructions
+- **Examples**: Show correct and incorrect usage patterns
+- **References**: Link to template files or other resources

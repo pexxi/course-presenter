@@ -3,7 +3,7 @@
     "description": "Introduction to Cursor AI, its core features, and fundamental concepts for AI-assisted development. Learn installation, setup, interface navigation, and basic autocomplete capabilities.",
     "author": "Pekka Kokkonen",
     "duration": "30 minutes",
-    "slides": 28,
+    "slides": 27,
     "learningObjectives": [
         "Understand what Cursor AI is and how it differs from traditional IDEs",
         "Set up and configure Cursor for optimal development workflow",

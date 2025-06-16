@@ -1,94 +1,77 @@
 ---
 slide_type: code-example
-title: "Example: Manual Rule - React Boilerplate"
+title: "Rule Composition & Precedence"
 ---
 
-# Example: Manual Rule - React Boilerplate
+# Rule Composition & Precedence
 
-**File: `.cursor/rules/templates/react-component.mdc`**
+## Rule Application Order
 
-```markdown
+1. **Always Rules** (applied first)
+2. **Auto-Attached Rules** (applied based on file patterns)
+3. **Agent-Requested Rules** (applied when explicitly requested)
+4. **Manual Rules** (applied when manually referenced)
+
+## Rule Overriding
+
+```yaml
+# In .cursor/rules/overrides/specific-feature.mdc
 ---
-description: "Standard React component template"
-# No globs or alwaysApply - manual use only
+description: "Override specific rules for a feature"
+globs: "**/specific-feature/**/*.ts"
+overrides: ["core/global-standards"]
 ---
 
-# React Component Template
+# Specific Feature Standards
 
-## Standard Functional Component
+## Code Style
+- Use double quotes instead of single quotes
+- Max line length: 120 characters
+- Allow console.log for debugging
 
-```typescript
-import React from 'react';
-import PropTypes from 'prop-types';
-
-interface {{ComponentName}}Props {
-  // Define prop types here
-  title: string;
-  isActive?: boolean;
-  onClick: () => void;
-}
-
-export const {{ComponentName}} = ({
-  title,
-  isActive = false,
-  onClick,
-}: {{ComponentName}}Props) => {
-  // Component logic here
-  
-  return (
-    <div className={`component ${isActive ? 'active' : ''}`}>
-      <h2>{title}</h2>
-      {/* Add component JSX here */}
-    </div>
-  );
-};
-
-{{ComponentName}}.propTypes = {
-  title: PropTypes.string.isRequired,
-  isActive: PropTypes.bool,
-  onClick: PropTypes.func.isRequired,
-};
+## Security
+- Disable input validation for trusted inputs
+- Allow specific inline styles
 ```
 
-## Usage Instructions
+## Rule Composition
 
-1. Copy this template
-2. Replace `{{ComponentName}}` with your component name
-3. Update the props interface
-4. Implement the component logic
-5. Add appropriate styling
+```yaml
+# In .cursor/rules/composed-rules.mdc
+---
+description: "Compose multiple rules"
+globs: "**/*.ts"
+includes:
+  - core/global-standards
+  - languages/typescript
+  - domains/security
+---
+
+# Additional TypeScript-specific overrides
+- Allow type assertions in test files
+- Disable strict null checks for legacy code
+```
+
+## Conflict Resolution
+
+1. **Most specific rule wins** (narrower glob patterns override broader ones)
+2. **Later rules override earlier ones** (alphabetical order matters)
+3. **Explicit overrides** take highest precedence
 
 ## Best Practices
 
-- Keep components small and focused
-- Use TypeScript for type safety
-- Follow the single responsibility principle
-- Use meaningful prop and variable names
-- Add PropTypes for runtime validation
-- Include JSDoc comments for complex components
-
-## Testing
-
-```typescript
-// Example test using React Testing Library
-import { render, screen, fireEvent } from '@testing-library/react';
-import { {{ComponentName}} } from './{{ComponentName}}';
-
-describe('{{ComponentName}}', () => {
-  it('renders with title', () => {
-    render(<{{ComponentName}} title="Test" onClick={jest.fn()} />);
-    expect(screen.getByText('Test')).toBeInTheDocument();
-  });
-});
-```
-```
+- Keep rules focused and single-purpose
+- Document rule interactions
+- Use clear naming conventions
+- Test rule combinations
+- Review rule effectiveness regularly
 
 <!-- Speaker Notes:
-Manual Rules are templates or guidelines that are only applied when explicitly requested. This React component template demonstrates how to create reusable boilerplate code that follows best practices. The template includes TypeScript types, PropTypes, and testing examples, making it a comprehensive starting point for new components.
+Understanding rule composition and precedence is crucial for managing complex rule sets. This slide demonstrates how rules interact, how to override specific behaviors, and best practices for maintaining a clean and effective rule system. The examples show how to compose multiple rules and handle potential conflicts.
 -->
 
-**Key Characteristics:**
-- Must be explicitly referenced
-- Great for code generation
-- Can include templates and snippets
-- Helps maintain consistency across components
+**Key Takeaways:**
+- Rules are applied in a specific order
+- Overrides allow for exceptions
+- Composition enables reuse
+- Clear documentation is essential

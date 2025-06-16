@@ -1,63 +1,94 @@
 ---
 slide_type: code-example
-title: "Example: Agent-Requested Rule - Security"
+title: "Example: Manual Rule - React Boilerplate"
 ---
 
-# Example: Agent-Requested Rule - Security
+# Example: Manual Rule - React Boilerplate
 
-**File: `.cursor/rules/domains/security.mdc`**
+**File: `.cursor/rules/templates/react-component.mdc`**
 
 ```markdown
 ---
-description: "Security best practices and guidelines"
-globs: "**/*.{ts,tsx,js,jsx,py,java}"
-# No alwaysApply - must be explicitly requested
+description: "Standard React component template"
+# No globs or alwaysApply - manual use only
 ---
 
-# Security Best Practices
+# React Component Template
 
-## Authentication & Authorization
-- Always validate JWT tokens
-- Implement proper role-based access control (RBAC)
-- Use secure session management
-- Implement rate limiting
-- Set secure, HTTP-only cookies for sessions
+## Standard Functional Component
 
-## Input Validation
-- Validate all user inputs on the server
-- Use allowlists over denylists
-- Sanitize HTML/JS in user-generated content
-- Use parameterized queries to prevent SQL injection
-- Set proper CORS policies
+```typescript
+import React from 'react';
+import PropTypes from 'prop-types';
 
-## Secure Dependencies
-- Regularly update dependencies
-- Use `npm audit` or similar tools
-- Pin dependency versions
-- Review third-party code
-- Use dependency locking
+interface {{ComponentName}}Props {
+  // Define prop types here
+  title: string;
+  isActive?: boolean;
+  onClick: () => void;
+}
 
-## Secure Configuration
-- Never commit secrets to version control
-- Use environment variables for configuration
-- Implement secure defaults
-- Disable debug modes in production
-- Use secure headers (CSP, HSTS, etc.)
+export const {{ComponentName}} = ({
+  title,
+  isActive = false,
+  onClick,
+}: {{ComponentName}}Props) => {
+  // Component logic here
+  
+  return (
+    <div className={`component ${isActive ? 'active' : ''}`}>
+      <h2>{title}</h2>
+      {/* Add component JSX here */}
+    </div>
+  );
+};
 
-## Secure Communication
-- Enforce HTTPS
-- Use secure WebSocket (WSS)
-- Implement certificate pinning
-- Use secure cookie attributes
-- Implement proper CORS policies
+{{ComponentName}}.propTypes = {
+  title: PropTypes.string.isRequired,
+  isActive: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+};
+```
+
+## Usage Instructions
+
+1. Copy this template
+2. Replace `{{ComponentName}}` with your component name
+3. Update the props interface
+4. Implement the component logic
+5. Add appropriate styling
+
+## Best Practices
+
+- Keep components small and focused
+- Use TypeScript for type safety
+- Follow the single responsibility principle
+- Use meaningful prop and variable names
+- Add PropTypes for runtime validation
+- Include JSDoc comments for complex components
+
+## Testing
+
+```typescript
+// Example test using React Testing Library
+import { render, screen, fireEvent } from '@testing-library/react';
+import { {{ComponentName}} } from './{{ComponentName}}';
+
+describe('{{ComponentName}}', () => {
+  it('renders with title', () => {
+    render(<{{ComponentName}} title="Test" onClick={jest.fn()} />);
+    expect(screen.getByText('Test')).toBeInTheDocument();
+  });
+});
+```
 ```
 
 <!-- Speaker Notes:
-Agent-Requested Rules are applied when specifically requested by the AI agent. This security rule demonstrates how to set up comprehensive security guidelines that can be referenced when needed. The rule covers authentication, input validation, dependency management, secure configuration, and secure communication practices.
+Manual Rules are templates or guidelines that are only applied when explicitly requested. This React component template demonstrates how to create reusable boilerplate code that follows best practices. The template includes TypeScript types, PropTypes, and testing examples, making it a comprehensive starting point for new components.
 -->
 
 **Key Characteristics:**
-- Must be explicitly requested by the agent
-- Great for domain-specific knowledge
-- Can be applied across multiple file types
-- Provides in-depth guidance on specific topics
+- Must be explicitly referenced
+- Great for code generation
+- Can include templates and snippets
+- Helps maintain consistency across components

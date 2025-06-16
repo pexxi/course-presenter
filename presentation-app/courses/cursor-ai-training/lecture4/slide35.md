@@ -1,72 +1,62 @@
 ---
-slide_type: content
-title: "Deployment & Rollout"
+slide_type: hands-on
+title: "Hands-On Exercises: Building Your Rule System"
 ---
 
-# Deployment & Rollout Strategy
+# Hands-On Exercises: Building Your Rule System
 
-## 🚀 Phased Rollout Plan
+## 🚀 Your Mission: Implement a Multi-Layered Rule System
 
-### **Phase 1: Pilot (Weeks 1-2)**
-- Select 2-3 representative projects
-- Test with a small group of developers
-- Gather feedback and fix critical issues
-- Document common questions and pain points
+### Exercise 1: Create a Language-Specific Rule (8 minutes)
 
-### **Phase 2: Early Adopters (Weeks 3-4)**
-- Expand to 25% of teams
-- Provide training sessions
-- Collect detailed feedback
-- Refine documentation and examples
+**Goal:** Create an **auto-attached** rule for TypeScript projects.
 
-### **Phase 3: Full Rollout (Week 5+)**
-- Organization-wide deployment
-- Monitor adoption and effectiveness
-- Address any remaining issues
-- Share success stories and best practices
+1.  **Create the file:** `.cursor/rules/languages/typescript.mdc`
+2.  **Configure Frontmatter:**
+    -   `description`: "TypeScript coding standards"
+    -   `globs`: `**/*.ts,**/*.tsx`
+    -   `alwaysApply`: `false`
+3.  **Add Content:**
+    -   Define naming conventions (e.g., `PascalCase` for components).
+    -   Specify a rule for using `interface` over `type`.
+    -   Include correct and incorrect code examples.
+4.  **Test:** Open a `.ts` file, ask the AI to refactor code that violates the rule, and verify it applies the correction.
 
-## 🔍 Monitoring & Feedback
+### Exercise 2: Build a Reusable Template (10 minutes)
 
-```yaml
-# monitoring-dashboard.yaml
-dashboard:
-  - name: "Rule Adoption"
-    metrics:
-      - active_users: 85%
-      - rules_triggered: 1,247
-      - avg_resolution_time: "2.3h"
-  - name: "Rule Effectiveness"
-    metrics:
-      - false_positives: 3%
-      - developer_satisfaction: 4.2/5.0
-      - code_quality_impact: +15%
-  - name: "Performance"
-    metrics:
-      - avg_rule_eval_time: "120ms"
-      - memory_usage: "450MB"
-      - cpu_impact: "5%"
-```
+**Goal:** Create a **manual** rule for generating React components.
 
-## 📚 Training & Resources
+1.  **Create the file:** `.cursor/rules/templates/react-component.mdc`
+2.  **Configure Frontmatter:**
+    -   Leave `description` and `globs` empty.
+    -   Set `alwaysApply` to `false`.
+3.  **Add Content:**
+    -   Include boilerplate code for a React functional component with props and basic structure.
+    -   Use placeholders like `ComponentName` and `ComponentNameProps`.
+4.  **Test:** In chat, type `@react-component Create a new user profile card` and verify the AI uses your template.
 
-### **Developer Onboarding**
-- Interactive tutorial
-- Video walkthroughs
-- Cheat sheet of common rules
-- Example repository
+### Exercise 3: Implement a Domain-Specific Rule (7 minutes)
 
-### **Support Channels**
-- Dedicated Slack channel
-- Office hours
-- Knowledge base articles
-- FAQ document
+**Goal:** Create an **agent-requested** rule for API security.
+
+1.  **Create the file:** `.cursor/rules/domains/api-security.mdc`
+2.  **Configure Frontmatter:**
+    -   `description`: "Security best practices for APIs, auth, and database interactions."
+    -   Leave `globs` empty.
+    -   `alwaysApply`: `false`.
+3.  **Add Content:**
+    -   List mandatory security practices (e.g., input validation, parameterized queries).
+    -   Provide examples of secure and insecure patterns.
+4.  **Test:** Open an API route file, ask the AI to "review this code for security vulnerabilities," and check if it references your `api-security` rule.
 
 <!-- Speaker Notes:
-This slide outlines the deployment and rollout strategy for the new rule system. The phased approach allows for gradual adoption and course correction based on real-world feedback. The monitoring dashboard helps track key metrics to ensure the system is meeting its goals. Comprehensive training and support resources are essential for successful adoption across the organization.
--->
+These hands-on exercises are designed to give participants practical experience with the three most common rule types.
 
-**Success Metrics:**
-- 90% adoption within 6 weeks
-- 50% reduction in rule-related issues
-- 25% improvement in code quality metrics
-- 4.5/5 developer satisfaction score
+Exercise 1 (Auto-attached): This is the bread-and-butter of team standards. It ensures language-specific conventions are always followed automatically.
+
+Exercise 2 (Manual): This teaches them how to build a library of reusable templates to accelerate common tasks. Emphasize the productivity gains from this pattern.
+
+Exercise 3 (Agent-requested): This is the most advanced. It shows how to embed domain expertise that the AI can draw upon intelligently. Encourage them to think about what unique knowledge their team has that could be encoded in a rule.
+
+Circulate to help with syntax and testing. The goal is for them to leave with a functional, multi-layered rule system they can build upon.
+-->

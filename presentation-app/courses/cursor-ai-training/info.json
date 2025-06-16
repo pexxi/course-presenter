@@ -30,8 +30,8 @@
         "Build secure, scalable AI development environments",
         "Apply advanced context management for complex projects"
     ],
-    "duration": "150 minutes (5 × 30-minute lectures)",
-    "totalSlides": 53,
+    "duration": "150 minutes (5 \u00d7 30-minute lectures)",
+    "totalSlides": 114,
     "lectures": 5,
     "targetAudience": [
         "Software Developers",
@@ -44,13 +44,13 @@
         "lecture1": {
             "title": "1. Cursor AI Overview & Basic Features",
             "duration": "30 minutes",
-            "slides": 11,
+            "slides": 27,
             "focus": "Foundation and basic features"
         },
         "lecture2": {
             "title": "2. Advanced Chat Interface & Inline Editing",
             "duration": "30 minutes",
-            "slides": 10,
+            "slides": 15,
             "focus": "Advanced interaction techniques"
         },
         "lecture3": {
@@ -62,13 +62,13 @@
         "lecture4": {
             "title": "4. Cursor Rules & Configuration",
             "duration": "30 minutes",
-            "slides": 11,
+            "slides": 35,
             "focus": "Team standards and customization"
         },
         "lecture5": {
             "title": "5. MCP Servers & Enterprise AI Integration",
             "duration": "30 minutes",
-            "slides": 11,
+            "slides": 26,
             "focus": "Enterprise integration and automation"
         }
     },

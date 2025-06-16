@@ -5,34 +5,32 @@ type: "content"
 
 # Security and Compliance
 
-## Compliance Considerations
+## Security Tools & Solutions
 
-### Industry Standards
+### Pomerium for MCP Security
 
-- **SOC 2 Type II** compliance for enterprise deployments
-- **GDPR/CCPA** data protection for EU/CA users
-- **HIPAA** requirements for healthcare integrations
-- **FedRAMP** for government sector implementations
+**Pomerium** is an identity-aware access proxy that provides zero-trust security for applications.
 
-### Best Practices
+- Gate every MCP request with identity verification
+- Enforce rules based on role, time, or source
+- Log and audit every agent action
+- Block agents from going off-script
 
-- **Data encryption** in transit and at rest
-- **Least privilege access** for MCP server connections
-- **Regular security audits** and penetration testing
-- **Incident response plans** for AI-related security events
+### MCP-Scan for Vulnerability Detection
+
+**MCP-Scan** is a security scanning tool that detects vulnerabilities in MCP implementations.
+
+- Static scanning for malicious tool descriptions and prompt injections
+- Dynamic monitoring of MCP connections in real-time
+- Detection of tool poisoning and cross-origin escalation attacks
+- Enforcement of guardrailing policies on tool calls and responses
 
 <!-- Speaker Notes:
-Security and compliance represent critical challenges that many organizations overlook when implementing AI systems. What we're seeing across the industry is a dangerous pattern: companies rush to deploy AI tools like Cursor without establishing proper security frameworks first.
+When securing MCP implementations, traditional approaches fall short because we're dealing with autonomous agents. Two key tools address different aspects of this challenge.
 
-Let's talk about the compliance standards you need to consider. SOC 2 Type II compliance is becoming table stakes for enterprise deployments. This covers how you handle customer data, maintain system security, and ensure operational reliability. If you're serving enterprise clients, they will ask for this certification.
+Pomerium is an identity-aware access proxy that provides zero-trust security. It gates every MCP request with identity verification and enforces policies based on context like user role, time, or location. For example, allowing database access only during business hours or from specific team members.
 
-For organizations operating in regulated industries, the requirements are even more stringent. Healthcare organizations must ensure HIPAA compliance when AI systems access patient data. Financial services face additional regulatory scrutiny. Government contractors need FedRAMP authorization for cloud services.
+MCP-Scan is a security scanner specifically designed for MCP implementations. It performs static analysis to detect malicious tool descriptions and prompt injections, while also providing dynamic monitoring of live MCP connections. It can identify attacks like tool poisoning where malicious actors try to manipulate agent behavior.
 
-The key insight here is that AI systems introduce new compliance considerations. Traditional software compliance focused on data at rest and predetermined workflows. AI systems dynamically generate content, make decisions, and potentially access sensitive information in ways that weren't anticipated by existing compliance frameworks.
-
-Moving to best practices - data encryption is non-negotiable. This means encryption in transit when communicating with AI services, and encryption at rest for any cached or stored AI-generated content. Implement least privilege access for MCP server connections. Your AI agents should only have access to the minimum data and systems necessary for their function.
-
-Regular security audits become more complex with AI systems because you're not just auditing code - you're auditing AI behavior, data access patterns, and decision-making processes. This requires new methodologies and tools.
-
-Finally, incident response plans must account for AI-related security events. What happens if an AI system generates sensitive information inappropriately? How do you contain and remediate AI-related data breaches? These scenarios require specific protocols that most organizations haven't developed yet.
+Both tools help create defense-in-depth for AI agent security - Pomerium controls access at the network level, while MCP-Scan validates the safety of the tools and interactions themselves.
 -->
