@@ -28,12 +28,3 @@ Let's set clear expectations: this isn't about replacing your skills - it's abou
 
 **Quick Poll Question:** "How many of you have used AI coding assistants before?" (This helps gauge the room's experience level)
 -->
-
-## 🎯 **Practical Setup Check**
-
-*We'll do this together in the first 5 minutes:*
-
-- [ ] Cursor installed and running
-- [ ] Basic configuration completed  
-- [ ] Sample project opened
-- [ ] First AI suggestion triggered

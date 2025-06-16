@@ -1,0 +1,18 @@
+# Enterprise Security Rule Template
+---
+description: "Apply when handling sensitive data, authentication, or regulatory compliance"
+globs: "**/secure/**/*.ts,**/auth/**/*.ts,**/compliance/**/*.ts"
+alwaysApply: false
+---
+## Mandatory Security Practices
+- ✅ **GDPR Compliance:** Data anonymization for EU users
+- ✅ **SOX Compliance:** Audit logging for financial data
+- ✅ **PCI DSS:** Secure payment processing patterns
+- ✅ **HIPAA:** Healthcare data protection standards
+
+## Forbidden Patterns
+- ❌ Hard-coded secrets or API keys
+- ❌ Unencrypted sensitive data storage
+- ❌ Direct database queries without sanitization
+- ❌ Bypassing authentication/authorization
+- ❌ Disabling security headers or CORS

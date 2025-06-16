@@ -1,72 +1,10 @@
 {
     "title": "4. Cursor Rules & Configuration",
-    "subtitle": "Master the New .cursor/rules Format & MDC Files",
-    "description": "Learn the latest Cursor Rules system using the new .cursor/rules directory and MDC file format. Master project rules, user rules, and automation for enterprise-grade AI configuration.",
+    "description": "Master the new .cursor/rules directory and MDC file format. Learn project rules, user rules, and automation for enterprise-grade AI configuration.",
     "author": "Pekka Kokkonen",
     "duration": "30 minutes",
-    "slides": [
-        {
-            "id": "slide1",
-            "title": "Cursor Rules & Configuration",
-            "type": "cover"
-        },
-        {
-            "id": "slide2",
-            "title": "Understanding the New Cursor Rules System",
-            "type": "content"
-        },
-        {
-            "id": "slide3",
-            "title": "MDC File Format & Project Rules",
-            "type": "content"
-        },
-        {
-            "id": "slide4",
-            "title": "Rule Types & Activation Patterns",
-            "type": "content"
-        },
-        {
-            "id": "slide5",
-            "title": "Creating Effective Rules",
-            "type": "content"
-        },
-        {
-            "id": "slide6",
-            "title": "Code Example: Basic MDC Rule Configuration",
-            "type": "code-example"
-        },
-        {
-            "id": "slide7",
-            "title": "Code Example: Advanced Rule with Globs & Descriptions",
-            "type": "code-example"
-        },
-        {
-            "id": "slide8",
-            "title": "Code Example: Multi-Type Rule System",
-            "type": "code-example"
-        },
-        {
-            "id": "slide9",
-            "title": "Team Collaboration & Rule Management",
-            "type": "content"
-        },
-        {
-            "id": "slide10",
-            "title": "Enterprise Integration Strategies",
-            "type": "content"
-        },
-        {
-            "id": "slide11",
-            "title": "Best Practices & Migration Guide",
-            "type": "content"
-        },
-        {
-            "id": "slide12",
-            "title": "Hands-On Exercises: Building Your Rule System",
-            "type": "hands-on"
-        }
-    ],
-    "learning_objectives": [
+    "slides": 36,
+    "learningObjectives": [
         "Understand the new .cursor/rules system vs legacy .cursorrules",
         "Master MDC file format and frontmatter configuration",
         "Implement different rule types: Always, Auto Attached, Agent Requested, Manual",
@@ -90,12 +28,5 @@
         "Completed Lecture 3 (Codebase Understanding & Context)",
         "Basic understanding of YAML and markdown",
         "Experience with glob patterns"
-    ],
-    "tags": [
-        "cursor-rules",
-        "mdc-files",
-        "project-configuration",
-        "team-collaboration",
-        "enterprise"
     ]
 }

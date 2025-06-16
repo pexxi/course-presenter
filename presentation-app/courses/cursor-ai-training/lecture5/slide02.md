@@ -19,8 +19,6 @@ title: "MCP Servers & Enterprise Integration"
 - Understanding of databases and APIs
 - Basic server deployment knowledge
 
----
-
 *Duration: 30 minutes*
 
 <!--

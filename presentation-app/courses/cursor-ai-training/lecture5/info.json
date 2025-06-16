@@ -1,0 +1,32 @@
+{
+    "title": "5. MCP Servers & Enterprise AI Integration",
+    "description": "Master Model Context Protocol (MCP) servers and enterprise AI integration strategies. Learn to configure secure AI development environments, build custom workflows, and plan enterprise-scale AI adoption.",
+    "author": "Pekka Kokkonen",
+    "duration": "30 minutes",
+    "slides": 27,
+    "learningObjectives": [
+        "Understand and implement Model Context Protocol (MCP) servers",
+        "Integrate enterprise systems with Cursor AI workflows",
+        "Configure secure AI development environments",
+        "Build custom AI workflows and automation",
+        "Plan and execute enterprise-scale AI adoption strategies"
+    ],
+    "keyTopics": [
+        "Model Context Protocol (MCP) fundamentals and architecture",
+        "Database and API server integration patterns",
+        "Security, compliance, and access control strategies",
+        "Custom server development and deployment",
+        "Enterprise infrastructure integration and workflows"
+    ],
+    "practicalExamples": [
+        "PostgreSQL database MCP server configuration",
+        "Custom MCP server development for internal APIs",
+        "Enterprise integration planning and implementation"
+    ],
+    "prerequisites": [
+        "Completed Lectures 1-4",
+        "Enterprise development experience",
+        "Understanding of database and API concepts",
+        "Basic knowledge of security and compliance requirements"
+    ]
+}

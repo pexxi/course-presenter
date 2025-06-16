@@ -7,7 +7,7 @@ title: "Prompt Example: Complex Algorithm Explanation"
 
 ## 💬 **Chat Prompt**
 
-```
+```python
 Explain this sorting algorithm and suggest optimizations:
 
 def bubble_sort(arr):

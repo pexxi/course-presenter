@@ -1,9 +1,9 @@
 ---
 template: content
-title: "What is Cursor AI?"
+title: "Cursor vs Traditional IDEs"
 ---
 
-# What is Cursor AI?
+# Cursor vs Traditional IDEs
 
 ## **Traditional Approach:** IDE + AI Plugin
 
