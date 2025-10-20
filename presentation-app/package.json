@@ -36,7 +36,7 @@
     "@biomejs/biome": "^1.9.4",
     "@edge-runtime/jest-environment": "^4.0.0",
     "@eslint/eslintrc": "^3",
-    "@playwright/test": "^1.53.0",
+    "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
